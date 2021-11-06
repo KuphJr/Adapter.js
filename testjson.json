@@ -1,0 +1,6 @@
+{"data": {
+    "message": "this is some text",
+    "splitable-text-1": "this,is,splitable,text",
+    "splitable-text-2": "this abc is abc splitable abc text ABC here",
+    "number": 50,
+    "anotherStep": {"item": "I am here"}}}

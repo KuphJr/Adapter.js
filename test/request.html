@@ -1,0 +1,34 @@
+<script>
+//const axios = require('axios');
+
+//(async function test() {
+    // console.log("### Test toUpperCase ###");
+    // await axios.post("http://localhost:8080/", {
+    //         "id": 0,
+    //         "data": {
+    //             "method": "get",
+    //             "url": "http://127.0.0.1:5500/testjson.json",
+    //             "headers": {},
+    //             "params": {},
+    //             "data": {},
+    //             "methods": ["path(data.message)","toUpperCase()"]
+    //         }
+    //     })
+    // .then(response => console.log((JSON.stringify(response.data.result) === JSON.stringify([ 'THIS IS SOME TEXT' ])) ? "PASS" : "FAIL result: " + response.data.result));
+    // })();
+    // content type multipart/form-data
+    // mode: "no-cors",
+    //"Access-Control-Allow-Origin": "*"
+    //"Access-Control-Allow-Methods": "POST, GET",
+    //"Access-Control-Allow-Headers": "application/json"
+(async () => {
+fetch('http://localhost:8080/', {
+    method: 'post',
+    //headers: {"content-type":"application/json"},
+    headers: { 'Accept': 'application/json',
+    "Content-Type": "application/json",
+ },
+    body: JSON.stringify({ "id": 0, "data": { "method": "get", "url": "http://127.0.0.1:5500/testjson.json", "methods": ["path(data.anotherStep.item)"] } }),
+  }).then(reply => reply.json()).then(text => console.log(text.data.result));
+})();
+</script>
