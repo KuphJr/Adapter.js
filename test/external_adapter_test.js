@@ -4,85 +4,35 @@ const axios = require('axios');
     console.log("### Test toUpperCase ###");
     await axios.post("http://localhost:8080/", {
             "id": 0,
-            "data": {
-                "method": "get",
-                "url": "http://127.0.0.1:5500/testjson.json",
-                "headers": {},
-                "params": {},
-                "data": {},
-                "methods": ["path(data.message)","toUpperCase()"]
-            }
+            "data": '{ "method": "get", "url": "http://127.0.0.1:5500/testjson.json", "methods": ["path(data.message)","toUpperCase()"] }'
         })
     .then(response => console.log((JSON.stringify(response.data.result) === JSON.stringify([ 'THIS IS SOME TEXT' ])) ? "PASS" : "FAIL result: " + response.data.result));
     
     console.log("### Test toLowerCase ###");
     await axios.post("http://localhost:8080/", {
             "id": 0,
-            "data": {
-                "method": "get",
-                "url": "http://127.0.0.1:5500/testjson.json",
-                "headers": {},
-                "params": {},
-                "data": {},
-                "methods": ["path(data.message)","toLowerCase()"]
-            }
+            "data": '{ "method": "get", "url": "http://127.0.0.1:5500/testjson.json", "methods": ["path(data.message)","toLowerCase()"] }'
         })
     .then(response => console.log((JSON.stringify(response.data.result) === JSON.stringify([ 'this is some text' ])) ? "PASS" : "FAIL result: " + response.data.result));
 
-    console.log("### Test split(',') ###");
+    console.log("### Test split(',') and POST ###");
     await axios.post("http://localhost:8080/", {
             "id": 0,
-            "data": {
-                "method": "get",
-                "url": "http://127.0.0.1:5500/testjson.json",
-                "headers": {},
-                "params": {},
-                "data": {},
-                "methods": ["path(data.splitable-text-1)","split(\',\')"]
-            }
+            "data": '{"method": "post", "url": "https://jsonplaceholder.typicode.com/posts", "data": ' + JSON.stringify({message: "this,is,splitable,text"})+', "methods": ["path(message)","split(\',\')"]}'
         }).then(response => console.log((JSON.stringify(response.data.result)) === JSON.stringify([ 'this', 'is', 'splitable', 'text' ]) ? "PASS" : "FAIL result: " + response.data.result));
 
     console.log("### Test split(\",\") ###");
-    await axios.post("http://localhost:8080/", {
-            "id": 0,
-            "data": {
-                "method": "get",
-                "url": "http://127.0.0.1:5500/testjson.json",
-                "headers": {},
-                "params": {},
-                "data": {},
-                "methods": ["path(data.splitable-text-2)",'split(" abc ")']
-            }
-        })
-    .then(response => console.log((JSON.stringify(response.data.result) === JSON.stringify([ 'this', 'is', 'splitable', 'text ABC here' ])) ? "PASS" : "FAIL result: " + response.data.result));
+    await axios.post("http://localhost:8080/", { "id": 0,
+    "data": "{ \"method\": \"get\", \"url\": \"http://127.0.0.1:5500/testjson.json\", \"methods\": [\"path(data.splitable-text-2)\",\"split(\" abc \")\"] }"
+    }).then(response => console.log((JSON.stringify(response.data.result) === JSON.stringify([ 'this', 'is', 'splitable', 'text ABC here' ])) ? "PASS" : "FAIL result: " + response.data.result));
 
     console.log("### Test split(\",\")[2] ###");
-    await axios.post("http://localhost:8080/", {
-            "id": 0,
-            "data": {
-                "method": "get",
-                "url": "http://127.0.0.1:5500/testjson.json",
-                "headers": {},
-                "params": {},
-                "data": {},
-                "methods": ["path(data.splitable-text-2)",'split(" abc ")[2]']
-            }
-        })
+    await axios.post("http://localhost:8080/", '{ "id": 0, "data": { "method": "get", "url": "http://127.0.0.1:5500/testjson.json", "methods": ["path(data.splitable-text-2)",\'split(" abc ")[2]\'] }}')
     .then(response => console.log((JSON.stringify(response.data.result) === JSON.stringify([ 'splitable' ])) ? "PASS" : "FAIL result: " + response.data.result));
 
 
     console.log("### Test split(/ abc /) ###");
-    await axios.post("http://localhost:8080/", {
-            "id": 0,
-            "data": {
-                "method": "get",
-                "url": "http://127.0.0.1:5500/testjson.json",
-                "headers": {},
-                "params": {},
-                "data": {},
-                "methods": ["path(data.splitable-text-2)",'split(/ abc /i)']
-            }
-        })
+    await axios.post("http://localhost:8080/", {"id": 0, "data": { "method": "get", "url": "http://127.0.0.1:5500/testjson.json", "methods": ["path(data.splitable-text-2)",'split(/ abc /i)']}})
     .then(response => console.log((JSON.stringify(response.data.result) === JSON.stringify([ 'this', 'is', 'splitable', 'text', 'here' ])) ? "PASS" : "FAIL result: " + response.data.result));
     
     console.log("### Test slice(0, 18) ###");

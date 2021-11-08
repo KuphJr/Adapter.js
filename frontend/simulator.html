@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>TextParser External Adapter</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/ico" href="images/favicon.ico">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="row" style="background-color: #121212;">
+    <br>
+    <div class="column"></div>
+      <div class="container">
+        <a href="./index.html"><img src="images/logo.png" style="height:48px; padding-right: 16px; float: left"></a>
+        <h3 style="font-size: 38px; float: left"><b>TextParser</b></h3>
+        <div style="float: right">
+          <a href="./simulator.html"><button class="button-primary">Try it out</button></a>
+          <a style="margin-left: 12px;" class="button" href="./documentation.html">Documentation</a>
+          <a style="margin-left: 12px;" class="button" href="https://discord.gg/jpGx9tMRWa">Contact</a>
+        </div>
+        <br>
+        <div style="clear:both;">
+          <div style="float:left;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=KuphJr&repo=TextParserExternalAdapter&type=star&count=true&size=large"
+            frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=KuphJr&repo=TextParserExternalAdapter&type=fork&count=true&size=large" 
+            frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+          </div>
+        </div>
+        <div style="float:right">
+          <iframe src="https://ghbtns.com/github-btn.html?user=KuphJr&type=follow&count=true&size=large" 
+          frameborder="0" scrolling="0" width="230" height="30" title="GitHub"></iframe>
+        </div>
+    </div>
+    <br>
+  </div>
+  <div class="container">
+    <div class="row">
+      <br>
+      <br>
+      <div class="row">
+        <div class="column" style="padding-left: 5%; padding-right: 5%;">
+            <h5 style="text-align:center"><b>External Adapter Simulator</b></h5>
+            <p>
+                Use the simulator below to make test calls to the external adapter.  After you get your desired result, select the relevant blockchain network 
+                and click the <i>"Generate Solidity Code"</i> button to automatically generate the required smart contract code. The code can be pasted into  
+                your smart contract to receive the requested data.
+            </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">      
+          <label for="url">URL</label>
+          <input class="u-full-width" type="text" placeholder="ie: https://www.typeURLhere.com/" id="url">
+        </div>
+      </div>
+      <div class="row">
+        <div class="two columns">
+          <br>    
+          <label for="method">Method</label>
+          <select id="method" style="float:left;">
+            <option value="get">GET</option>
+            <option value="post">POST</option>
+          </select>
+        </div>
+        <div class="ten columns">
+          <div id="post-data" style="visibility: hidden;">
+            <br>
+            <label for="data">Data</label>
+            <input class="u-full-width" style="float:right;" type="text" placeholder="ie: { title: 'foo', name: 'bar', id: 1 }" id="data">
+          </div>
+        </div>
+        <script>
+          document.getElementById('method').addEventListener('change', function() {
+            console.log('You selected: ', this.value);
+            if (this.value === "post") {
+              document.getElementById("post-data").style.visibility = "visible";
+            } else {
+              document.getElementById("post-data").style.visibility = "hidden";
+            }
+          });
+        </script>
+      </div>
+      <div class="row">
+        <div class="column">
+          <br>
+          <label for="headers">Headers (Optional)</label>
+          <input class="u-full-width" type="text" placeholder="ie: {'Authorization': 'Basic ' + btoa(CLIENT_ID_HERE + ':' + CLIENT_SECRET_HERE) }" id="headers">
+          <br><br>
+          <label for="functions">Text Processing Functions (<a href="./documentation.html">See documentation for supported functions</a>)</label>
+          <textarea class="u-full-width" style="height: 112px" type="text"
+          placeholder="Put one function on each line ie:&#13;&#10;split(' ')[0]&#13;&#10;replace(/./g,'a')&#13;&#10;search('aaa')" id="functions"></textarea>
+          <br>
+          <br>
+        </div>
+        <center><button class="button-primary" id="send">Send Request</button></center>
+      </div>
+      <br>
+      <div class="row">
+        <textarea class="u-full-width" type="text" readonly id="result" style="background-color: #303134; border-color: #121212; color: #E8E8E8"></textarea>
+      </div>
+      <br>
+      <div class="row">
+        <div class="one-half column">
+          <div style="float: right;">
+            <select id="method" style="float:left;">
+              <option value="ethereum">Ethereum Mainnet</option>
+              <option value="rinkby">Rinkby Testnet</option>
+              <option value="polygon">Polygon Mainnet</option>
+              <option value="mumbai">Mumbai Testnet</option>
+            </select>
+          </div>
+        </div>
+        <div class="one-half column">
+          <div style="float: left;">
+            <button class="button-primary" id="send">Generate Code</button>
+            </select>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <textarea class="u-full-width" type="text" readonly id="code" style="background-color: #303134; border-color: #121212; color: #E8E8E8"></textarea>
+      </div>
+    </div>
+  </div>
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

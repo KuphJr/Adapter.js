@@ -59,6 +59,7 @@ const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
   const validator = new Validator(callback, input);
   const jobRunID = validator.validated.id;
+  input.data = JSON.parse(input.data);
 
   // This is where you would add method and headers
   // you can add method like GET or POST and add it to the config
@@ -81,12 +82,9 @@ const createRequest = (input, callback) => {
   if ("headers" in input.data && Object.keys(input.data.headers).length !== 0) {
     config["headers"] = input.data.headers;
   }
-  if ("params" in input.data && Object.keys(input.data.params).length !== 0) {
-    config["params"] = input.data.params;
-  }
   if ("data" in input.data && Object.keys(input.data.data).length !== 0) {
     config["data"] = input.data.data;
-  }
+  };
 
   // The Requester allows API calls be retry in case of timeout
   // or connection failure
@@ -322,7 +320,7 @@ const createRequest = (input, callback) => {
     .catch(error => {
       callback(500, Requester.errored(jobRunID, error))
     })
-}
+};
 
 // This is a wrapper to allow the function to work with
 // GCP Functions
@@ -330,28 +328,6 @@ exports.gcpservice = (req, res) => {
   createRequest(req.body, (statusCode, data) => {
     res.status(statusCode).send(data)
   })
-}
+};
 
-// This is a wrapper to allow the function to work with
-// AWS Lambda
-exports.handler = (event, context, callback) => {
-  createRequest(event, (statusCode, data) => {
-    callback(null, data)
-  })
-}
-
-// This is a wrapper to allow the function to work with
-// newer AWS Lambda implementations
-exports.handlerv2 = (event, context, callback) => {
-  createRequest(JSON.parse(event.body), (statusCode, data) => {
-    callback(null, {
-      statusCode: statusCode,
-      body: JSON.stringify(data),
-      isBase64Encoded: false
-    })
-  })
-}
-
-// This allows the function to be exported for testing
-// or for running in express
-module.exports.createRequest = createRequest
+module.exports.createRequest = createRequest;
