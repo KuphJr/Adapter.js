@@ -7,7 +7,7 @@ const axios = require('axios');
             "data": {
             "returnType": "string",
             "method": "get",
-            "javascript": "while (true) { let b = 1 + 1;} return response.data.title;",
+            "javascript": "return response.data.title.toUpperCase();",
             "url": "https://jsonplaceholder.typicode.com/posts/1"
             }
         })
