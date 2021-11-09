@@ -75,7 +75,7 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback, response
       + "\n" + compileError.stack.split("\n")[2].slice(8));
     }
     try {
-      response.data.result = script.runInContext(context);
+      response.data.result = script.runInContext(context, { timeout: 1000 });
     } catch (runScriptError) {
       throw ("Error evaluating provided JavaScript: " + runScriptError);
     }
