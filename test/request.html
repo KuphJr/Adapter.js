@@ -28,7 +28,7 @@ fetch('http://localhost:8080/', {
     headers: { 'Accept': 'application/json',
     "Content-Type": "application/json",
  },
-    body: JSON.stringify({ "id": 0, "data": { "method": "get", "url": "http://127.0.0.1:5500/testjson.json", "methods": ["path(data.anotherStep.item)"] } }),
+    body: JSON.stringify({ "id": 0, "data": '{ "method": "get", "url": "http://127.0.0.1:5500/testjson.json", "functions": ["path(data.anotherStep.item)"] }' }),
   }).then(reply => reply.json()).then(text => console.log(text.data.result));
 })();
 </script>
