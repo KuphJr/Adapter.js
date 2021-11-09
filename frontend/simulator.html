@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
@@ -63,7 +62,7 @@
             <h5 style="text-align:center"><b>External Adapter Simulator</b></h5>
             <p>
                 Use the simulator below to make test calls to the external adapter.  After you get your desired result, select the relevant blockchain network 
-                and click the <i>"Generate Solidity Code"</i> button to automatically generate the required smart contract code. The code can be pasted into  
+                and click the <i>"Generate Code"</i> button to automatically generate the required Solidity code. The code can be pasted into  
                 your smart contract to receive the requested data.
             </p>
         </div>
@@ -90,16 +89,6 @@
             <input class="u-full-width" style="float:right;" type="text" placeholder="ie: { title: 'foo', name: 'bar', id: 1 }" id="data">
           </div>
         </div>
-        <script>
-          document.getElementById('method').addEventListener('change', function() {
-            console.log('You selected: ', this.value);
-            if (this.value === "post") {
-              document.getElementById("post-data").style.visibility = "visible";
-            } else {
-              document.getElementById("post-data").style.visibility = "hidden";
-            }
-          });
-        </script>
       </div>
       <div class="row">
         <div class="column">
@@ -147,4 +136,5 @@
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
+<script src="simulator.js"></script>
 </html>

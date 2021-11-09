@@ -57,7 +57,7 @@ function getEndIndex(inputString) {
 
 const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
-  const validator = new Validator(callback, input);
+  const validator = new Validator(input);
   const jobRunID = validator.validated.id;
   input.data = JSON.parse(input.data);
 
@@ -96,7 +96,9 @@ const createRequest = (input, callback) => {
       //response.data.result = Requester.validateResultNumber(response.data, [tsyms])
       let result = response.data;
       
-      input.data.methods.forEach(method => {
+      input.data.functions.forEach(method => {
+        console.log("RESULT: ", typeof result, result);
+        console.log("METHOD: '", method, "'");
         try {
           if (method.slice(0, 12) === "toLowerCase(") {
             if (typeof result !== "string") {
@@ -109,164 +111,16 @@ const createRequest = (input, callback) => {
             }
             result = result.toUpperCase();
           } else if (method.slice(0, 6) === "slice(") {
-            if (typeof result !== "string") {
-              result = JSON.stringify(result);
-            }
-            let args = method.slice(6, method.length-1);
-            args = args.replace(/ /g, "");
-            args = args.split(",");
-            if (args.length === 2) {
-              result = result.slice(parseInt(args[0]), parseInt(args[1]));
-            } else if (args.length === 1) {
-              result = result.slice(parseInt(args[0]));
-            } else {
-              throw "has invalid arguments.";
-            }
+            result = slice(method, result);
           } else if (method.slice(0, 6) === "split(") {
-            if (typeof result !== "string") {
-              result = JSON.stringify(result);
-            }
-            let endIndex = getEndIndex(method);
-            if (method[6] === "'") {
-              let lastIndex = method.lastIndexOf("'");
-              let arg1 = method.slice(7, lastIndex);
-              let rest = method.slice(lastIndex+1).replace(/ /g, "");
-              if (rest[0] === ")") {
-                (endIndex >= 0) ? result = result.split(arg1)[endIndex] : result = result.split(arg1);
-              } if (rest[0] === ",") {
-                let lastParenIndex = rest.lastIndexOf(")");
-                let arg2 = parseInt(rest.slice(1, lastParenIndex));
-                (endIndex >= 0) ? result = result.split(arg1, arg2)[endIndex] : result = result.split(arg1, arg2);
-              }
-            } else if (method[6] === '"') {
-              let lastIndex = method.lastIndexOf('"');
-              let arg1 = method.slice(7, lastIndex);
-              let rest = method.slice(lastIndex+1).replace(/ /g, "");
-              if (rest[0] === ")") {
-                (endIndex >= 0) ? result = result.split(arg1)[endIndex] : result = result.split(arg1);
-              } if (rest[0] === ",") {
-                let lastParenIndex = rest.lastIndexOf(")");
-                let arg2 = parseInt(rest.slice(1, lastParenIndex));
-                (endIndex >= 0) ? result = result.split(arg1, arg2)[endIndex] : result = result.split(arg1, arg2);
-              }
-            } else if (method[6] === '/') {
-              let lastCommaIndex = method.lastIndexOf(',');
-              if (lastCommaIndex === -1) {
-                let lastParenIndex = method.lastIndexOf(")");
-                let regexp = convertToRegExp(method.slice(6, lastParenIndex));
-                (endIndex >= 0) ? result = result.split(regexp)[endIndex] : result = result.split(regexp);
-              } else {
-                let lastSlashIndex = method.lastIndexOf("/");
-                if (lastSlashIndex < lastCommaIndex) {
-                  let arg1 = method.slice(8, lastCommaIndex);
-                  let lastParenIndex = method.lastIndexOf(")");
-                  let arg2 = parseInt(method.slice(lastCommaIndex+1, lastParenIndex).replace(/ /g, ""));
-                  let regexp = convertToRegExp(arg1);
-                  let endIndex = getEndIndex(method);
-                  (endIndex >= 0) ? result = result.split(regexp, arg2)[index] : result = result.split(regexp, arg2);
-                } else {
-                  let lastParenIndex = method.lastIndexOf(")");
-                  let regexp = convertToRegExp(method.slice(7, lastParenIndex));
-                  (endIndex >= 0) ? result = result.split(regexp)[index] : result = result.split(regexp);
-                }
-              }
-            } else {
-              throw "has invalid arguments.";
-            }
+            result = split(method, result);
           } else if (method.slice(0, 6) === "match(") {
-            if (typeof result !== "string") {
-              result = JSON.stringify(result);
-            }
-            if (method[6] === "/") {
-              let lastParenIndex = method.lastIndexOf(")");
-              let arg = method.slice(6, lastParenIndex);
-              let regexp = convertToRegExp(arg);
-              let endIndex = getEndIndex(method);
-              (endIndex >= 0) ? result = result.match(regexp)[endIndex] : result = result.match(regexp);
-            } else if (method[6] === "'" || method[6] === '"') {
-              let lastParenIndex = method.lastIndexOf(")");
-              let arg = method.slice(7, lastParenIndex-1);
-              let endIndex = getEndIndex(method);
-              (endIndex >= 0) ? result = result.match(arg)[endIndex] : result = result.match(arg);
-            } else {
-              throw "has invalid arguments.";
-            }
+            result = match(method, result);
           } else if (method.slice(0, 7) === "search(") {
-            if (typeof result !== "string") {
-              result = JSON.stringify(result);
-            }
-            if (method[7] === "/") {
-              let arg = method.slice(7, method.length-1);
-              let regexp = convertToRegExp(arg);
-              result = result.search(regexp).toString();
-            } else if (method[7] === "'" || method[7] === '"') {
-              let arg = method.slice(8, method.length-2);
-              result = result.search(arg).toString();
-            } else {
-              throw "has invalid arguments.";
-            }         
+            result = search(method, result);
           } else if (method.slice(0, 8) === "replace(") {
-            if (typeof result !== "string") {
-              result = JSON.stringify(result);
-            }
-            if (method[8] === "/") {
-              let openingQuoteIndex = -1;
-              if (method[method.length-2] === "'") {
-                for (let i = method.lastIndexOf("'")-1; i > 10; i--) {
-                  if (method[i] === "'" && (method[i-1] !== "\\")) {
-                    openingQuoteIndex = i;
-                    break;
-                  }
-                }
-              } else if (method[method.length-2] === '"') {
-                for (let i = method.lastIndexOf('"')-1; i > 10; i--) {
-                  if (method[i] === '"' && (method[i-1] !== "\\")) {
-                    openingQuoteIndex = i;
-                    break;
-                  }
-                }                
-              } else {
-                throw "has invalid arguments.";
-              }
-              if (openingQuoteIndex === "-1") {
-                throw "has invalid arguments.";
-              }
-              let arg2 = method.slice(openingQuoteIndex + 1, method.length-2);
-              // remove any whitespace ie: "/arg1/g, " => "/arg1/g,"
-              let arg1 = method.slice(8, openingQuoteIndex - 1).trimEnd();
-              // remove comma ie: "/arg1/g," => "/arg1/g"
-              arg1 = arg1.slice(0, arg1.length-1);
-              let regexp = convertToRegExp(arg1);
-              result = result.replace(regexp, arg2);
-            } else if (method[8] === "'" || method[8] === '"') {
-              let openingQuoteIndex = -1;
-              if (method[method.length-2] === "'") {
-                for (let i = method.lastIndexOf("'")-1; i > 10; i--) {
-                  if (method[i] === "'" && (method[i-1] !== "\\")) {
-                    openingQuoteIndex = i;
-                    break;
-                  }
-                }
-              } else if (method[method.length-2] === '"') {
-                for (let i = method.lastIndexOf('"')-1; i > 10; i--) {
-                  if (method[i] === '"' && (method[i-1] !== "\\")) {
-                    openingQuoteIndex = i;
-                    break;
-                  }
-                }                
-              } else {
-                throw "has invalid arguments.";
-              }
-              if (openingQuoteIndex === "-1") {
-                throw "has invalid arguments.";
-              }
-              let arg2 = method.slice(openingQuoteIndex + 1, method.length-2);
-              // remove any whitespace ie: "'arg1/g', " => "'/arg1/g',"
-              let arg1 = method.slice(8, openingQuoteIndex - 1).trimEnd();
-              // remove comma ie: "'/arg1/g'" => "'/arg1/g'"
-              arg1 = arg1.slice(1, arg1.length-2);
-              result = result.replace(arg1, arg2);
-            }
+            result = replace(method, result);
+            console.log(result);
           } else if (method.slice(0, 5) === "path(") {
             let keys = method.slice(5, method.length-1).split(".");
             keys.forEach(key => {
@@ -321,6 +175,155 @@ const createRequest = (input, callback) => {
       callback(500, Requester.errored(jobRunID, error))
     })
 };
+
+function match(method, result) {
+  if (typeof result !== "string") {
+    result = JSON.stringify(result);
+  }
+  if (method[6] === "/") {
+    let lastParenIndex = method.lastIndexOf(")");
+    let arg = method.slice(6, lastParenIndex);
+    let regexp = convertToRegExp(arg);
+    let endIndex = getEndIndex(method);
+    (endIndex >= 0) ? result = result.match(regexp)[endIndex] : result = result.match(regexp);
+  } else if (method[6] === "'") {
+    let lastParenIndex = method.lastIndexOf(")");
+    let arg = method.slice(7, lastParenIndex-1);
+    let endIndex = getEndIndex(method);
+    (endIndex >= 0) ? result = result.match(arg)[endIndex] : result = result.match(arg);
+  } else {
+    throw "has invalid arguments.";
+  }
+  return result;
+};
+
+function replace(method, result) {
+  console.log("!!!!!!!method: ", method, "!!!!!!!result: ", result);
+  if (typeof result !== "string") {
+    result = JSON.stringify(result);
+  }
+  if (method[8] === "/") {
+    let openingQuoteIndex = -1;
+    if (method[method.length-2] === "'") {
+      for (let i = method.lastIndexOf("'")-1; i > 10; i--) {
+        if (method[i] === "'" && (method[i-1] !== "\\")) {
+          openingQuoteIndex = i;
+          break;
+        }
+      }
+    } else {
+      throw "has invalid arguments.";
+    }
+    if (openingQuoteIndex === "-1") {
+      throw "has invalid arguments.";
+    }
+    let arg2 = method.slice(openingQuoteIndex + 1, method.length-2);
+    // remove any whitespace ie: "/arg1/g, " => "/arg1/g,"
+    let arg1 = method.slice(8, openingQuoteIndex - 1).trimEnd();
+    // remove comma ie: "/arg1/g," => "/arg1/g"
+    arg1 = arg1.slice(0, arg1.length-1);
+    let regexp = convertToRegExp(arg1);
+    return result.replace(regexp, arg2);
+  } else if (method[8] === "'") {
+    let openingQuoteIndex = -1;
+    if (method[method.length-2] === "'") {
+      for (let i = method.lastIndexOf("'")-1; i > 10; i--) {
+        if (method[i] === "'" && (method[i-1] !== "\\")) {
+          openingQuoteIndex = i;
+          break;
+        }
+      }
+    }else {
+      throw "has invalid arguments.";
+    }
+    if (openingQuoteIndex === "-1") {
+      throw "has invalid arguments.";
+    }
+    let arg2 = method.slice(openingQuoteIndex + 1, method.length-2);
+    // remove any whitespace ie: "'arg1/g', " => "'/arg1/g',"
+    let arg1 = method.slice(8, openingQuoteIndex - 1).trimEnd();
+    // remove comma ie: "'/arg1/g'" => "'/arg1/g'"
+    arg1 = arg1.slice(1, arg1.length-2);
+    return result.replace(arg1, arg2);
+  }
+};
+
+function search(method, result) {
+  if (typeof result !== "string") {
+    result = JSON.stringify(result);
+  }
+  if (method[7] === "/") {
+    let arg = method.slice(7, method.length-1);
+    let regexp = convertToRegExp(arg);
+    result = result.search(regexp).toString();
+  } else if (method[7] === "'") {
+    let arg = method.slice(8, method.length-2);
+    result = result.search(arg).toString();
+  } else {
+    throw "has invalid arguments.";
+  }
+  return result;
+};
+
+function split(method, result) {
+  if (typeof result !== "string") {
+    result = JSON.stringify(result);
+  }
+  let endIndex = getEndIndex(method);
+  if (method[6] === "'") {
+    let lastIndex = method.lastIndexOf("'");
+    let arg1 = method.slice(7, lastIndex);
+    let rest = method.slice(lastIndex+1).replace(/ /g, "");
+    if (rest[0] === ")") {
+      (endIndex >= 0) ? result = result.split(arg1)[endIndex] : result = result.split(arg1);
+    } if (rest[0] === ",") {
+      let lastParenIndex = rest.lastIndexOf(")");
+      let arg2 = parseInt(rest.slice(1, lastParenIndex));
+      (endIndex >= 0) ? result = result.split(arg1, arg2)[endIndex] : result = result.split(arg1, arg2);
+    }
+  } else if (method[6] === '/') {
+    let lastCommaIndex = method.lastIndexOf(',');
+    if (lastCommaIndex === -1) {
+      let lastParenIndex = method.lastIndexOf(")");
+      let regexp = convertToRegExp(method.slice(6, lastParenIndex));
+      (endIndex >= 0) ? result = result.split(regexp)[endIndex] : result = result.split(regexp);
+    } else {
+      let lastSlashIndex = method.lastIndexOf("/");
+      if (lastSlashIndex < lastCommaIndex) {
+        let arg1 = method.slice(8, lastCommaIndex);
+        let lastParenIndex = method.lastIndexOf(")");
+        let arg2 = parseInt(method.slice(lastCommaIndex+1, lastParenIndex).replace(/ /g, ""));
+        let regexp = convertToRegExp(arg1);
+        let endIndex = getEndIndex(method);
+        (endIndex >= 0) ? result = result.split(regexp, arg2)[index] : result = result.split(regexp, arg2);
+      } else {
+        let lastParenIndex = method.lastIndexOf(")");
+        let regexp = convertToRegExp(method.slice(7, lastParenIndex));
+        (endIndex >= 0) ? result = result.split(regexp)[index] : result = result.split(regexp);
+      }
+    }
+  } else {
+    throw "has invalid arguments.";
+  }
+  return result;
+}
+
+function slice(method, result) {
+  if (typeof result !== "string") {
+    result = JSON.stringify(result);
+  }
+  let args = method.slice(6, method.length-1);
+  args = args.replace(/ /g, "");
+  args = args.split(",");
+  if (args.length === 2) {
+    result = result.slice(parseInt(args[0]), parseInt(args[1]));
+  } else if (args.length === 1) {
+    result = result.slice(parseInt(args[0]));
+  } else {
+    throw "has invalid arguments.";
+  }
+  return result;
+}
 
 // This is a wrapper to allow the function to work with
 // GCP Functions

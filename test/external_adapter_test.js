@@ -3,7 +3,7 @@ const axios = require('axios');
 (async function test() {
     console.log("### Test toUpperCase ###");
     await axios.post("http://localhost:8080/", {
-            "id": 0,
+            "id": 1,
             "data": '{ "method": "get", "url": "http://127.0.0.1:5500/testjson.json", "methods": ["path(data.message)","toUpperCase()"] }'
         })
     .then(response => console.log((JSON.stringify(response.data.result) === JSON.stringify([ 'THIS IS SOME TEXT' ])) ? "PASS" : "FAIL result: " + response.data.result));
