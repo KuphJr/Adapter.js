@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@chainlink/external-adapter": "^0.2.6",
+    "axios": "^0.24.0",
     "cors": "^2.8.5",
     "node-fetch": "^3.0.0",
     "request": "^2.88.2",
+    "vm2": "^3.9.5",
     "yarn": "^1.22.17"
   },
   "devDependencies": {

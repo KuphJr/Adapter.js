@@ -1,7 +1,9 @@
+const { Validator, Requester } = require('@chainlink/external-adapter');
+const { VM, VMScript } = require('vm2');
+
 const createRequest = (input, callback) => {
-  const { Requester, Validator } = require('@chainlink/external-adapter')
-  const VM = require('vm');
   // validate the Chainlink request data
+  console.log("############## Requester.test: ", Requester.test);
   const customParams = {
     javascript: true,
     returnType: true,
@@ -9,8 +11,9 @@ const createRequest = (input, callback) => {
     url: false,
     headers: false,
     data: false
-  }
+  };
   const validator = new Validator(input, customParams);
+  
   const jobRunID = validator.validated.id;
   // create the request configuration for axios
   if (typeof validator.validated.data.method !== 'undefined') {
@@ -46,19 +49,21 @@ const createRequest = (input, callback) => {
 }
 
 function evaluateJavaScript(jobRunID, javascript, returnType, callback, response = "") {
+  const vm = new VM({
+      timeout: 1000,
+      sandbox: { response: response }
+  });
   try {
-    const context = { response: response };
-    VM.createContext(context);
     let script;
     try {
-      script = new VM.Script("(() => {" + javascript + "})();");
+      script = new VMScript("(() => {" + javascript + "})();").compile();
     } catch (compileError) {
       throw ("Error compiling provided JavaScript: " + compileError + "\n" +
       compileError.stack.split("\n")[1].slice(8, compileError.stack.split("\n")[1].length-5)
       + "\n" + compileError.stack.split("\n")[2].slice(8));
     }
     try {
-      response.data.result = script.runInContext(context, { timeout: 1000 });
+      response.data.result = vm.run(script);
     } catch (runScriptError) {
       throw ("Error evaluating provided JavaScript: " + runScriptError);
     }
@@ -69,44 +74,36 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback, response
     switch (returnType) {
       case 'int256':
         if (typeof response.data.result !== 'number') {
-          throw "The returned value is not a number but the specified return type is int256.";
+          throw "The returned value must be a number for the specified return type of uint256.";
         }
         break;
       case 'uint256':
         if (typeof response.data.result !== 'number') {
-          throw "The returned value is not a number but the specified return type is uint256.";
+          throw "The returned value must be a number for the specified return type of uint256.";
         }
         if (response.data.result < 0) {
-          throw "The returned value is negative but the specified return type is uint256.";
+          throw "The returned value must be a positive for the specified return type of uint256.";
         }
         break;
       case 'bool':
         if (typeof response.data.result !== 'bool') {
-          throw "The returned value is not a bool but the specified return type is bool.";
+          throw "The returned value must be a bool for the specified return type of bool.";
         }
         break;
-      case 'string':
-        if (typeof response.data.result !== 'string') {
-          throw "The returned value is not a string but the specified return type is string.";
-        }
-        break;
-      // @TODO: BYTES NEEDS TO BE REWORKED!!!
       case 'bytes32':
-        let buf32 = Buffer.alloc(32);
-        buf32.write(response.data.result);
-        response.data.result = buf32;
-        if (response.data.result > 32) {
-          throw "The returned value is larger than 32 bytes but the specified return type is bytes32."
+        if (typeof response.data.result !== 'string') {
+          throw "The returned value must be a string for the specified return type of bytes32.";
         }
-        break;
-      case 'bytes':
-        response.data.result = Buffer.from(response.data.result);
+        if (response.data.result.length > 32) {
+          throw "The returned string is larger than 32 bytes but the specified return type is bytes32.";
+        }
         break;
       default:
         throw ("Invalid return type specified: " + returnType);
     }
     callback(response.status, Requester.success(jobRunID, response));
   } catch (evalError) {
+    console.log(evalError);
     callback(500, Requester.errored(jobRunID, evalError));
   }
 };
