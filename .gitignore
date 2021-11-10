@@ -1,4 +1,4 @@
-!node_modules
-node_modules/*
-!node_modules/@chainlink/external-adapter
+!/node_modules/
+/node_modules/*
+!/node_modules/@chainlink/external-adapter
 *.zip
