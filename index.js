@@ -1,32 +1,15 @@
-const { Requester, Validator } = require('@chainlink/external-adapter')
-const VM = require('vm');
-//const Buffer = require('buffer');
-
-// Define custom error scenarios for the API.
-// Return true for the adapter to retry.
-
-// NOT NEEDED
-
-// const customError = (data) => {
-//   if (data.Response === 'Error') return true
-//   return false
-// }
-
-// Define custom parameters to be used by the adapter.
-// Extra parameters can be stated in the extra object,
-// with a Boolean value indicating whether or not they
-// should be required.
-const customParams = {
-  javascript: true,
-  returnType: true,
-  method: false,
-  url: false,
-  headers: false,
-  data: false
-}
-
 const createRequest = (input, callback) => {
+  const { Requester, Validator } = require('@chainlink/external-adapter')
+  const VM = require('vm');
   // validate the Chainlink request data
+  const customParams = {
+    javascript: true,
+    returnType: true,
+    method: false,
+    url: false,
+    headers: false,
+    data: false
+  }
   const validator = new Validator(input, customParams);
   const jobRunID = validator.validated.id;
   // create the request configuration for axios
