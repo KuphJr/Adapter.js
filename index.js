@@ -3,7 +3,6 @@ const { VM, VMScript } = require('vm2');
 
 const createRequest = (input, callback) => {
   // validate the Chainlink request data
-  console.log("############## Requester.test: ", Requester.test);
   const customParams = {
     javascript: true,
     returnType: true,
@@ -82,7 +81,7 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback, response
           throw "The returned value must be a number for the specified return type of uint256.";
         }
         if (response.data.result < 0) {
-          throw "The returned value must be a positive for the specified return type of uint256.";
+          throw "The returned value must be positive for the specified return type of uint256.";
         }
         break;
       case 'bool':
@@ -106,14 +105,14 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback, response
     console.log(evalError);
     callback(500, Requester.errored(jobRunID, evalError));
   }
-};
+}
 
 // export for GCP Functions
 exports.gcpservice = (req, res) => {
   createRequest(req.body, (statusCode, data) => {
     res.status(statusCode).send(data)
   })
-};
+}
 
 // Export for testing with express
-module.exports.createRequest = createRequest
+module.exports.createRequest = createRequest;

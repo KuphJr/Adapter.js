@@ -7,6 +7,24 @@
     <title>Test Website</title>
 </head>
 <body>
-    [test]
+    <form id="myForm" action="https://us-central1-textparserexternaladapter.cloudfunctions.net/uploadFile" method="post"> 
+      <label for="file">Choose file to upload</label>
+      <input type="file" id="fileUpload" name="fileUpload" accept=".js">
+      <input type="submit" value="Submit" /> 
+    </form>
+    
+    <script> 
+      (function() { 
+      document.getElementById('myForm').ajaxForm(function() { 
+     }); 
+    });
+    const runFunc = function(e) {
+        console.log(document.getElementById('fileUpload').value);
+        console.log(file.name);
+        console.log(file);
+        console.log(JSON.stringify(file));
+    }
+    document.getElementById('myForm').addEventListener('change', runFunc);
+    </script>
 </body>
 </html>
