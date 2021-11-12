@@ -80,14 +80,14 @@
           <h5><b>Fetch data from APIs or websites</b></h5>
           <p>
             Fetch data from APIs or HTML text from websites via HTTP requests.  
-            Apply custom headers to access resources which require authorization.
+            Apply custom headers and send any data which can be represented as a JSON object.
           </p>
         </div>
         <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
           <h5><b>Process fetched data with JavaScript</b></h5>
           <p>
-            Send custom JavaScript code for the external adapter to execute and the returned value will be
-            sent back to the smart contract as <i>bytes32</i>, <i>int256</i>, <i>uint256</i>, or <i>bool</i>.
+            Send custom code which is executed via <a href="https://cloud.google.com/functions">Google Cloud Functions</a>
+            and have the result is sent back to the smart contract as <i>bytes32</i>, <i>int256</i>, <i>uint256</i>, or <i>bool</i>.
           </p>
         </div>
       </div>
@@ -96,8 +96,8 @@
         <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
           <h5><b>Upload JavaScript files to IPFS</b></h5>
           <p>
-            Instead of sending a large string containing custom JavaScript, the external adapter can also fetch
-            code that has been uploaded to IPFS via CID hash.
+            Instead of sending a large string containing custom code, the external adapter can also fetch
+            and execute JavaScript files that have been uploaded to <a href="https://ipfs.io/">IPFS</a>.
           </p>
         </div>
         <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
@@ -113,14 +113,15 @@
         <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
           <h5><b>Automatically generate Solidity code</b></h5>
           <p>
-            The simulator automatically generates Solidity code which can be pasted into a smart contract.
-            The simulator also enables code files to be easily uploaded to IPFS.
+            The simulator generates Solidity code which can be pasted into a smart contract.
+            Also, the web app can be used to easily upload code files via <a href="https://web3.storage/">Web3.Storage</a>.
           </p>
         </div>
         <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
           <h5><b>Available on Ethereum and Polygon</b></h5>
           <p>
-            The external adapter is hosted on a independent Chainlink nodes for the Ethereum and Polygon mainnets as well as the Rinkby and Mumbai testnets.
+            The adapter is available on Chainlink nodes hosted on <a href="https://cloud.google.com/">Google Cloud Platforms</a> 
+            and connected to the Ethereum, Polygon, Rinkby and Mumbai networks via <a href="https://moralis.io/">Moralis</a> nodes.
           </p>
         </div>
       </div>
