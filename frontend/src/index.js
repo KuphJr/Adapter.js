@@ -95,14 +95,15 @@ function sendRequest() {
                 data.javascript = document.getElementById('javascript').value;
             }
         }
-        console.log("data: ", data)
+        console.log("data: ", JSON.stringify(data));
         //console.log("json string: ", dataString);
         console.log("fetchObject: ", {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
             body: JSON.stringify({ "id": 999, "data": data }),
         });
-        fetch('http://localhost:8080/', {
+        //http://localhost:8080/
+        fetch('https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice', {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
             body: JSON.stringify({ "id": 999, "data": data }),

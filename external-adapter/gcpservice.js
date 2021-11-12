@@ -1,7 +1,6 @@
 const { Validator, Requester } = require('@chainlink/external-adapter');
 const { VM, VMScript } = require('vm2');
 const { Web3Storage } = require('web3.storage');
-require('dotenv').config();
 
 const createRequest = (input, callback) => {
   // validate the Chainlink request data
@@ -14,6 +13,7 @@ const createRequest = (input, callback) => {
     headers: false,
     data: false
   };
+  console.log("INPUT: ", input);
   const validator = new Validator(input, customParams);
   const jobRunID = validator.validated.id;
   // use provided JavaScript string or fetch JavaScript from IPFS
@@ -175,10 +175,21 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback,
 
 // export for GCP Functions
 exports.gcpservice = (req, res) => {
-  createRequest(req.body, (statusCode, data) => {
-    res.status(statusCode).send(data)
-  })
-};
+    //set JSON content type and CORS headers for the response
+    res.header('Content-Type','application/json');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
 
-// Export for testing with express
-module.exports.createRequest = createRequest;
+    //respond to CORS preflight requests
+    if (req.method == 'OPTIONS') {
+        // Send response to OPTIONS requests
+        res.set('Access-Control-Allow-Methods', 'GET');
+        res.set('Access-Control-Allow-Headers', 'Content-Type');
+        res.set('Access-Control-Max-Age', '3600');
+        res.status(204).send('');
+    } else {
+        createRequest(req.body, (statusCode, data) => {
+            res.status(statusCode).send(data)
+        });
+    }
+};

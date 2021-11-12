@@ -1,2 +1,3 @@
 /external-adapter/node_modules
 /frontend/node_modules
+/external-adapter/.env
