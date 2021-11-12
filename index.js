@@ -4,8 +4,8 @@ const { VM, VMScript } = require('vm2');
 const createRequest = (input, callback) => {
   // validate the Chainlink request data
   const customParams = {
-    javascript: true,
     returnType: true,
+    javascript: false,
     method: false,
     url: false,
     headers: false,
@@ -47,7 +47,11 @@ const createRequest = (input, callback) => {
   }
 }
 
-function evaluateJavaScript(jobRunID, javascript, returnType, callback, response = "") {
+function evaluateJavaScript(jobRunID, javascript, returnType, callback, 
+  response = { data: "", status: 200 }) {
+  response.jobRunID = jobRunID;
+  console.log("RESPONSE", response);
+  let ext = {};
   const vm = new VM({
       timeout: 1000,
       sandbox: { response: response }
@@ -62,7 +66,19 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback, response
       + "\n" + compileError.stack.split("\n")[2].slice(8));
     }
     try {
-      response.data.result = vm.run(script);
+      let result = vm.run(script);
+      console.log("SCRIPT.CODE: ", script.code);
+      console.log("JAVASCRIPT RETURN: ", result);
+      if (typeof response.data !== 'object') {
+        console.log("not an object");
+        let temp = response.data;
+        response.data = { data: "string"};
+        console.log("response.data: ", response.data);
+        response.data.data = temp;
+        console.log("Didn't fuck up")
+      }
+      response.data.result = result;
+      console.log("response.data.result: ", response.data.result);
     } catch (runScriptError) {
       throw ("Error evaluating provided JavaScript: " + runScriptError);
     }

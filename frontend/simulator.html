@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>TextParser External Adapter</title>
+  <title>Adapter.js</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -19,22 +20,22 @@
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/ico" href="images/favicon.ico">
+  <link rel="icon" type="image/png" href="images/Adapterjs.png">
 
 </head>
 <body>
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="row" style="background-color: #121212;">
-    <br>
-    <div class="column"></div>
-      <div class="container">
-        <a href="./index.html"><img src="images/logo.png" style="height:48px; padding-right: 16px; float: left"></a>
-        <h3 style="font-size: 38px; float: left"><b>TextParser</b></h3>
+  <div class="row">
+    <div class="container">
+      <div class="column" style="padding-right: 5%; padding-left: 5%; color: #323330">
+        <br>
+        <a href="./index.html"><img src="images/Adapterjs.png" style="height:48px; padding-right: 16px; float: left"></a>
+        <h3 style="font-size: 38px; float: left"><a class="reset-a" href="./index.html"><b>Adapter.js</b></a></h3>
         <div style="float: right">
           <a href="./simulator.html"><button class="button-primary">Try it out</button></a>
-          <a style="margin-left: 12px;" class="button" href="./documentation.html">Documentation</a>
+          <a style="margin-left: 12px;" class="button" href="./documentation.html" >Documentation</a>
           <a style="margin-left: 12px;" class="button" href="https://discord.gg/jpGx9tMRWa">Contact</a>
         </div>
         <br>
@@ -45,15 +46,20 @@
             <iframe src="https://ghbtns.com/github-btn.html?user=KuphJr&repo=TextParserExternalAdapter&type=fork&count=true&size=large" 
             frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
           </div>
-        </div>
         <div style="float:right">
           <iframe src="https://ghbtns.com/github-btn.html?user=KuphJr&type=follow&count=true&size=large" 
           frameborder="0" scrolling="0" width="230" height="30" title="GitHub"></iframe>
         </div>
+        <br>
+        <br>
+        <br>
+      </div>
     </div>
     <br>
+    </div>
   </div>
-  <div class="container">
+  <br>
+  <div class="container" style="background-color: #119ef4; border-radius: 48px; padding-left: 5%; padding-right: 5%;">
     <div class="row">
       <br>
       <br>
@@ -63,50 +69,117 @@
             <p>
                 Use the simulator below to make test calls to the external adapter.  After you get your desired result, select the relevant blockchain network 
                 and click the <i>"Generate Code"</i> button to automatically generate the required Solidity code. The code can be pasted into  
-                your smart contract to receive the requested data.
+                your smart contract to receive the return value from the provided JavaScript code.
             </p>
         </div>
       </div>
       <div class="row">
-        <div class="column">      
+        <div class="column">
+          <label for="method">HTTP Request Method</label>
+          <select id="method" style="float:left;">
+            <option value="none">No HTTP request</option>
+            <option value="get">GET</option>
+            <option value="post">POST</option>
+            <option value="put">PUT</option>
+            <option value="delete">DELETE</option>
+            <option value="patch">PATCH</option>
+            <option value="head">HEAD</option>
+            <option value="options">OPTIONS</option>
+            <option value="trace">TRACE</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column" id="urlDiv" style="display: none;">
+          <br> 
           <label for="url">URL</label>
           <input class="u-full-width" type="text" placeholder="ie: https://www.typeURLhere.com/" id="url">
         </div>
       </div>
       <div class="row">
-        <div class="two columns">
-          <br>    
-          <label for="method">Method</label>
-          <select id="method" style="float:left;">
-            <option value="get">GET</option>
-            <option value="post">POST</option>
-          </select>
-        </div>
-        <div class="ten columns">
-          <div id="post-data" style="visibility: hidden;">
+        <div class="column">
+          <div id="headersDiv" style="display: none;">
             <br>
-            <label for="data">Data</label>
+            <label for="headers">Headers (Optional)</label>
+            <input class="u-full-width" type="text" placeholder="ie: {'Authorization': 'Basic ' + btoa(CLIENT_ID_HERE + ':' + CLIENT_SECRET_HERE) }" id="headers">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <div id="post-data" style="display: none;">
+            <br>
+            <label for="data">Data (Optional)</label>
             <input class="u-full-width" style="float:right;" type="text" placeholder="ie: { title: 'foo', name: 'bar', id: 1 }" id="data">
+            <br>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="column">
           <br>
-          <label for="headers">Headers (Optional)</label>
-          <input class="u-full-width" type="text" placeholder="ie: {'Authorization': 'Basic ' + btoa(CLIENT_ID_HERE + ':' + CLIENT_SECRET_HERE) }" id="headers">
-          <br><br>
-          <label for="functions">Text Processing Functions (<a href="./documentation.html">See documentation for supported functions</a>)</label>
-          <textarea class="u-full-width" style="height: 112px" type="text"
-          placeholder="Put one function on each line ie:&#13;&#10;split(' ')[0]&#13;&#10;replace(/./g,'a')&#13;&#10;search('aaa')" id="functions"></textarea>
-          <br>
-          <br>
+          <label for="returnType">Return Type</label>
+          <select id="returnType" style="float:left;">
+            <option value="int256">int256</option>
+            <option value="uint256">uint256</option>
+            <option value="bool">bool</option>
+            <option value="bytes32">bytes32 (Represents a 32 character string)</option>
+          </select>
         </div>
-        <center><button class="button-primary" id="send">Send Request</button></center>
       </div>
       <br>
       <div class="row">
-        <textarea class="u-full-width" type="text" readonly id="result" style="background-color: #303134; border-color: #121212; color: #E8E8E8"></textarea>
+        <div class="six columns">
+          <label for="codeSource">Code Source</label>
+          <select id="codeSource" style="float:left;">
+            <option value="javascript">Use JavaScript code entered below</option>
+            <option value="ipfs">Use code uploaded to IPFS</option>
+          </select>
+        </div>
+        <div class="six columns" id="ipfsHashDiv" style="visibility: hidden;">   
+          <label for="ipfsHash">IPFS CID Hash</label>
+          <input class="u-full-width" type="text" placeholder="Enter an existing CID here or upload a new file below" id="ipfsHash">
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="column">
+          <div id="codeDiv">
+            <label for="javascript">JavaScript Code</label>
+            <textarea class="u-full-width" style="height: 112px" type="text" placeholder="Enter valid Node.js code here. Please note that it is not possible to use any imports.
+Access the result of the HTTP request with the 'response' variable. ie:
+let htmlDocumentString = response.data;
+return htmlDocString.slice(100, 132);" id="javascript"></textarea>
+            <br>
+            <br>
+          </div>
+        </div>
+      </div>
+      <div id="uploadDiv" style="display: none">
+        <div class="row">
+          <div class="six columns">
+            <label for="ipfsToken">Web3.storage Token (<a href="">Get one for free here!</a>)</label>
+            <input class="u-full-width" name="ipfsToken" type="text" id="IPFS Token">
+          </div>
+          <div class="six columns">
+            <form id="fileUpload">
+              <label for="file">Upload JavaScript File</label>
+              <input type="file" id="fileUpload" name="fileUpload" accept=".js">
+              <button class="button-primary">Upload</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="column">
+            <center><button class="button-primary" id="send">Send Request</button></center>
+          </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <label for="result">Result</label>
+          <textarea class="u-full-width" type="text" readonly id="result" style="background-color: #D1D1D1"></textarea>
+        </div>
       </div>
       <br>
       <div class="row">
@@ -127,48 +200,20 @@
           </div>
         </div>
       </div>
-      <br>
       <div class="row">
-        <textarea class="u-full-width" type="text" readonly id="code" style="background-color: #303134; border-color: #121212; color: #E8E8E8"></textarea>
+        <label for=code>Solidity Code</label>
+        <textarea class="u-full-width" type="text" readonly id="code" style="background-color: #D1D1D1"></textarea>
       </div>
     </div>
+    <br>
+    <br>
   </div>
+  </div>
+  <br>
+  <br>
+
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container">
-    <div class="row">
-      <div class="column">
-        <center>
-<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-<form id="myForm" action="https://us-central1-textparserexternaladapter.cloudfunctions.net/uploadFile" method="post" target="dummyframe"> 
-  <label for="file" id="uploadButtonText">Choose file to upload</label>
-  <input type="file" id="fileUpload" name="fileUpload" accept=".js">
-  <input type="submit" value="Submit" id="submitBtn"/> 
-</form></center>
-<script> 
-  (function() { 
-  document.getElementById('myForm').ajaxForm(function() { 
-  }); 
-});
-const runFunc = function(e) {
-    console.log(document.getElementById('fileUpload').value);
-    console.log(file.name);
-    console.log(file);
-    console.log(JSON.stringify(file));
-};
-const runSub = function(e) {
-  //e.preventDefault();
-  console.log("Clicked");
-  document.getElementById('uploadButtonText').innerHTML = "Sucessfully Uploaded";
-  document.getElementById('testDiv').innerHTML = "Sucessfully Uploaded";
-  document.getElementById('submitBtn').color = "white";
-};
-document.getElementById('myForm').addEventListener('submit', runSub);
-document.getElementById('myForm').addEventListener('change', runFunc);
-</script>
-</div>
-</div>
-</div>
-</body>
 <script src="simulator.js"></script>
+</body>
 </html>
