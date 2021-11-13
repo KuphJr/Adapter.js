@@ -38,16 +38,19 @@ const createRequest = (input, callback) => {
             });
           })
           .catch(err => {
+            console.log("IPFS error: ", err);
             callback(500, Requester.errored(jobRunID, err));
             return;
           });
         } else {
+          console.log("Input data error: No 'javascript' string or 'ipfs' content ID string provided.");
           callback(500, Requester.errored(jobRunID, Error(
             "No 'javascript' string or 'ipfs' content ID string provided.")));
           return;
         }
+      } else {
+        resolve();
       }
-      resolve();
     }
   );
   ipfsPromise.then(() => {
@@ -66,6 +69,7 @@ const createRequest = (input, callback) => {
           config.data["data"] = JSON.parse(validator.validated.data.data);
         }
       } catch (requestBuildError) {
+        console.log("Request build error! Validated data: ", JSON.stringify(validator.validated.data));
         callback(500, Requester.errored(jobRunID, requestBuildError));
         return;
       }
@@ -81,6 +85,7 @@ const createRequest = (input, callback) => {
         evaluateJavaScript(jobRunID, validator.validated.data.javascript, 
           validator.validated.data.returnType, callback, _response);
       }).catch(error => {
+        console.log("Request error: ", error);
         callback(500, Requester.errored(jobRunID, error));
       });
     } else {
