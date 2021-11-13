@@ -19773,8 +19773,8 @@ function sendRequest() {
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
             body: JSON.stringify({ "id": 999, "data": data }),
         });
-        //http://localhost:8080/
-        fetch('https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice', {
+        //https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice
+        fetch('http://localhost:8080/', {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
             body: JSON.stringify({ "id": 999, "data": data }),
