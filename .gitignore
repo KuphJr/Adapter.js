@@ -2,4 +2,4 @@
 /frontend/node_modules
 /external-adapter/.env
 /node_modules
-/external-adapter/smartContracts/node_modules
+/external-adapter/test/smartContracts/node_modules/

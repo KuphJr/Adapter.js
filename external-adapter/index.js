@@ -18,8 +18,8 @@ const createRequest = (input, callback) => {
   const jobRunID = validator.validated.id;
   // use provided JavaScript string or fetch JavaScript from IPFS
   const ipfsPromise = new Promise((resolve, reject) => {
-      if (typeof validator.validated.data.javascript === 'undefined') {
-        if (typeof validator.validated.data.ipfs !== 'undefined') {
+      if (validator.validated.data.javascript === '') {
+        if (typeof validator.validated.data.ipfs !== '') {
           const client = new Web3Storage(
             { token: process.env.WEB3STORAGETOKEN }
           );
@@ -49,6 +49,12 @@ const createRequest = (input, callback) => {
           return;
         }
       } else {
+        if (validator.validated.data.ipfs !== '') {
+          console.log("Both a 'javascript' string and an 'ipfs' content ID string were provided.");
+          callback(500, Requester.errored(jobRunID, Error(
+            "Both a 'javascript' string and an 'ipfs' content ID string were provided.")));
+          return;
+        }
         resolve();
       }
     }
@@ -56,16 +62,16 @@ const createRequest = (input, callback) => {
   ipfsPromise.then(() => {
     // create the config object for axios
     // to perform the http request
-    if (typeof validator.validated.data.method !== 'undefined') {
+    if (validator.validated.data.method !== '') {
       let config = {
         method: validator.validated.data.method,
         url: validator.validated.data.url
       };
       try {
-        if (typeof validator.validated.data.headers !== 'undefined') {
+        if (validator.validated.data.headers !== '') {
           config["headers"] = JSON.parse(validator.validated.data.headers);
         }
-        if (typeof validator.validated.data.data !== 'undefined') {
+        if (validator.validated.data.data !== '') {
           config.data["data"] = JSON.parse(validator.validated.data.data);
         }
       } catch (requestBuildError) {

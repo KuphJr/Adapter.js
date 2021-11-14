@@ -7,22 +7,15 @@ contract AdapterJS is ChainlinkClient {
 
     address public chainlinkNode;
     uint256 public fee;
+    bytes32 public uninit;
 
-    bytes32 public int256JobId;
-    bytes32 public uint256JobId;
-    bytes32 public boolJobId;
-    bytes32 public bytes32JobId;
+    event deployed(uint256 time);
 
-    constructor(address _chainlinkNode, bytes32 _int256JobId,
-        bytes32 _uint256JobId, bytes32 _boolJobId,
-        bytes32 _bytes32JobId, uint256 _fee) {
+    constructor(address _chainlinkNode, uint256 _fee) {
             setChainlinkToken(0x326C977E6efc84E512bB9C30f76E30c160eD06FB);
             chainlinkNode = _chainlinkNode;
-            int256JobId = _int256JobId;
-            uint256JobId = _uint256JobId;
-            boolJobId = _boolJobId;
-            bytes32JobId = _bytes32JobId;
             fee = _fee;
+            emit deployed(block.timestamp);
     }
 
     event int256AdapterReply(int256 reply);
@@ -30,41 +23,40 @@ contract AdapterJS is ChainlinkClient {
     event boolAdapterReply(bool reply);
     event bytes32AdapterReply(bytes32 reply);
 
-    function callAdapter(
-        uint8 _returnType, bytes32 _method,
-        string calldata _url, string calldata _headers,
-        string calldata _data, string calldata _javascript,
-        string calldata _ipfsHash) public returns (bytes32 requestId) {
+    event calledAdapter(uint256);
+    event CLrequest(Chainlink.Request request);
+
+    function simpleCallAdapter() public returns(bytes32 requestId) {
+        Chainlink.Request memory request = buildChainlinkRequest(
+        "b1d42cd54a3a4201b1f625a68e48aad2",
+        address(this), this.simpleFulfill.selector);
+        bytes32 sent = sendChainlinkRequestTo(chainlinkNode, request, fee);
+        return sent;
+    }
+
+    function simpleFulfill(bytes32 _requestId, uint256 _reply) 
+        public recordChainlinkFulfillment(_requestId) {
+            emit uint256AdapterReply(_reply);
+    }
+
+    function int256CallAdapter(
+        string memory _method,
+        string memory _url, string memory _headers,
+        string memory _data, string memory _javascript,
+        string memory _ipfs) public returns (bytes32 requestId) {
+            emit calledAdapter(8);
             Chainlink.Request memory request;
-            if (_returnType == 1) {
-                request = buildChainlinkRequest(
-                    int256JobId, address(this), this.int256Fullfill.selector);
-            } else if (_returnType == 2) {
-                request = buildChainlinkRequest(
-                    uint256JobId, address(this), this.uint256Fullfill.selector);
-            } else if (_returnType == 3) {
-                request = buildChainlinkRequest(
-                    boolJobId, address(this), this.boolFullfill.selector);
-            } else if (_returnType == 4) {
-                request = buildChainlinkRequest(
-                    bytes32JobId, address(this), this.bytes32Fullfill.selector);
-            }
-            if (_method != 0) {
-                request.add("method", bytes32ToString(_method));
-                request.add("url", _url);
-                if (bytes(_headers).length != 0) {
-                    request.add("headers", _headers);
-                }
-                if (bytes(_data).length != 0) {
-                    request.add("data", _data);
-                } 
-            }
-            if (bytes(_javascript).length != 0) {
-                request.add("javascript", _javascript);
-            }
-            if (bytes(_ipfsHash).length != 0) {
-                request.add("ipfsHash", _ipfsHash);
-            }
+            request = buildChainlinkRequest(uninit,
+                                            address(this),
+                                            this.int256Fullfill.selector);
+            request.add("returnType", "int256");
+            request.add("method", _method);
+            request.add("url", _url);
+            request.add("headers", _headers);
+            request.add("data", _data);
+            request.add("javascript", _javascript);
+            request.add("ipfs", _ipfs);
+            emit CLrequest(request);
             return sendChainlinkRequestTo(chainlinkNode, request, fee);
     }
 

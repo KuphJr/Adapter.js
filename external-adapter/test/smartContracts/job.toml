@@ -1,7 +1,7 @@
 type = "directrequest"
 schemaVersion = 1
 name = "int256adapterjs"
-contractAddress = "0xA74F1E1Bb6204B9397Dac33AE970E68F8aBC7651"
+contractAddress = ""
 maxTaskDuration = "60s"
 observationSource = """
     decode_log   [type=ethabidecodelog
@@ -10,14 +10,14 @@ observationSource = """
                   topics="$(jobRun.logTopics)"]
 
     decode_cbor  [type=cborparse data="$(decode_log.data)"]
-    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": { \\"playerId\\": $(decode_cbor.playerId)}}"]
-    parse        [type=jsonparse path="data,0,Games" data="$(fetch)"]
-    encode_data  [type=ethabiencode abi="(uint256 value)" data="{ \\"value\\": $(parse) }"]
+    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": { \\"returnType\\": $(decode_cbor.returnType), \\"method\\": $(decode_cbor.method), \\"url\\": $(decode_cbor.url), \\"data\\": $(decode_cbor.data), \\"headers\\": $(decode_cbor.headers), \\"ipfs\\": $(decode_cbor.ipfs), \\"javascript\\": $(decode_cbor.javascript)}}"]
+    parse        [type=jsonparse path="result" data="$(fetch)"]
+    encode_data  [type=ethabiencode abi="(int256 value)" data="{ \\"value\\": $(parse) }"]
     encode_tx    [type=ethabiencode
-                  abi="fulfillOracleRequest(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes32 data)"
+                  abi="int256Fulfill(bytes32 requestId, int256 data)"
                   data="{\\"requestId\\": $(decode_log.requestId), \\"payment\\": $(decode_log.payment), \\"callbackAddress\\": $(decode_log.callbackAddr), \\"callbackFunctionId\\": $(decode_log.callbackFunctionId), \\"expiration\\": $(decode_log.cancelExpiration), \\"data\\": $(encode_data)}"
                  ]
-    submit_tx    [type=ethtx to="0xA74F1E1Bb6204B9397Dac33AE970E68F8aBC7651" data="$(encode_tx)"]
+    submit_tx    [type=ethtx to="$(decode_log.requester)" data="$(encode_tx)"]
 
     decode_log -> decode_cbor -> fetch -> parse -> encode_data -> encode_tx -> submit_tx
 """

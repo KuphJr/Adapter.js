@@ -19737,34 +19737,41 @@ document.getElementById('send').addEventListener('click', sendRequest);
 function sendRequest() {
     try {
         let data = { returnType: document.getElementById("returnType").value };
-        if (document.getElementById('method').value !== "none") {
-            data.method = document.getElementById('method').value;
-            if (document.getElementById('url').value !== "") {
-                data.url = document.getElementById('url').value;
-            } else {
+        if (document.getElementById('method').value === "none") {
+            data.method = "";
+            data.url = "";
+        } else {
+            if (document.getElementById('url').value === "") {
                 alert("Please enter a valid URL");
+                return;
             }
+            data.method = document.getElementById('method').value;
+            data.url = document.getElementById('url').value;
         }
         if (document.getElementById('data').value !== "") {
             data.data = JSON.stringify(eval(document.getElementById('data').value));
+        } else {
+            data.data = "";
         }
         if (document.getElementById('headers').value !== "") {
             data.headers = JSON.stringify(eval(document.getElementById('headers').value));
+        } else {
+            data.headers = "";
         }
         if (document.getElementById('codeSource').value === 'ipfs') {
             if (document.getElementById('ipfsHash').value === "") {
                 alert("Please enter a valid IPFS content ID");
                 return;
-            } else {
-                data.ipfs = document.getElementById('ipfsHash').value;
             }
+            data.javascript = "";
+            data.ipfs = document.getElementById('ipfsHash').value;
         } else {
             if (document.getElementById('javascript').value === "") {
                 alert("Please enter valid JavaScript code");
                 return;
-            } else {
-                data.javascript = document.getElementById('javascript').value;
             }
+            data.ipfs = "";
+            data.javascript = document.getElementById('javascript').value;
         }
         console.log("data: ", JSON.stringify(data));
         //console.log("json string: ", dataString);
@@ -19774,14 +19781,18 @@ function sendRequest() {
             body: JSON.stringify({ "id": 999, "data": data }),
         });
         //https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice
-        fetch('http://localhost:8080/', {
+        //http://localhost:8080/
+        let url = "https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice"
+        fetch(url, {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
             body: JSON.stringify({ "id": 999, "data": data }),
         })
         .then(reply => reply.json())
-        .then( response => {
+        .then(response => {
             try {
+                console.log("Got response from URL: ", url);
+                console.log("RESPONSE: ", JSON.stringify(response));
                 document.getElementById('result').value = response.data.result;
             } catch (e) {
                 try {

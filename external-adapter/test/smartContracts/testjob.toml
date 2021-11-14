@@ -1,0 +1,8 @@
+type = "webhook"
+schemaVersion = 1
+name = "adapterjs-web"
+observationSource = """
+fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": \\"0\\", \\"data\\": { \\"returnType\\": \\"int256\\", \\"method\\": \\"\\", \\"url\\": \\"\\", \\"data\\": \\"\\", \\"headers\\": \\"\\", \\"ipfs\\": \\"\\", \\"javascript\\": \\"return 69;\\"}}"]
+
+    fetch
+"""
