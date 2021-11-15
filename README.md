@@ -23,7 +23,8 @@ In addition, Adapter.js can securely access web resources which require authenti
 Adapter.js is open source and is being developed such that any Chainlink node operator can run their own independent instance of the external adapter.  To achieve decentralization, smart contract developers can make requests to many nodes which host an instance of the adapter.  Then, consensus can be reached on-chain by comparing the data provided by each node.
 
 ## How to Use Adapter.js
-Use the tool at [adapterjs.link/simulator.html](https://adapterjs.link/simulator.html) to simulate making a request to a Chainlink node.  Then, click "Generate Code" to automatically generate the required Solidity code to make the requested call to the external adapter.
+
+Use the tool at [adapterjs.link/simulator.html](https://adapterjs.link/simulator.html) to simulate making a request to a Chainlink node.  Then, click "Generate Code" to automatically generate the required Solidity code to make the requested call to the external adapter.  Swap out the Chainlink oracle address and job id to make a request to a different Chainlink node which hosts Adapter.js.
 
 ## Current Status
 
