@@ -31,10 +31,10 @@
     <div class="container">
       <div class="column" style="padding-right: 5%; padding-left: 5%; color: #323330">
         <br>
-        <a href="./index1.html"><img src="images/Adapterjs.png" style="height:48px; padding-right: 16px; float: left"></a>
-        <h3 style="font-size: 38px; float: left"><a class="reset-a" href="./index1.html"><b>Adapter.js</b></a></h3>
+        <a href="./index.html"><img src="images/Adapterjs.png" style="height:48px; padding-right: 16px; float: left"></a>
+        <h3 style="font-size: 38px; float: left"><a class="reset-a" href="./index.html"><b>Adapter.js</b></a></h3>
         <div style="float: right">
-          <a href="./index.html"><button class="button-primary">Try it out</button></a>
+          <a href="./simulator.html"><button class="button-primary">Try it out</button></a>
           <a style="margin-left: 12px;" class="button" href="./documentation.html" >Documentation</a>
           <a style="margin-left: 12px;" class="button" href="https://discord.gg/jpGx9tMRWa">Contact</a>
         </div>
@@ -59,161 +59,90 @@
     </div>
   </div>
   <br>
-  <div class="container" style="background-color: #119ef4; border-radius: 48px; padding-left: 5%; padding-right: 5%;">
-    <div class="row">
-      <br>
-      <br>
-      <div class="row">
-        <div class="column" style="padding-left: 5%; padding-right: 5%;">
-            <h5 style="text-align:center"><b>External Adapter Simulator</b></h5>
-            <p>
-                Use the simulator below to make test calls to the external adapter.  After you get your desired result, select the relevant blockchain network 
-                and click the <i>"Generate Code"</i> button to automatically generate the required Solidity code. The code can be pasted into  
-                your smart contract to receive the return value from the provided JavaScript code.
-            </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="column">
-          <label for="method">HTTP Request Method</label>
-          <select id="method" style="float:left;">
-            <option value="none">No HTTP request</option>
-            <option value="get">GET</option>
-            <option value="post">POST</option>
-            <option value="put">PUT</option>
-            <option value="delete">DELETE</option>
-            <option value="patch">PATCH</option>
-            <option value="head">HEAD</option>
-            <option value="options">OPTIONS</option>
-            <option value="trace">TRACE</option>
-          </select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="column" id="urlDiv" style="display: none;">
-          <br> 
-          <label for="url">URL</label>
-          <input class="u-full-width" type="text" placeholder="ie: https://www.typeURLhere.com/" id="url">
-        </div>
-      </div>
-      <div class="row">
-        <div class="column">
-          <div id="headersDiv" style="display: none;">
-            <br>
-            <label for="headers">Headers (Optional)</label>
-            <input class="u-full-width" type="text" placeholder="ie: {'Authorization': 'Basic ' + btoa(CLIENT_ID_HERE + ':' + CLIENT_SECRET_HERE) }" id="headers">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="column">
-          <div id="post-data" style="display: none;">
-            <br>
-            <label for="data">Data (Optional)</label>
-            <input class="u-full-width" style="float:right;" type="text" placeholder="ie: { title: 'foo', name: 'bar', id: 1 }" id="data">
-            <br>
-          </div>
-        </div>
-      </div>
+  <div class="container" style="background-color: #119ef4; border-radius: 48px;">
+    <div style="padding-right: 5%; padding-left: 5%;">
       <div class="row">
         <div class="column">
           <br>
-          <label for="returnType">Return Type</label>
-          <select id="returnType" style="float:left;">
-            <option value="int256">int256</option>
-            <option value="uint256">uint256</option>
-            <option value="bool">bool</option>
-            <option value="bytes32">bytes32 (Represents a 32 ASCII character string)</option>
-          </select>
+          <br>
+          <h4 style="text-align:center"><b>A Chainlink external adapter for securely executing custom JavaScript</b></h4>
+          <br>
+          <br>
+          <center><img class="img" src="images/Adapterjs.png" height=400 width=400></center>
+          <br>
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Fetch data from APIs or websites</b></h5>
+          <p>
+            Fetch data from APIs or HTML text from websites via HTTP requests.  
+            Apply custom headers and send any data represented as a JSON object.
+          </p>
+        </div>
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Process fetched data with JavaScript</b></h5>
+          <p>
+            Send custom code which is executed via <a href="https://cloud.google.com/functions">Google Cloud Functions</a>
+            and have the result is sent back to the smart contract as <i>bytes32</i>, <i>int256</i>, <i>uint256</i>, or <i>bool</i>.
+          </p>
         </div>
       </div>
       <br>
       <div class="row">
-        <div class="six columns">
-          <label for="codeSource">Code Source</label>
-          <select id="codeSource" style="float:left;">
-            <option value="javascript">Use JavaScript code entered below</option>
-            <option value="ipfs">Use code uploaded to IPFS</option>
-          </select>
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Upload JavaScript files to IPFS</b></h5>
+          <p>
+            Instead of sending a large string containing custom code, the external adapter can also fetch
+            and execute JavaScript files that have been uploaded to <a href="https://ipfs.io/">IPFS</a>.
+          </p>
         </div>
-        <div class="six columns" id="ipfsHashDiv" style="visibility: hidden;">   
-          <label for="ipfsHash">IPFS CID Hash</label>
-          <input class="u-full-width" type="text" placeholder="Enter an existing CID here or upload a new file below" id="ipfsHash">
-        </div>
-      </div>
-      <br>
-      <div class="row">
-        <div class="column">
-          <div id="codeDiv">
-            <label for="javascript">JavaScript Code</label>
-            <textarea class="u-full-width" style="height: 112px" type="text" placeholder="Enter valid Node.js code here. Please note that it is not possible to use any imports.
-Access the result of the HTTP request with the 'response' variable. ie:
-let htmlDocumentString = response.data;
-return htmlDocString.slice(100, 132);" id="javascript"></textarea>
-            <br>
-            <br>
-          </div>
-        </div>
-      </div>
-      <div id="uploadDiv" style="display: none">
-        <div class="row">
-          <div class="six columns">
-            <label for="ipfsToken">Web3.storage Token (<a href="">Get one for free here!</a>)</label>
-            <input class="u-full-width" name="ipfsToken" id="ipfsToken" type="text" id="IPFS Token">
-          </div>
-          <div class="six columns">
-            <form id="fileUpload">
-              <label for="file">Upload JavaScript File</label>
-              <input type="file" id="fileUpload" name="fileUpload" accept=".js">
-              <button class="button-primary" id="upload">Upload</button>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-          <div class="column">
-            <center><button class="button-primary" id="send">Send Request</button></center>
-          </div>
-      </div>
-      <div class="row">
-        <div class="column">
-          <label for="result">Result</label>
-          <textarea class="u-full-width" type="text" readonly id="result" style="background-color: #D1D1D1"></textarea>
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Simulate external adapter calls</b></h5>
+          <p>
+            Use the simulator to make test calls to the external adapter and verify the custom JavaScript code is working correctly
+            before deploying to a smart contract.
+          </p>
         </div>
       </div>
       <br>
       <div class="row">
-        <div class="one-half column">
-          <div style="float: right;">
-            <select id="method" style="float:left;">
-              <option value="ethereum">Ethereum Mainnet</option>
-              <option value="rinkby">Rinkby Testnet</option>
-              <option value="polygon">Polygon Mainnet</option>
-              <option value="mumbai">Mumbai Testnet</option>
-            </select>
-          </div>
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Automatically generate Solidity code</b></h5>
+          <p>
+            The simulator generates Solidity code which can be pasted into a smart contract.
+            Also, the web app can be used to easily upload code files via <a href="https://web3.storage/">Web3.Storage</a>.
+          </p>
         </div>
-        <div class="one-half column">
-          <div style="float: left;">
-            <button class="button-primary" id="send">Generate Code</button>
-            </select>
-          </div>
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Available on Ethereum and Polygon</b></h5>
+          <p>
+            The adapter is available on Chainlink nodes hosted on <a href="https://cloud.google.com/">Google Cloud Platforms</a> 
+            and connected to the Ethereum, Polygon, Rinkby and Mumbai networks via <a href="https://moralis.io/">Moralis</a> nodes.
+          </p>
         </div>
-      </div>
-      <div class="row">
-        <label for=code>Solidity Code</label>
-        <textarea class="u-full-width" type="text" readonly id="code" style="background-color: #D1D1D1"></textarea>
       </div>
     </div>
-    <br>
-    <br>
-  </div>
+    <div class="row">
+      <div class="column">
+        <br>
+        <br>
+        <center><a href="https://market.link/"><img class="marketlinkBtn" src="images/market-link.png"></a></center>
+        <br>
+        <br>
+        <center><h5>Have any questions or suggested improvements?<br><a href="https://discord.gg/jpGx9tMRWa">Contact the creator via Discord!</a></h5></center>
+        <br>
+        <br>
+      </div>
+    </div>
   </div>
   <br>
   <br>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<script src="../dist/main.js"></script>
 </body>
 </html>
