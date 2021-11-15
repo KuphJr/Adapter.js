@@ -35,9 +35,7 @@ Adapter.js is currently hosted on an independent Chainlink node for the Mumbai P
 - **Job ID for job which return uint256:** 0x000
 - **Job ID for job which return int256:** 0x000
 - **Job ID for job which return bool:** 0x000
-- **Job ID for job which return string:** 0x000
 - **Job ID for job which return bytes32:** 0x000
-- **Job ID for job which return bytes:** 0x000
 
 ## Contact
 
