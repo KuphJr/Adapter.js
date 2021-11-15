@@ -1,6 +1,6 @@
 # Adapter.js
 
-** A Chainlink external adapter for securely executing custom JavaScript **
+**A Chainlink external adapter for securely executing custom JavaScript**
 
 ## Overview
 
@@ -25,7 +25,7 @@ Adapter.js is open source and is being developed such that any Chainlink node op
 Adapter.js is currently hosted on an independent Chainlink node for the Mumbai Polygon testnet.  However, any Chainlink node operator can host the external adapter themselves for any Chainlink-supported blockchain.  As more node operators adopt the external adapter, the list of nodes which host Adapter.js will be updated.
 
 ### **Blockchain:** Mumbai
-* Oracle Address:** 0x000000
+**Oracle Address:** 0x000000
 - **Job ID for job which return uint256:** 0x000
 - **Job ID for job which return int256:** 0x000
 - **Job ID for job which return bool:** 0x000
