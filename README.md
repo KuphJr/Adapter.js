@@ -24,7 +24,7 @@ Adapter.js is open source and is being developed such that any Chainlink node op
 
 ## How to Use
 
-Use the tool at [adapterjs.link/simulator.html](https://adapterjs.link/simulator.html) to simulate making a request to a Chainlink node.  Then, click "Generate Code" to automatically generate the required Solidity code to make the requested call to the external adapter.  Swap out the Chainlink oracle address and job id to make a request to a different Chainlink node which hosts Adapter.js.
+Use the tool at [adapterjs.link/simulator.html](https://adapterjs.link/simulator.html) to simulate making a request to the external adapter.  Then, click "Generate Code" to automatically generate the required Solidity code to make the the Chainlink request on-chain.  Swap out the Chainlink oracle address and job id to make a request to a different Chainlink node which hosts Adapter.js.
 
 ## Current Status
 
