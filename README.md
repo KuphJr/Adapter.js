@@ -1,4 +1,6 @@
-# Adapter.js
+# [Adapter.js](https://adapterjs.link/)
+
+![Adapter.js logo](adapterjs.png)
 
 **A Chainlink external adapter for securely executing custom JavaScript**
 
@@ -20,6 +22,9 @@ In addition, Adapter.js can securely access web resources which require authenti
 
 Adapter.js is open source and is being developed such that any Chainlink node operator can run their own independent instance of the external adapter.  To achieve decentralization, smart contract developers can make requests to many nodes which host an instance of the adapter.  Then, consensus can be reached on-chain by comparing the data provided by each node.
 
+## How to Use Adapter.js
+Use the tool at [adapterjs.link/simulator.html](https://adapterjs.link/simulator.html) to simulate making a request to a Chainlink node.  Then, click "Generate Code" to automatically generate the required Solidity code to make the requested call to the external adapter.
+
 ## Current Status
 
 Adapter.js is currently hosted on an independent Chainlink node for the Mumbai Polygon testnet.  However, any Chainlink node operator can host the external adapter themselves for any Chainlink-supported blockchain.  As more node operators adopt the external adapter, the list of nodes which host Adapter.js will be updated.
@@ -32,5 +37,9 @@ Adapter.js is currently hosted on an independent Chainlink node for the Mumbai P
 - **Job ID for job which return string:** 0x000
 - **Job ID for job which return bytes32:** 0x000
 - **Job ID for job which return bytes:** 0x000
+
+## Contact
+
+For suggestions and support, please check out the [Adapter.js Discord community!](https://discord.com/invite/jpGx9tMRWa)
 
 
