@@ -28,7 +28,7 @@ Use the tool at [adapterjs.link/simulator.html](https://adapterjs.link/simulator
 
 ## Current Status
 
-Adapter.js is currently hosted on an independent Chainlink node for the Mumbai Polygon testnet.  However, any Chainlink node operator can host the external adapter themselves for any Chainlink-supported blockchain.  As more node operators adopt the external adapter, the list of nodes which host Adapter.js will be updated.
+Adapter.js is currently hosted on an independent Chainlink node for the Mumbai Polygon testnet.  However, any Chainlink node operator can host the external adapter themselves for any Chainlink-supported blockchain.  As more node operators host Adapter.js, this list will be updated.
 
 ### **Blockchain:** Mumbai
 **Oracle Address:** 0x000000
