@@ -1,4 +1,4 @@
-#[Adapter.js](https://adapterjs.link/)
+# [Adapter.js](https://adapterjs.link/)
 
 <img src="Adapterjs.png" alt="Adapter.js" width="200"/>
 
