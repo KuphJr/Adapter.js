@@ -1,6 +1,6 @@
 # [Adapter.js](https://adapterjs.link/)
 
-![Adapter.js logo](Adapterjs.png)
+<img src="Adapterjs.png" alt="Adapter.js" width="200"/>
 
 **A Chainlink external adapter for securely executing custom JavaScript**
 
