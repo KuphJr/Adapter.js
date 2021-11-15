@@ -20,7 +20,7 @@ Adapter.js seeks to solve the problems currently facing external adapters by bec
 
 In addition, Adapter.js can securely access web resources which require authentication by allowing users to upload headers containing private keys to the external adapter’s database.  These custom headers are only able to be used in data requests initiated by an approved smart contract address.
 
-Adapter.js is open source and is being developed such that any Chainlink node operator can run their own independent instance of the external adapter.  To achieve decentralization, smart contract developers can make requests to many nodes which host an instance of the adapter.  Then, consensus can be reached on-chain by comparing the data provided by each node.
+Adapter.js is open source and is being developed such that any Chainlink node operator can run their own independent instance of the external adapter.  To achieve decentralization, smart contract developers can then make requests to many nodes which host an instance of the adapter.  Consensus can be reached on-chain by comparing the data provided by each node.
 
 ## How to Use Adapter.js
 
