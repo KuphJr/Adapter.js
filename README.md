@@ -12,7 +12,7 @@ Chainlink external adapters are extremely powerful, but have some limitations.
 
 Setting up an external adapter is time consuming.  Developers must first create and host the adapter, then either operate a Chainlink node themselves, or get another node operator to create a  new bridge and job for the adapter.
 
-Additionally, for data received from an external adapter to be truly decentralized, separate instances of the adapter must be hosted on multiple independent Chainlink nodes.  This requires smart contract developers to contact many node operators each time they want to create a external adapter with new functionality.
+Additionally, for data received from an external adapter to be truly decentralized, separate instances of the adapter must be hosted on multiple independent Chainlink nodes.  This requires smart contract developers to contact many node operators each time they want to create a external adapter with new functionality and achieve decentralization.
 
 ### Solution
 
