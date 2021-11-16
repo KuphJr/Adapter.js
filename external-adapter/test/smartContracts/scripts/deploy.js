@@ -17,7 +17,7 @@ async function main() {
   // We get the contract to deploy
   const AdapterJSfactory = await hre.ethers.getContractFactory("AdapterJS");
   const AdapterJS = await AdapterJSfactory.deploy(ethers.utils.getAddress(
-      "0xf5D34A1E76A8514828528b67D6Ba8913823A96cA"), 1);
+      "0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"), 1);
 
   await AdapterJS.deployed();
 

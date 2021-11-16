@@ -26,6 +26,36 @@ contract AdapterJS is ChainlinkClient {
     event calledAdapter(uint256);
     event CLrequest(Chainlink.Request request);
 
+  function stringToBytes32(string memory source) private pure returns (bytes32 result) {
+    bytes memory tempEmptyStringTest = bytes(source);
+    if (tempEmptyStringTest.length == 0) {
+      return 0x0;
+    }
+
+    assembly { // solhint-disable-line no-inline-assembly
+      result := mload(add(source, 32))
+    }
+  }
+
+  event RequestEthereumPriceFulfilled(
+    bytes32 indexed requestId,
+    uint256 indexed price
+  );
+
+  function fulfillEthereumPrice(bytes32 _requestId, uint256 _price)
+    public
+    recordChainlinkFulfillment(_requestId)
+  {
+    emit RequestEthereumPriceFulfilled(_requestId, _price);
+  }
+
+  function requestEthereumPrice(address _oracle, string memory _jobId, uint256 payment)
+    public
+  {
+    Chainlink.Request memory req = buildChainlinkRequest(stringToBytes32(_jobId), address(this), this.fulfillEthereumPrice.selector);
+    sendChainlinkRequestTo(_oracle, req, payment);
+  }
+
     function simpleCallAdapter() public returns(bytes32 requestId) {
         Chainlink.Request memory request = buildChainlinkRequest(
         "b1d42cd54a3a4201b1f625a68e48aad2",
@@ -40,13 +70,13 @@ contract AdapterJS is ChainlinkClient {
     }
 
     function int256CallAdapter(
+        address _oracle, string memory _jobId, uint256 payment,
         string memory _method,
         string memory _url, string memory _headers,
         string memory _data, string memory _javascript,
         string memory _ipfs) public returns (bytes32 requestId) {
-            emit calledAdapter(8);
             Chainlink.Request memory request;
-            request = buildChainlinkRequest(uninit,
+            request = buildChainlinkRequest(stringToBytes32(_jobId),
                                             address(this),
                                             this.int256Fullfill.selector);
             request.add("returnType", "int256");
@@ -56,8 +86,7 @@ contract AdapterJS is ChainlinkClient {
             request.add("data", _data);
             request.add("javascript", _javascript);
             request.add("ipfs", _ipfs);
-            emit CLrequest(request);
-            return sendChainlinkRequestTo(chainlinkNode, request, fee);
+            return sendChainlinkRequestTo(_oracle, request, payment);
     }
 
     function int256Fullfill(bytes32 _requestId, int256 _reply)
