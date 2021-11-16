@@ -165,9 +165,9 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback,
           throw "The returned value must be a whole number for the specified return type of uint256.";
         }
         break;
-      case 'bool':
-        if (typeof response.data.result !== 'bool') {
-          throw "The returned value must be a bool for the specified return type of bool.";
+      case 'boolean':
+        if (typeof response.data.result !== 'boolean') {
+          throw "The returned value must be a boolean for the specified return type of bool.";
         }
         break;
       case 'bytes32':

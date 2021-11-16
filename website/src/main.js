@@ -19771,9 +19771,9 @@ function sendRequest() {
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
             body: JSON.stringify({ "id": 999, "p": JSON.stringify(data) }),
         });
-        //https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice
-        //
-        let url = "http://localhost:8080/"
+        //h
+        //http://localhost:8080/
+        let url = "https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice"
         fetch(url, {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
@@ -19784,6 +19784,10 @@ function sendRequest() {
             try {
                 console.log("Got response from URL: ", url);
                 console.log("RESPONSE: ", JSON.stringify(response));
+                if (typeof response.error !== 'undefined') {
+                  document.getElementById('result').value = response.error.name + ":" + response.error.message;
+                  return;
+                }
                 document.getElementById('result').value = response.result;
             } catch (e) {
                 try {
