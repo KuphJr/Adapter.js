@@ -1,5 +1,5 @@
 /external-adapter/node_modules
-/frontend/node_modules
+/website/node_modules
 /external-adapter/.env
 /node_modules
 /external-adapter/test/smartContracts/node_modules/
