@@ -4,27 +4,20 @@ const { Web3Storage } = require('web3.storage');
 require('dotenv').config();
 
 const createRequest = (input, callback) => {
+  console.log("INPUT", JSON.stringify(input));
   // validate the Chainlink request data
-  const customParams = {
-    returnType: true,
-    javascript: false,
-    ipfs: false,
-    method: false,
-    url: false,
-    headers: false,
-    data: false
-  };
-  const validator = new Validator(input, customParams);
+  const validator = new Validator(input);
+  let params = JSON.parse(input.p);
   const jobRunID = validator.validated.id;
   // use provided JavaScript string or fetch JavaScript from IPFS
   const ipfsPromise = new Promise((resolve, reject) => {
-      if (validator.validated.data.javascript === '') {
-        if (typeof validator.validated.data.ipfs !== '') {
+      if (typeof params.j === 'undefined') {
+        if (typeof params.i !== 'undefined') {
           const client = new Web3Storage(
             { token: process.env.WEB3STORAGETOKEN }
           );
           // get file from IPFS using Web3.Storage
-          client.get(validator.validated.data.ipfs)
+          client.get(params.i)
           .then(res => (res.files())) // Web3File[]
           .then(files => {
             if (files.length === 0) {
@@ -33,7 +26,7 @@ const createRequest = (input, callback) => {
             // if multiple files are sent, only use the first one
             files[0].text().then(fileString => {
               // save content from fetched Web3 file to the javascript field
-              validator.validated.data.javascript = fileString;
+              params.j = fileString;
               resolve();
             });
           })
@@ -49,7 +42,7 @@ const createRequest = (input, callback) => {
           return;
         }
       } else {
-        if (validator.validated.data.ipfs !== '') {
+        if (typeof params.i !== 'undefined') {
           console.log("Both a 'javascript' string and an 'ipfs' content ID string were provided.");
           callback(500, Requester.errored(jobRunID, Error(
             "Both a 'javascript' string and an 'ipfs' content ID string were provided.")));
@@ -62,20 +55,29 @@ const createRequest = (input, callback) => {
   ipfsPromise.then(() => {
     // create the config object for axios
     // to perform the http request
-    if (validator.validated.data.method !== '') {
-      let config = {
-        method: validator.validated.data.method,
-        url: validator.validated.data.url
-      };
+    let config;
+    if (typeof params.m !== 'undefined') {
+      if (typeof params.u != 'undefined') {
+        config = {
+          method: params.m,
+          url: params.u
+        };
+      } else {
+        console.log("An HTTP request method was given but no URL was provided.");
+        callback(500, Requester.errored(jobRunID, Error(
+          "An HTTP request method was given but no URL was provided.")));
+        return;
+      }
       try {
-        if (validator.validated.data.headers !== '') {
-          config["headers"] = JSON.parse(validator.validated.data.headers);
+        if (typeof params.h !== 'undefined') {
+          config["headers"] = JSON.parse(params.h);
         }
-        if (validator.validated.data.data !== '') {
-          config.data["data"] = JSON.parse(validator.validated.data.data);
+        if (typeof params.d !== 'undefined') {
+          config["data"] = JSON.parse(params.d);
         }
       } catch (requestBuildError) {
-        console.log("Request build error! Validated data: ", JSON.stringify(validator.validated.data));
+        console.log("Request build error! Data provided: ", JSON.stringify(params));
+        console.log(requestBuildError)
         callback(500, Requester.errored(jobRunID, requestBuildError));
         return;
       }
@@ -88,16 +90,16 @@ const createRequest = (input, callback) => {
         };
         // send the response to the axios http request
         // to the function which evaluates the provided javascript code
-        evaluateJavaScript(jobRunID, validator.validated.data.javascript, 
-          validator.validated.data.returnType, callback, _response);
+        evaluateJavaScript(jobRunID, params.j, 
+          params.t, callback, _response);
       }).catch(error => {
         console.log("Request error: ", error);
         callback(500, Requester.errored(jobRunID, error));
       });
     } else {
       // if no http request is made, just evaluate the javascript
-      evaluateJavaScript(jobRunID, validator.validated.data.javascript, 
-        validator.validated.data.returnType, callback);
+      evaluateJavaScript(jobRunID, params.j, 
+        params.t, callback);
     }
   });
 }
@@ -106,6 +108,8 @@ const createRequest = (input, callback) => {
 function evaluateJavaScript(jobRunID, javascript, returnType, callback, 
   response = { data: "", status: 200 }) {
   response.jobRunID = jobRunID;
+  delete response.headers;
+  console.log("!!!!!!!!!!response: ", response);
   const vm = new VM({
       timeout: 1000,
       sandbox: { response: response }

@@ -19736,64 +19736,55 @@ document.getElementById('send').addEventListener('click', sendRequest);
 
 function sendRequest() {
     try {
-        let data = { returnType: document.getElementById("returnType").value };
-        if (document.getElementById('method').value === "none") {
-            data.method = "";
-            data.url = "";
-        } else {
-            if (document.getElementById('url').value === "") {
-                alert("Please enter a valid URL");
-                return;
-            }
-            data.method = document.getElementById('method').value;
-            data.url = document.getElementById('url').value;
+        let data = { t: document.getElementById("returnType").value };
+        if (document.getElementById('method').value !== "none") {
+          if (document.getElementById('url').value === "") {
+              alert("Please enter a valid URL");
+              return;
+          }
+          data.m = document.getElementById('method').value;
+          data.u = document.getElementById('url').value;
         }
         if (document.getElementById('data').value !== "") {
-            data.data = JSON.stringify(eval(document.getElementById('data').value));
-        } else {
-            data.data = "";
+          eval("data.d = JSON.stringify(" + document.getElementById('data').value +");");
         }
         if (document.getElementById('headers').value !== "") {
-            data.headers = JSON.stringify(eval(document.getElementById('headers').value));
-        } else {
-            data.headers = "";
+          eval("data.h = JSON.stringify(" + document.getElementById('headers').value +");");
         }
         if (document.getElementById('codeSource').value === 'ipfs') {
             if (document.getElementById('ipfsHash').value === "") {
                 alert("Please enter a valid IPFS content ID");
                 return;
             }
-            data.javascript = "";
-            data.ipfs = document.getElementById('ipfsHash').value;
+            data.i = document.getElementById('ipfsHash').value;
         } else {
             if (document.getElementById('javascript').value === "") {
                 alert("Please enter valid JavaScript code");
                 return;
             }
-            data.ipfs = "";
-            data.javascript = document.getElementById('javascript').value;
+            data.j = document.getElementById('javascript').value;
         }
         console.log("data: ", JSON.stringify(data));
         //console.log("json string: ", dataString);
         console.log("fetchObject: ", {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "data": data }),
+            body: JSON.stringify({ "id": 999, "p": JSON.stringify(data) }),
         });
         //https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice
-        //http://localhost:8080/
-        let url = "https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice"
+        //
+        let url = "http://localhost:8080/"
         fetch(url, {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "data": data }),
+            body: JSON.stringify({ "id": 999, "p": JSON.stringify(data) }),
         })
         .then(reply => reply.json())
         .then(response => {
             try {
                 console.log("Got response from URL: ", url);
                 console.log("RESPONSE: ", JSON.stringify(response));
-                document.getElementById('result').value = response.data.result;
+                document.getElementById('result').value = response.result;
             } catch (e) {
                 try {
                     document.getElementById('result').value = response.error.name + ":" + response.error.message;

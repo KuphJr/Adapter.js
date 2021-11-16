@@ -100,8 +100,8 @@
         <div class="column">
           <div id="headersDiv" style="display: none;">
             <br>
-            <label for="headers">Headers (Optional)</label>
-            <input class="u-full-width" type="text" placeholder="ie: {'Authorization': 'Basic ' + btoa(CLIENT_ID_HERE + ':' + CLIENT_SECRET_HERE) }" id="headers">
+            <label for="headers">Headers (optional)<br>(Headers sent via blockchain are <i><u>public</u></i>! Headers sent from this simulator are encrypted via SSL.)</label>
+            <input class="u-full-width" type="text" placeholder='ie: { token: btoa(CLIENT_TOKEN), username: "USERNAME" }' id="headers">
           </div>
         </div>
       </div>
@@ -109,8 +109,8 @@
         <div class="column">
           <div id="post-data" style="display: none;">
             <br>
-            <label for="data">Data (Optional)</label>
-            <input class="u-full-width" style="float:right;" type="text" placeholder="ie: { title: 'foo', name: 'bar', id: 1 }" id="data">
+            <label for="data">Data (optional)</label>
+            <input class="u-full-width" style="float:right;" type="text" placeholder='ie: { title: "foo", name: "bar", id: 1 }' id="data">
             <br>
           </div>
         </div>
@@ -123,7 +123,7 @@
             <option value="int256">int256</option>
             <option value="uint256">uint256</option>
             <option value="bool">bool</option>
-            <option value="bytes32">bytes32 (Represents a 32 ASCII character string)</option>
+            <option value="bytes32">bytes32 (32 character string)</option>
           </select>
         </div>
       </div>
