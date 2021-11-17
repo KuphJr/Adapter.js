@@ -5,3 +5,4 @@
 /external-adapter/test/smartContracts/node_modules/
 /external-adapter/smart_contracts/node_modules
 /website/.vscode
+/external-adapter/smartContracts/.env

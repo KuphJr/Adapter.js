@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require('dotenv').config();
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -42,7 +43,7 @@ module.exports = {
     hardhat: {    // This block makes running "npx hardhat node" start a node running a fork of the mumbai testnet
         forking: {
             url: "https://speedy-nodes-nyc.moralis.io/c13b64136506585cb50319e7/polygon/mumbai",
-            accounts: ["9dd71b9bd2d22c57fbd48754fd7ac45af1fafb70f5335fefeb29249bc32abd67"]
+            accounts: [process.env.TESTWALLET]
         }
     },
     // To deploy onto the Matic Mainnet run "npx hardhat run --network matic scripts/deploy.js"
@@ -50,14 +51,14 @@ module.exports = {
         url: "https://speedy-nodes-nyc.moralis.io/c13b64136506585cb50319e7/polygon/mumbai",
 
         // Defined in .env file in the root directory, should contain private key for Metamask test wallet with mumbai testnet LINK and MATIC
-        accounts: ["9dd71b9bd2d22c57fbd48754fd7ac45af1fafb70f5335fefeb29249bc32abd67", "ff657ba65ce2e9c49ae13b325e810cc915abb1a1b99070348f78071f3543ca11"],
+        accounts: [process.env.TESTWALLET],
     },
     // To deploy onto the Matic Mainnet run "npx hardhat run --network matic scripts/deploy.js"
     matic: {
         url: "https://polygon-mainnet.g.alchemy.com/v2/3CvfKc0qHgxMqJip5RpSdGe9Zxtno8ul",
 
         // Defined in .env file in the root directory, should contain private key for Metamask test wallet with mumbai testnet LINK and MATIC
-        accounts: ["9dd71b9bd2d22c57fbd48754fd7ac45af1fafb70f5335fefeb29249bc32abd67"]
+        accounts: [process.env.TESTWALLET]
     },
 },
 };
