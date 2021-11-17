@@ -3,10 +3,9 @@ const { VM, VMScript } = require('vm2');
 const { Web3Storage } = require('web3.storage');
 
 const createRequest = (input, callback) => {
-  console.log("INPUT", JSON.stringify(input));
   // validate the Chainlink request data
   const validator = new Validator(input);
-  let params = JSON.parse(input.p);
+  let params = JSON.parse(input.data.p);
   const jobRunID = validator.validated.id;
   // use provided JavaScript string or fetch JavaScript from IPFS
   const ipfsPromise = new Promise((resolve, reject) => {

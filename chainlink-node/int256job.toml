@@ -10,7 +10,7 @@ observationSource = """
                   topics="$(jobRun.logTopics)"]
 
     decode_cbor  [type=cborparse data="$(decode_log.data)"]
-    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": { \\"p\\": $(decode_cbor.p), \\"c\\": $(decode_log.requester), \\"k\\": 'PRIVATE_KEY_HERE' }}"]
+    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": { \\"p\\": $(decode_cbor.p), \\"k\\": \\"privatekeyhere\\" }}"]
     parse        [type=jsonparse path="result" data="$(fetch)"]
     encode_data  [type=ethabiencode abi="(int256 value)" data="{ \\"value\\": $(parse) }"]
     encode_tx    [type=ethabiencode
@@ -20,3 +20,4 @@ observationSource = """
 
     decode_log -> decode_cbor -> fetch -> parse -> encode_data -> encode_tx -> submit_tx
 """
+externalJobID = "31f39ae9-f456-4dac-a341-153441949248"

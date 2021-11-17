@@ -19769,7 +19769,7 @@ function sendRequest() {
         console.log("fetchObject: ", {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "p": JSON.stringify(data) }),
+            body: JSON.stringify({ "id": 999, "data": {"p": JSON.stringify(data) }}),
         });
         //h
         //http://localhost:8080/
@@ -19777,7 +19777,7 @@ function sendRequest() {
         fetch(url, {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "p": JSON.stringify(data) }),
+            body: JSON.stringify({ "id": 999, "data": {"p": JSON.stringify(data) }}),
         })
         .then(reply => reply.json())
         .then(response => {
