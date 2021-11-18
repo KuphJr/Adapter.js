@@ -96,12 +96,45 @@
           <input class="u-full-width" type="text" placeholder="ie: https://www.typeURLhere.com/" id="url">
         </div>
       </div>
-      <div class="row">
-        <div class="column">
-          <div id="headersDiv" style="display: none;">
+      <div id="headersDiv" style="display: none;">
+        <div class="row">
+          <div class="column">
             <br>
-            <label for="headers">Headers (optional)<br>(Headers sent via blockchain are <i><u>public</u></i>! Headers sent from this simulator are encrypted via SSL.)</label>
+            <label for="headers">Headers (optional)</label>
             <input class="u-full-width" type="text" placeholder='ie: { token: btoa(CLIENT_TOKEN), username: "USERNAME" }' id="headers">
+          </div>
+        </div>
+          <div class="row">
+            <div class="column">
+              <br>
+              <label for="uploadHeadersSelector">Headers included in an on-chain request are <i><u>public</u></i>! To keep headers private, they can be uploaded to the external
+              adapter and referenced via an ID. Only the authorized contract address can use the uploaded headers.</label>
+              <select id="uploadHeadersSelector">
+                <option value="include">Include headers directly</option>
+                <option value="upload">Upload headers</option>
+              </select>
+            </div>
+          </div>
+        <div id="uploadHeaders">
+          <div class="row">
+            <div class="column">
+              <br>
+              <label for="contractAddress">Address of contract which is authorized to use headers</label>
+              <input id="contractAddress" class="u-full-width" type="text" placeholder="ie: 0xA465c616782f491c518866f1A759F37Ec6ce0047">
+            </div>
+          </div>
+          <div class="row">
+            <div class="column">
+              <br>
+              <label for="contractAddress">Headers Reference ID (Do not use the reference ID as it is the only way to change the headers!)</label>
+              <input id="contractAddress" class="u-full-width" type="text" placeholder="Enter a unique string to reference the uploaded header">
+            </div>
+          </div>
+          <div class="row">
+            <div class="column">
+              <br>
+              <button id="uploadHeaders" class="button-primary">Upload Headers</button>
+            </div>
           </div>
         </div>
       </div>
@@ -110,7 +143,7 @@
           <div id="post-data" style="display: none;">
             <br>
             <label for="data">Data (optional)</label>
-            <input class="u-full-width" style="float:right;" type="text" placeholder='ie: { title: "foo", name: "bar", id: 1 }' id="data">
+            <input class="u-full-width" type="text" placeholder='ie: { title: "foo", name: "bar", id: 1 }' id="data">
             <br>
           </div>
         </div>
@@ -119,7 +152,7 @@
         <div class="column">
           <br>
           <label for="returnType">Return Type</label>
-          <select id="returnType" style="float:left;">
+          <select id="returnType">
             <option value="int256">int256</option>
             <option value="uint256">uint256</option>
             <option value="bool">bool</option>

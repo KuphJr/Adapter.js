@@ -5,6 +5,5 @@
 /external-adapter/test/smartContracts/node_modules/
 /external-adapter/smart_contracts/node_modules
 /website/.vscode
-/external-adapter/smartContracts/.env
-external-adapter/smart_contracts/.env
-external-adapter/smart_contracts/.env
+/google-cloud-storage/node_modules
+/google-cloud-storage/key.json
