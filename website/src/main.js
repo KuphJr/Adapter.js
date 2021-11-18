@@ -19670,7 +19670,10 @@ var __webpack_exports__ = {};
 "use strict";
 /* harmony import */ var web3_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9036);
 
+let externalAdapterParamString = "";
+
 document.getElementById('method').addEventListener('change', function() {
+    externalAdapterParamString = ""
     console.log('You selected: ', this.value);
     if (this.value === "none") {
         document.getElementById("urlDiv").style.display = "none";
@@ -19691,6 +19694,7 @@ document.getElementById('method').addEventListener('change', function() {
 });
 
 document.getElementById('codeSource').addEventListener('change', function() {
+    externalAdapterParamString = ""
     console.log('You selected: ', this.value);
     if (this.value === "ipfs") {
         document.getElementById("ipfsHashDiv").style.visibility = "visible";
@@ -19709,6 +19713,7 @@ document.getElementById('codeSource').addEventListener('change', function() {
 document.getElementById('upload').addEventListener('click', ipfsUpload);
 
 function ipfsUpload(e) {
+    externalAdapterParamString = ""
     e.preventDefault();
     if (document.getElementById('ipfsToken').value === "") {
         alert("Please enter a valid Web3.Storage API token");
@@ -19731,6 +19736,79 @@ function ipfsUpload(e) {
         document.getElementById('result').value = "Error uploading file to IPFS: " + err;
     });
 };
+
+document.getElementById('returnType').addEventListener('change', function() {
+  externalAdapterParamString = "";
+});
+
+document.getElementById('generate').addEventListener('click', generateCode);
+
+function generateCode() {
+  if (externalAdapterParamString === "") {
+    alert("Please click 'Send Request' to test before generating Solidity code");
+    return;
+  }
+  let returnType = document.getElementById('returnType').value;
+  let jobId = "";
+  switch(returnType) {
+    case 'int256':
+      jobId = "9d8c783d0b9645958697b880fd823137";
+      break;
+    case 'uint256':
+      jobId = "fe689d575d904580b454415399713c01";
+      break;
+    case 'bool':
+      jobId = "ae5142ab2b6744b7990e4ceb6589b52b";
+    case 'bytes32':
+      jobId = "1302aee4e8604b36830c801e613d8082";
+      break;
+    default:
+      alert("Invalid return type");
+  }
+  let network = document.getElementById('network').value;
+  console.log(network);
+  let oracleAddress = "";
+  let linkTokenAddress= "";
+  switch(network) {
+    case 'mumbai':
+      oracleAddress = "0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0";
+      linkTokenAddress = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB";
+      break;
+    default:
+      alert("Invalid network");
+  }
+  let generatedCode =
+`// Install and import the @chainlink/contracts NPM package.
+// ie: 'import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol"'
+// Inherit from ChainlinkClient when the contract is defined.
+// ie: 'contract CONTRACT_NAME_HERE is ChainlinkClient {'
+// Paste the code below into the constructor of the contract.
+
+setChainlinkToken(address(${linkTokenAddress}));
+
+// Then copy and paste the code below into the contract body.
+
+using Chainlink for Chainlink.Request;
+function request() public returns (bytes32 requestId) {
+  Chainlink.Request memory ea_request = buildChainlinkRequest(
+    '${jobId}', address(this), this.fulfill.selector);
+  ea_request.add('p',
+    '${externalAdapterParamString}'
+  );
+  return sendChainlinkRequestTo(
+    address(${oracleAddress}),
+    ea_request, 1000000000000000000);
+}
+function fulfill(bytes32 _requestId, ${returnType} _reply)
+  public recordChainlinkFulfillment(_requestId) {
+    // add code here that uses the _reply from the external adapter
+}`;
+  document.getElementById('code').value = generatedCode;
+}
+
+document.getElementById('javascript').addEventListener('change', function() {
+  externalAdapterParamString = "";
+});
 
 document.getElementById('send').addEventListener('click', sendRequest);
 
@@ -19766,10 +19844,11 @@ function sendRequest() {
         }
         console.log("data: ", JSON.stringify(data));
         //console.log("json string: ", dataString);
+        externalAdapterParamString = JSON.stringify(data);
         console.log("fetchObject: ", {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "data": {"p": JSON.stringify(data) }}),
+            body: JSON.stringify({ "id": 999, "data": {"p": externalAdapterParamString }}),
         });
         //h
         //http://localhost:8080/
@@ -19777,7 +19856,7 @@ function sendRequest() {
         fetch(url, {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "data": {"p": JSON.stringify(data) }}),
+            body: JSON.stringify({ "id": 999, "data": {"p": externalAdapterParamString }}),
         })
         .then(reply => reply.json())
         .then(response => {

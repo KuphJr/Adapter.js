@@ -10,6 +10,11 @@ contract External_Adapter_Request_Examples is ChainlinkClient {
   event boolAdapterReply(string name, bool reply);
   event bytes32AdapterReply(string name, bytes32 reply);
 
+  int256 public int256_result;
+  uint256 public uint256_result;
+  bool public bool_result;
+  bytes32 public bytes32_result;
+
   constructor(address linkContractAddress) {
     setChainlinkToken(linkContractAddress);
   }
@@ -64,22 +69,26 @@ contract External_Adapter_Request_Examples is ChainlinkClient {
 
   function fulfillInt256(bytes32 _requestId, int256 _reply)
       public recordChainlinkFulfillment(_requestId) {
-          emit int256AdapterReply("Chainlink node returned an int256", _reply);
+        int256_result = _reply;
+        emit int256AdapterReply("Chainlink node returned an int256", _reply);
   }
 
   function fulfillUint256(bytes32 _requestId, uint256 _reply)
       public recordChainlinkFulfillment(_requestId) {
-          emit uint256AdapterReply("Chainlink node returned a uint256", _reply);
+        uint256_result = _reply;
+        emit uint256AdapterReply("Chainlink node returned a uint256", _reply);
   }
 
   function fulfillBool(bytes32 _requestId, bool _reply)
       public recordChainlinkFulfillment(_requestId) {
-          emit boolAdapterReply("Chainlink node returned a bool", _reply);
+        bool_result = _reply;
+        emit boolAdapterReply("Chainlink node returned a bool", _reply);
   }
 
   function fulfillBytes32(bytes32 _requestId, bytes32 _reply)
       public recordChainlinkFulfillment(_requestId) {
-          emit bytes32AdapterReply("Chainlink node returned bytes32", _reply);
+        bytes32_result = _reply;
+        emit bytes32AdapterReply("Chainlink node returned bytes32", _reply);
   }
 
   function stringToBytes32(string memory source)
@@ -92,18 +101,5 @@ contract External_Adapter_Request_Examples is ChainlinkClient {
       assembly { // solhint-disable-line no-inline-assembly
         result := mload(add(source, 32))
       }
-  }
-
-  function bytes32ToString(bytes32 _bytes32)
-    public pure returns (string memory) {
-      uint8 i = 0;
-      while(i < 32 && _bytes32[i] != 0) {
-        i++;
-      }
-      bytes memory bytesArray = new bytes(i);
-      for (i = 0; i < 32 && _bytes32[i] != 0; i++) {
-        bytesArray[i] = _bytes32[i];
-      }
-      return string(bytesArray);
   }
 }
