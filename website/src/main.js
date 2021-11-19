@@ -19875,7 +19875,7 @@ function sendRequest() {
         }
         if (document.getElementById('data').value !== "") {
           try {
-            eval("data.d = JSON.stringify(" + document.getElementById('data').value +");");
+            eval("data.d = " + document.getElementById('data').value +";");
           } catch {
             alert("Error evaluting data");
             return;
@@ -19883,7 +19883,7 @@ function sendRequest() {
         }
         if (document.getElementById('headers').value !== "") {
           try {
-            eval("data.h = JSON.stringify(" + document.getElementById('headers').value +");");
+            eval("data.h = " + document.getElementById('headers').value +";");
           } catch {
             alert("Error evalutating headers");
             return;
@@ -19911,8 +19911,8 @@ function sendRequest() {
             body: JSON.stringify({ "id": 999, "data": {"p": externalAdapterParamString }}),
         });
         //h
-        let url = "http://localhost:8080/"
-        //let url = "https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice"
+        //let url = "http://localhost:8080/"
+        let url = "https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice"
         fetch(url, {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
