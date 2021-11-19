@@ -1,1 +1,1 @@
-console.log(typeof true);
+console.log(Array.isArray([1,2,3]));

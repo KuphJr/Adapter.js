@@ -19748,6 +19748,16 @@ function generateCode() {
     alert("Please click 'Send Request' to test before generating Solidity code");
     return;
   }
+  if (document.getElementById('uploadHeadersSelector').value === 'upload') {
+    if (document.getElementById('referenceId').value === "") {
+      alert("Please enter a valid reference ID");
+      return;
+    }
+    let newExternalAdapterParamJSON = JSON.parse(externalAdapterParamString);
+    delete newExternalAdapterParamJSON.h;
+    newExternalAdapterParamJSON.r = document.getElementById('referenceId').value;
+    externalAdapterParamString = JSON.stringify(newExternalAdapterParamJSON);
+  }
   let returnType = document.getElementById('returnType').value;
   let jobId = "";
   switch(returnType) {
@@ -19812,6 +19822,46 @@ document.getElementById('javascript').addEventListener('change', function() {
 
 document.getElementById('send').addEventListener('click', sendRequest);
 
+document.getElementById('url').addEventListener('change', function() {
+  externalAdapterParamString = "";
+});
+
+document.getElementById('headers').addEventListener('change', function() {
+  externalAdapterParamString = "";
+});
+
+document.getElementById('data').addEventListener('change', function() {
+  externalAdapterParamString = "";
+});
+
+document.getElementById('ipfsHash').addEventListener('change', function() {
+  externalAdapterParamString = "";
+});
+
+document.getElementById('uploadHeadersSelector').addEventListener('change', function() {
+  externalAdapterParamString = "";
+  if (document.getElementById('uploadHeadersSelector').value === "upload") {
+    console.log(document.getElementById('uploadHeadersSelector'));
+    document.getElementById('uploadHeaders').style.display = 'block';
+  } else {
+    document.getElementById('uploadHeaders').style.display = 'none';
+  }
+});
+
+document.getElementById('uploadHeaders').addEventListener('click', function() {
+  if (document.getElementById('headers').value === "") {
+    alert("Please enter valid headers");
+    return;
+  }
+  try {
+    eval("let headerToUpload = JSON.stringify(" + document.getElementById('headers').value +");");
+  } catch {
+    alert("Error evalutating headers");
+    return;
+  }
+  // TODO ADD UPLOAD FUNCTIONALITY
+});
+
 function sendRequest() {
     try {
         let data = { t: document.getElementById("returnType").value };
@@ -19824,10 +19874,20 @@ function sendRequest() {
           data.u = document.getElementById('url').value;
         }
         if (document.getElementById('data').value !== "") {
-          eval("data.d = JSON.stringify(" + document.getElementById('data').value +");");
+          try {
+            eval("data.d = JSON.stringify(" + document.getElementById('data').value +");");
+          } catch {
+            alert("Error evaluting data");
+            return;
+          }
         }
         if (document.getElementById('headers').value !== "") {
-          eval("data.h = JSON.stringify(" + document.getElementById('headers').value +");");
+          try {
+            eval("data.h = JSON.stringify(" + document.getElementById('headers').value +");");
+          } catch {
+            alert("Error evalutating headers");
+            return;
+          }
         }
         if (document.getElementById('codeSource').value === 'ipfs') {
             if (document.getElementById('ipfsHash').value === "") {

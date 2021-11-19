@@ -185,7 +185,7 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback,
     try {
       // securely evaluate the javascript
       let result = vm.run(script);
-      if (typeof response.data !== 'object') {
+      if (typeof response.data === 'string') {
         // if the fetched data was not a JSON object,
         // convert it to an object so the response can be
         // processed by the Chainlink node

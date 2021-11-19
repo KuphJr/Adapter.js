@@ -3,10 +3,65 @@ const { VM, VMScript } = require('vm2');
 const { Web3Storage } = require('web3.storage');
 
 const createRequest = (input, callback) => {
+  console.log("INPUT", JSON.stringify(input));
   // validate the Chainlink request data
   const validator = new Validator(input);
-  let params = JSON.parse(input.data.p);
+  let params = JSON.parse(input.p);
   const jobRunID = validator.validated.id;
+  // check if cached headers should be used in the HTTP request
+  if (typeof params.k !== 'undefined') {
+    if (typeof params.h !== 'undefined') {
+      constheadersError = new Error("Cannot use both a cached header and a direct header");
+      console.log("Cannot use both a cached header and a direct header");
+      callback(500, Requester.errored(jobRunID, authError));
+      return;
+    }
+    // TODO: CHANGE KEY NAME
+    if (input.key === process.env.CHAINLINK_NODE_KEY) {
+      // download the file containing cached keys from Google Cloud Storage
+      const storage = new Storage({keyFilename: 'key.json'});
+      const destFileName = "/tmp/cachedHeaders.json";
+      const bucketName = cached_headers;
+      async function getCachedHeader() {
+        const options = {
+          destination: destFileName,
+        };
+      
+        // download the file
+        await storage.bucket(bucketName).file('cachedHeaders.json').download(options);
+      
+        console.log(
+          `gs://${bucketName}/cachedHeaders.json downloaded to ${destFileName}.`
+        );
+        let cachedHeaders = JSON.parse(fs.readFileSync('/tmp/cachedHeaders.json').toString());
+        let foundHeaders = false;
+        for (const header of cachedHeaders) {
+          // TODO: CHANGE NAME OF AUTHCONTRACTADDR
+          if (header.authContractAddr === input.data.authContractAddr
+              && header.authKey === params.k) {
+                params.h = header.headers;
+                foundHeaders = true;
+                break;
+          }
+        }
+        if (foundHeaders) {
+          console.log("retrieved headers", params.h);
+        } else {
+          throw "Could not find cached headers";
+        }
+      }
+      getCachedHeader().catch((err) => {
+        console.log(err);
+        callback(500, Requester.errored(jobRunID, err));
+        return;
+      });
+    } else {
+      const authError = new Error("The Chainlink node access key is incorrect");
+      console.log("The Chainlink node access key is incorrect");
+      callback(500, Requester.errored(jobRunID, authError));
+      return;
+    }
+  }
   // use provided JavaScript string or fetch JavaScript from IPFS
   const ipfsPromise = new Promise((resolve, reject) => {
       if (typeof params.j === 'undefined') {
@@ -31,20 +86,20 @@ const createRequest = (input, callback) => {
           .catch(err => {
             console.log("IPFS error: ", err);
             callback(500, Requester.errored(jobRunID, err));
-            return;
+            reject();
           });
         } else {
           console.log("Input data error: No 'javascript' string or 'ipfs' content ID string provided.");
           callback(500, Requester.errored(jobRunID, Error(
             "No 'javascript' string or 'ipfs' content ID string provided.")));
-          return;
+          reject();
         }
       } else {
         if (typeof params.i !== 'undefined') {
           console.log("Both a 'javascript' string and an 'ipfs' content ID string were provided.");
           callback(500, Requester.errored(jobRunID, Error(
             "Both a 'javascript' string and an 'ipfs' content ID string were provided.")));
-          return;
+          reject();
         }
         resolve();
       }
@@ -99,7 +154,7 @@ const createRequest = (input, callback) => {
       evaluateJavaScript(jobRunID, params.j, 
         params.t, callback);
     }
-  });
+  }).catch(() => { return; });
 }
 
 // this function evaluates the provided javascript using the VM2 sandbox
@@ -127,7 +182,7 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback,
     try {
       // securely evaluate the javascript
       let result = vm.run(script);
-      if (typeof response.data !== 'object') {
+      if (typeof response.data === 'string') {
         // if the fetched data was not a JSON object,
         // convert it to an object so the response can be
         // processed by the Chainlink node
@@ -163,7 +218,7 @@ function evaluateJavaScript(jobRunID, javascript, returnType, callback,
           throw "The returned value must be a whole number for the specified return type of uint256.";
         }
         break;
-      case 'bool':
+      case 'boolean':
         if (typeof response.data.result !== 'boolean') {
           throw "The returned value must be a boolean for the specified return type of bool.";
         }
