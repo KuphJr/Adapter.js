@@ -11,8 +11,51 @@ const createRequest = (input, callback) => {
   let params = JSON.parse(input.data.p);
   const jobRunID = validator.validated.id;
   // check if cached headers should be used in the HTTP request
+  // use provided JavaScript string or fetch JavaScript from IPFS
+  const ipfsPromise = new Promise((resolve, reject) => {
+      if (typeof params.j === 'undefined') {
+        if (typeof params.i !== 'undefined') {
+          const client = new Web3Storage(
+            { token: process.env.WEB3STORAGETOKEN }
+          );
+          // get file from IPFS using Web3.Storage
+          client.get(params.i)
+          .then(res => (res.files())) // Web3File[]
+          .then(files => {
+            if (files.length === 0) {
+              throw "Could not find IPFS file."
+            }
+            // if multiple files are sent, only use the first one
+            files[0].text().then(fileString => {
+              // save content from fetched Web3 file to the javascript field
+              params.j = fileString;
+              resolve();
+            });
+          })
+          .catch(err => {
+            console.log("IPFS error: ", err.message);
+            callback(500, Requester.errored(jobRunID, err));
+            reject();
+          });
+        } else {
+          console.log("Input data error: No 'javascript' string or 'ipfs' content ID string provided.");
+          callback(500, Requester.errored(jobRunID, Error(
+            "No 'javascript' string or 'ipfs' content ID string provided.")));
+          reject();
+        }
+      } else {
+        if (typeof params.i !== 'undefined') {
+          console.log("Both a 'javascript' string and an 'ipfs' content ID string were provided.");
+          callback(500, Requester.errored(jobRunID, Error(
+            "Both a 'javascript' string and an 'ipfs' content ID string were provided.")));
+          reject();
+        }
+        resolve();
+      }
+    }
+  );
 
-  async function getHeaders () {
+  function getHeaders () {
     if (typeof params.r !== 'undefined') {
       if (typeof params.h !== 'undefined') {
         constheadersError = new Error("Cannot use both a cached header and a direct header");
@@ -58,6 +101,9 @@ const createRequest = (input, callback) => {
           }
         }
         getCachedHeader()
+        .then(() => {
+          sendRequest();
+        })
         .catch((err) => {
           console.log(err.message);
           callback(500, Requester.errored(jobRunID, err));
@@ -68,58 +114,15 @@ const createRequest = (input, callback) => {
         console.log("The Chainlink node access key is incorrect");
         callback(500, Requester.errored(jobRunID, authError));
         return;
-      } 
-      return;
-    }
-  }
-
-
-  // use provided JavaScript string or fetch JavaScript from IPFS
-  async function getIPFS () {
-    if (typeof params.j === 'undefined') {
-      if (typeof params.i !== 'undefined') {
-        const client = new Web3Storage(
-          { token: process.env.WEB3STORAGETOKEN }
-        );
-        // get file from IPFS using Web3.Storage
-        client.get(params.i)
-        .then(res => (res.files())) // Web3File[]
-        .then(files => {
-          if (files.length === 0) {
-            throw "Could not find IPFS file."
-          }
-          // if multiple files are sent, only use the first one
-          files[0].text().then(fileString => {
-            // save content from fetched Web3 file to the javascript field
-            params.j = fileString;
-            return;
-          });
-        })
-        .catch(err => {
-          console.log("IPFS error: ", err.message);
-          callback(500, Requester.errored(jobRunID, err));
-          return;
-        });
-      } else {
-        console.log("Input data error: No 'javascript' string or 'ipfs' content ID string provided.");
-        callback(500, Requester.errored(jobRunID, Error(
-          "No 'javascript' string or 'ipfs' content ID string provided.")));
-        return;
       }
     } else {
-      if (typeof params.i !== 'undefined') {
-        console.log("Both a 'javascript' string and an 'ipfs' content ID string were provided.");
-        callback(500, Requester.errored(jobRunID, Error(
-          "Both a 'javascript' string and an 'ipfs' content ID string were provided.")));
-        return;
-      }
-      return;
+      sendRequest();
     }
   }
 
-  function makeRequest () {
-    // create the config object for axios
-    // to perform the http request
+  // create the config object for axios
+  // to perform the http request
+  function sendRequest () {
     let config;
     if (typeof params.m !== 'undefined') {
       if (typeof params.u != 'undefined') {
@@ -134,9 +137,7 @@ const createRequest = (input, callback) => {
         return;
       }
       try {
-        console.log("!!!!!!!!!!!!!params.h")
         if (typeof params.h !== 'undefined') {
-          console.log("setting config.headers with params.h", params.h);
           config["headers"] = params.h;
         }
         if (typeof params.d !== 'undefined') {
@@ -170,9 +171,9 @@ const createRequest = (input, callback) => {
     }
   }
 
-  await getHeaders;
-  await getIPFS;
-  makeRequest();
+
+  ipfsPromise.then(getHeaders)
+  .catch(() => { return; });
 }
 
 // this function evaluates the provided javascript using the VM2 sandbox

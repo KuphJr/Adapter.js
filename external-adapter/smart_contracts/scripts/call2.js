@@ -64,11 +64,12 @@ async function main() {
 
 
 // reference test
-await smartContract.bytes32AdapterCall(
-  ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
-  "1302aee4e8604b36830c801e613d8082", ethers.BigNumber.from("10").pow(18),
-  '{"t":"bytes32","m":"get","u":"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1","j":"return response.data[0].id_str;","r":"12345"}'
-);
+// this worked too!!!
+// await smartContract.bytes32AdapterCall(
+//   ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
+//   "1302aee4e8604b36830c801e613d8082", ethers.BigNumber.from("10").pow(18),
+//   '{"t":"bytes32","m":"get","u":"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1","j":"return response.data[0].id_str;","r":"12345"}'
+// );
 
 // pass data & headers as objects not strings
 // WORKS!!!!!!!!!!
@@ -77,7 +78,13 @@ await smartContract.bytes32AdapterCall(
 //   "1302aee4e8604b36830c801e613d8082", ethers.BigNumber.from("10").pow(18),
 //   '{\"t\":\"bytes32\",\"m\":\"get\",\"u\":\"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1\",\"h\":{\"Authorization\":\"Bearer AAAAAAAAAAAAAAAAAAAAAKK6VAEAAAAAnivn5pxrzDhKgZ4btHSfbDj30%2Bg%3DU56DpNqdIvotihP7qI6h1ratWDsXvsX5cdO6vcIrPXbPYEI2Sy\"},\"j\":\"return response.data[0].id_str;\"}'
 // );
-    
+ 
+
+await smartContract.bytes32AdapterCall(
+  ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
+  "1302aee4e8604b36830c801e613d8082", ethers.BigNumber.from("10").pow(18),
+  '{"t":"bytes32","m":"get","u":"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1","i":"bafybeidmwlx5sadozpsnsns4rvwcimid5wnwiqssmyvituj76hhzevmd54","r":"123456"}'
+);
 }
 
 main()
