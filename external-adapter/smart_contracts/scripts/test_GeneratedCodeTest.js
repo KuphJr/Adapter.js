@@ -4,7 +4,7 @@ const { ethers } = require("hardhat");
 
 async function main() {
     const contractfactory = await hre.ethers.getContractFactory("GeneratedCodeTest");
-    const contract = await contractfactory.attach("0xCB079AfaeE494559BF734fd95bD0877fce40FEAB");
+    const contract = await contractfactory.attach("0xd5530A99b11458cAaECD6DB6F65473D953d14c8D");
 
     console.log("Attached to:", contract.address);
 
@@ -16,7 +16,7 @@ async function main() {
     const listener = new Promise((resolve, reject) =>
         provider.on(filter, async (event) => {
             let result = await contract.result();
-            console.log("Value of 'result' in contract:", result.toNumber());
+            console.log("Value of 'result' in contract:", result);
             eventCount++;
             if (eventCount > 1) {
                 process.exit(0);

@@ -11,7 +11,6 @@ const createRequest = (input, callback) => {
   let params = JSON.parse(input.data.p);
   const jobRunID = validator.validated.id;
   
-  // check if cached headers should be used in the HTTP request
   // use provided JavaScript string or fetch JavaScript from IPFS
   const ipfsPromise = new Promise((resolve, reject) => {
       if (typeof params.j === 'undefined') {
@@ -56,8 +55,7 @@ const createRequest = (input, callback) => {
     }
   );
 
-  // get the headers if the request references private headers
-  // which are stored on Google Cloud Storage
+  // check if cached headers should be used in the HTTP request
   function getHeaders () {
     if (typeof params.r !== 'undefined') {
       if (typeof params.h !== 'undefined') {
@@ -84,6 +82,7 @@ const createRequest = (input, callback) => {
           let foundHeaders = false;
           console.log("input.meta.oracleRequest.requester: ", input.meta.oracleRequest.requester);
           console.log("params.r", params.r);
+          // check for matching headers
           for (const header of cachedHeaders) {
             console.log("header.authContractAddr:", header.authContractAddr);
             console.log("header.authKey:", header.authKey);
@@ -102,6 +101,7 @@ const createRequest = (input, callback) => {
         }
         getCachedHeader()
         .then(() => {
+          // send the http request using the cached headers
           sendRequest();
         })
         .catch((err) => {
@@ -116,6 +116,7 @@ const createRequest = (input, callback) => {
         return;
       }
     } else {
+      // if no cached headers are referenced, trigger the http request
       sendRequest();
     }
   }
