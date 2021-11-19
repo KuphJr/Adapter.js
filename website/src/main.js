@@ -19848,18 +19848,40 @@ document.getElementById('uploadHeadersSelector').addEventListener('change', func
   }
 });
 
-document.getElementById('uploadHeaders').addEventListener('click', function() {
+document.getElementById('uploadHeadersBtn').addEventListener('click', function() {
+  console.log("clicked uploadHeaders");
   if (document.getElementById('headers').value === "") {
     alert("Please enter valid headers");
     return;
   }
+  if (document.getElementById('contractAddress').value === "") {
+    alert("Please enter the address of the contract which is authorized to use the uploaded headers");
+    return;
+  }
+  if (document.getElementById('referenceId').value === "") {
+    alert("Please enter a valid reference ID for the uploaded headers");
+    return;
+  }
+  let headerToUpload = "";
   try {
-    eval("let headerToUpload = JSON.stringify(" + document.getElementById('headers').value +");");
+    eval("headerToUpload = " + document.getElementById('headers').value +";");
   } catch {
     alert("Error evalutating headers");
     return;
   }
-  // TODO ADD UPLOAD FUNCTIONALITY
+  let url = "https://us-central1-textparserexternaladapter.cloudfunctions.net/saveAPIkey"
+  //let url = "http://localhost:8080/";
+  fetch(url, {
+      method: 'post',
+      headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
+      body: JSON.stringify({ "authContractAddr": document.getElementById('contractAddress').value,
+      "authKey": document.getElementById('referenceId').value,
+      "headers": headerToUpload  
+    }),
+  })
+  .then(reply => reply.json())
+  .then(reply => console.log(reply))
+  .catch(err => alert(err));
 });
 
 function sendRequest() {
@@ -19875,7 +19897,7 @@ function sendRequest() {
         }
         if (document.getElementById('data').value !== "") {
           try {
-            eval("data.d = JSON.stringify(" + document.getElementById('data').value +");");
+            eval("data.d = " + document.getElementById('data').value +";");
           } catch {
             alert("Error evaluting data");
             return;
@@ -19883,7 +19905,7 @@ function sendRequest() {
         }
         if (document.getElementById('headers').value !== "") {
           try {
-            eval("data.h = JSON.stringify(" + document.getElementById('headers').value +");");
+            eval("data.h = " + document.getElementById('headers').value +";");
           } catch {
             alert("Error evalutating headers");
             return;
@@ -19902,16 +19924,14 @@ function sendRequest() {
             }
             data.j = document.getElementById('javascript').value;
         }
-        console.log("data: ", JSON.stringify(data));
-        //console.log("json string: ", dataString);
         externalAdapterParamString = JSON.stringify(data);
+        console.log("externalAdapterParamString: ", externalAdapterParamString);
         console.log("fetchObject: ", {
             method: 'post',
             headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
             body: JSON.stringify({ "id": 999, "data": {"p": externalAdapterParamString }}),
         });
-        //h
-        //http://localhost:8080/
+        //let url = "http://localhost:8080/";
         let url = "https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice"
         fetch(url, {
             method: 'post',

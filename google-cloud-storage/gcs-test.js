@@ -14,8 +14,8 @@ const storage = new Storage({keyFilename: 'key.json'});
  * TODO(developer): Uncomment these variables before running the sample.
  */
 // The ID of your GCS bucket
-const bucketName = 'your-unique-bucket-name12';
-const fileName = './jsonfiles/test.json';
+const bucketName = 'cached_headers';
+const fileName = 'cachedHeaders.json';
 const destFileName = './download/test.json';
 
 // async function createBucket() {
@@ -27,7 +27,7 @@ const destFileName = './download/test.json';
 
 async function uploadFile() {
     await storage.bucket(bucketName).upload(fileName, {
-        destination: 'test.json',
+        destination: fileName,
     });
 
     console.log(`${fileName} uploaded to ${bucketName}`);

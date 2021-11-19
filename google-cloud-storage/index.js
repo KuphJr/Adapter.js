@@ -7,9 +7,10 @@ const saveAPIkey = async (input, callback) => {
   console.log("INPUT", JSON.stringify(input));
   let message = "";
 
-  const bucketName = 'your-unique-bucket-name12';
-  const fileName = './jsonfiles/test.json';
-  const destFileName = './download/test.json';
+  const bucketName = 'cached_headers';
+  const fileName = 'cachedHeaders.json';
+  // TODO change to /tmp/cachedHeaders.json
+  const destFileName = './download/cachedHeaders.json';
 
   async function downloadFile() {
     console.log("#1 Download");
@@ -18,7 +19,7 @@ const saveAPIkey = async (input, callback) => {
     };
   
     // Downloads the file
-    await storage.bucket(bucketName).file('test.json').download(options);
+    await storage.bucket(bucketName).file(fileName).download(options);
   
     console.log(
       `gs://${bucketName}/${fileName} downloaded to ${destFileName}.`
@@ -27,7 +28,7 @@ const saveAPIkey = async (input, callback) => {
 
   function addHeaderToJSON() {
     console.log("#2 Append");
-    let cachedHeaders = JSON.parse(fs.readFileSync('./download/test.json').toString());
+    let cachedHeaders = JSON.parse(fs.readFileSync(destFileName).toString());
     let newCachedHeader = {
       authKey: input.authKey,
       authContractAddr: input.authContractAddr,
@@ -37,12 +38,12 @@ const saveAPIkey = async (input, callback) => {
     let i = 0;
     for (const header of cachedHeaders) {
       if (header.authContractAddr === input.authContractAddr && header.authKey === input.authKey) {
-          cachedHeaders[i] = newCachedHeader;
-          i++;
-          console.log("overwrote previous entry");
-          message = `overwrote previous entry for contract address ${input.authContractAddr} and authKey ${input.authKey}`;
-          overwrotePrevEntry = true;
-          break;
+        cachedHeaders[i] = newCachedHeader;
+        i++;
+        console.log("overwrote previous entry");
+        message = `overwrote previous entry for contract address ${input.authContractAddr} and authKey ${input.authKey}`;
+        overwrotePrevEntry = true;
+        break;
       }
     }
     if (!overwrotePrevEntry) {
@@ -54,7 +55,7 @@ const saveAPIkey = async (input, callback) => {
   }
 
   async function saveJSONtoFile(jsonString) {
-    fs.writeFileSync('./download/test.json', jsonString, (err) => {
+    fs.writeFileSync(destFileName, jsonString, (err) => {
       if (err) {
           console.log(err);
           process.exit(1);
@@ -63,10 +64,8 @@ const saveAPIkey = async (input, callback) => {
   }
 
   async function uploadFile() {
-    fs.readFile('./download/test.json', (err, data) => {
-    });
-    await storage.bucket(bucketName).upload('./download/test.json', {
-        destination: 'test.json',
+    await storage.bucket(bucketName).upload(destFileName, {
+        destination: fileName,
     });
 
     console.log(`${fileName} uploaded to ${bucketName}`);
@@ -82,15 +81,33 @@ const saveAPIkey = async (input, callback) => {
     console.log(err);
     callback(500, { message: err.message })
   } finally {
-    fs.unlinkSync('./download/test.json');
+    try {
+      fs.unlinkSync(destFileName);
+    } catch (delError) {
+      console.log(`Tried to delete ${destFileName} but it didn't exist`);
+    }
   }
 };
 
 // export for GCP Functions
 exports.saveAPIkeyGCF = (req, res) => {
-  saveAPIkey(req.body, (statusCode, data) => {
-    res.status(statusCode).send(data)
-  })
+  //set JSON content type and CORS headers for the response
+  res.header('Content-Type','application/json');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+  //respond to CORS preflight requests
+  if (req.method == 'OPTIONS') {
+    // Send response to OPTIONS requests
+    res.set('Access-Control-Allow-Methods', 'GET');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+    res.set('Access-Control-Max-Age', '3600');
+    res.status(204).send('');
+  } else {
+    saveAPIkey(req.body, (statusCode, data) => {
+      res.status(statusCode).send(data)
+    });
+  }
 };
 
 // Export for testing with express
