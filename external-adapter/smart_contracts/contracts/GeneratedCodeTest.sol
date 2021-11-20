@@ -14,7 +14,7 @@ contract GeneratedCodeTest is ChainlinkClient {
     Chainlink.Request memory ea_request = buildChainlinkRequest(
         '1302aee4e8604b36830c801e613d8082', address(this), this.fulfill.selector);
     ea_request.add('p',
-        '{"t":"bytes32","m":"get","u":"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1","j":"return response.data[0].text.replace(\\"@\\", \"AT\").slice(0,31)","r":"1234"}'
+        "{\"t\":\"bytes32\",\"m\":\"get\",\"u\":\"https://cointelegraph.com/tags/altcoin\",\"i\":\"bafybeih6xvcuocf673k4w6stkfgcopdhjit3wlp6fndz4x5ej3koflztt4\"}"
     );
     return sendChainlinkRequestTo(
         address(0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0),
@@ -22,7 +22,7 @@ contract GeneratedCodeTest is ChainlinkClient {
     }
     function fulfill(bytes32 _requestId, bytes32 _reply)
     public recordChainlinkFulfillment(_requestId) {
-    // add code here that uses the _reply from the external adapter
+        // add code here that uses the _reply from the external adapter
         result = _reply;
         emit adapterReply(_reply);
     }

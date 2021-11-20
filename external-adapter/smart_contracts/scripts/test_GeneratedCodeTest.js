@@ -4,7 +4,7 @@ const { ethers } = require("hardhat");
 
 async function main() {
     const contractfactory = await hre.ethers.getContractFactory("GeneratedCodeTest");
-    const contract = await contractfactory.attach("0x73bf78Bf175c51243CF2426cDa0f699a5dadDFB5");
+    const contract = await contractfactory.attach("0xD9a1C9Bb967272951c994Fe87447B4757756e230");
 
     console.log("Attached to:", contract.address);
 

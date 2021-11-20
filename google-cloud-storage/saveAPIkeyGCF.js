@@ -9,7 +9,7 @@ const saveAPIkey = async (input, callback) => {
 
   const bucketName = 'cached_headers';
   const fileName = 'cachedHeaders.json';
-  const destFileName = '/cachedHeaders.json';
+  const destFileName = '/tmp/cachedHeaders.json';
 
   async function downloadFile() {
     console.log("#1 Download");
@@ -88,5 +88,23 @@ const saveAPIkey = async (input, callback) => {
   }
 };
 
-// Export for testing with express
-module.exports.saveAPIkey = saveAPIkey;
+// export for GCP Functions
+exports.saveAPIkeyGCF = (req, res) => {
+  //set JSON content type and CORS headers for the response
+  res.header('Content-Type','application/json');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+  //respond to CORS preflight requests
+  if (req.method == 'OPTIONS') {
+    // Send response to OPTIONS requests
+    res.set('Access-Control-Allow-Methods', 'GET');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+    res.set('Access-Control-Max-Age', '3600');
+    res.status(204).send('');
+  } else {
+    saveAPIkey(req.body, (statusCode, data) => {
+      res.status(statusCode).send(data)
+    });
+  }
+};

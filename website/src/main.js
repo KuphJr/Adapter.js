@@ -19748,16 +19748,53 @@ function generateCode() {
     alert("Please click 'Send Request' to test before generating Solidity code");
     return;
   }
+
+  let data = { t: document.getElementById("returnType").value };
+  if (document.getElementById('method').value !== "none") {
+    if (document.getElementById('url').value === "") {
+      alert("Please enter a valid URL");
+      return;
+    }
+    data.m = document.getElementById('method').value;
+    data.u = document.getElementById('url').value;
+  }
+  if (document.getElementById('data').value !== "") {
+    try {
+      eval("data.d = " + document.getElementById('data').value +";");
+    } catch {
+      alert("Error evaluting data");
+      return;
+    }
+  }
   if (document.getElementById('uploadHeadersSelector').value === 'upload') {
     if (document.getElementById('referenceId').value === "") {
       alert("Please enter a valid reference ID");
       return;
     }
-    let newExternalAdapterParamJSON = JSON.parse(externalAdapterParamString);
-    delete newExternalAdapterParamJSON.h;
-    newExternalAdapterParamJSON.r = document.getElementById('referenceId').value;
-    externalAdapterParamString = JSON.stringify(newExternalAdapterParamJSON);
+    data.r = document.getElementById('referenceId').value;
+  } else if (document.getElementById('headers').value !== "") {
+    try {
+      eval("data.h = " + document.getElementById('headers').value +";");
+    } catch {
+      alert("Error evalutating headers");
+      return;
+    }
   }
+  if (document.getElementById('codeSource').value === 'ipfs') {
+      if (document.getElementById('ipfsHash').value === "") {
+        alert("Please enter a valid IPFS content ID");
+        return;
+      }
+      data.i = document.getElementById('ipfsHash').value;
+  } else {
+      if (document.getElementById('javascript').value === "") {
+        alert("Please enter valid JavaScript code");
+        return;
+      }
+      data.j = document.getElementById('javascript').value;
+  }
+  externalAdapterParamString = JSON.stringify(data);
+
   let returnType = document.getElementById('returnType').value;
   let jobId = "";
   switch(returnType) {
@@ -19800,7 +19837,7 @@ function request() public returns (bytes32 requestId) {
   Chainlink.Request memory ea_request = buildChainlinkRequest(
     '${jobId}', address(this), this.fulfill.selector);
   ea_request.add('p',
-    '${externalAdapterParamString}'
+    ${JSON.stringify(externalAdapterParamString)}
   );
   return sendChainlinkRequestTo(
     address(${oracleAddress}),
@@ -19885,85 +19922,85 @@ document.getElementById('uploadHeadersBtn').addEventListener('click', function()
 });
 
 function sendRequest() {
-    try {
-        let data = { t: document.getElementById("returnType").value };
-        if (document.getElementById('method').value !== "none") {
-          if (document.getElementById('url').value === "") {
-              alert("Please enter a valid URL");
-              return;
-          }
-          data.m = document.getElementById('method').value;
-          data.u = document.getElementById('url').value;
-        }
-        if (document.getElementById('data').value !== "") {
-          try {
-            eval("data.d = " + document.getElementById('data').value +";");
-          } catch {
-            alert("Error evaluting data");
-            return;
-          }
-        }
-        if (document.getElementById('headers').value !== "") {
-          try {
-            eval("data.h = " + document.getElementById('headers').value +";");
-          } catch {
-            alert("Error evalutating headers");
-            return;
-          }
-        }
-        if (document.getElementById('codeSource').value === 'ipfs') {
-            if (document.getElementById('ipfsHash').value === "") {
-                alert("Please enter a valid IPFS content ID");
-                return;
-            }
-            data.i = document.getElementById('ipfsHash').value;
-        } else {
-            if (document.getElementById('javascript').value === "") {
-                alert("Please enter valid JavaScript code");
-                return;
-            }
-            data.j = document.getElementById('javascript').value;
-        }
-        externalAdapterParamString = JSON.stringify(data);
-        console.log("externalAdapterParamString: ", externalAdapterParamString);
-        console.log("fetchObject: ", {
-            method: 'post',
-            headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "data": {"p": externalAdapterParamString }}),
-        });
-        //let url = "http://localhost:8080/";
-        let url = "https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice"
-        fetch(url, {
-            method: 'post',
-            headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "data": {"p": externalAdapterParamString }}),
-        })
-        .then(reply => reply.json())
-        .then(response => {
-            try {
-                console.log("Got response from URL: ", url);
-                console.log("RESPONSE: ", JSON.stringify(response));
-                if (typeof response.error !== 'undefined') {
-                  document.getElementById('result').value = response.error.name + ":" + response.error.message;
-                  return;
-                }
-                document.getElementById('result').value = response.result;
-            } catch (e) {
-                try {
-                    document.getElementById('result').value = response.error.name + ":" + response.error.message;
-                } catch (e2) {
-                    throw e2;
-                }
-            }
-        })
-        .catch(e => {
-            document.getElementById('result').value = e;
-            console.log("error reported", e);
-        });
-    } catch (e) {
-      document.getElementById('result').value = e;
-      console.log("Caught: ", e)
+  try {
+    let data = { t: document.getElementById("returnType").value };
+    if (document.getElementById('method').value !== "none") {
+      if (document.getElementById('url').value === "") {
+        alert("Please enter a valid URL");
+        return;
+      }
+      data.m = document.getElementById('method').value;
+      data.u = document.getElementById('url').value;
     }
+    if (document.getElementById('data').value !== "") {
+      try {
+        eval("data.d = " + document.getElementById('data').value +";");
+      } catch {
+        alert("Error evaluting data");
+        return;
+      }
+    }
+    if (document.getElementById('headers').value !== "") {
+      try {
+        eval("data.h = " + document.getElementById('headers').value +";");
+      } catch {
+        alert("Error evalutating headers");
+        return;
+      }
+    }
+    if (document.getElementById('codeSource').value === 'ipfs') {
+        if (document.getElementById('ipfsHash').value === "") {
+          alert("Please enter a valid IPFS content ID");
+          return;
+        }
+        data.i = document.getElementById('ipfsHash').value;
+    } else {
+        if (document.getElementById('javascript').value === "") {
+          alert("Please enter valid JavaScript code");
+          return;
+        }
+        data.j = document.getElementById('javascript').value;
+    }
+    externalAdapterParamString = JSON.stringify(data);
+    console.log("externalAdapterParamString: ", externalAdapterParamString);
+    console.log("fetchObject: ", {
+        method: 'post',
+        headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
+        body: JSON.stringify({ "id": 999, "data": {"p": externalAdapterParamString }}),
+    });
+    //let url = "http://localhost:8080/";
+    let url = "https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice"
+    fetch(url, {
+        method: 'post',
+        headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
+        body: JSON.stringify({ "id": 999, "data": {"p": externalAdapterParamString }}),
+    })
+    .then(reply => reply.json())
+    .then(response => {
+        try {
+            console.log("Got response from URL: ", url);
+            console.log("RESPONSE: ", JSON.stringify(response));
+            if (typeof response.error !== 'undefined') {
+              document.getElementById('result').value = response.error.name + ":" + response.error.message;
+              return;
+            }
+            document.getElementById('result').value = response.result;
+        } catch (e) {
+            try {
+                document.getElementById('result').value = response.error.name + ":" + response.error.message;
+            } catch (e2) {
+                throw e2;
+            }
+        }
+    })
+    .catch(e => {
+        document.getElementById('result').value = e;
+        console.log("error reported", e);
+    });
+  } catch (e) {
+    document.getElementById('result').value = e;
+    console.log("Caught: ", e)
+  }
 };
 })();
 
