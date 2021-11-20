@@ -52,7 +52,7 @@ async function main() {
   await smartContract.bytes32AdapterCall(
     ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
     "1302aee4e8604b36830c801e613d8082", ethers.BigNumber.from("10").pow(18),
-    '{"t":"bytes32","m":"get","u":"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1","j":"return response.data[0].text.replace(`@`, "AT").slice(0,31)","r":"1234"}');
+    '{"t":"bytes32","m":"get","u":"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1","j":"return response.data[0].text.replace(/@/, \'AT\').slice(0,31)","r":"1234"}');
 }
 
 main()
