@@ -19877,7 +19877,7 @@ document.getElementById('uploadHeadersBtn').addEventListener('click', function()
     }),
   })
   .then(reply => reply.json())
-  .then(reply => console.log(reply))
+  .then(reply => document.getElementById('result').value = reply.message)
   .catch(err => alert(err));
 });
 

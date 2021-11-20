@@ -1,8 +1,8 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\contracts\\Oracle.sol": {
-      "lastModificationDate": 1637107089670,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\contracts\\Oracle.sol": {
+      "lastModificationDate": 1637002073964,
       "contentHash": "1f401d3094d7b06e4a4b3c596be15377",
       "sourceName": "contracts/Oracle.sol",
       "solcConfig": {
@@ -36,8 +36,8 @@
       ],
       "artifacts": []
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\Oracle.sol": {
-      "lastModificationDate": 1637107089886,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\Oracle.sol": {
+      "lastModificationDate": 1637002074120,
       "contentHash": "169c89e33ffa37df485b0e0132392b8e",
       "sourceName": "@chainlink/contracts/src/v0.6/Oracle.sol",
       "solcConfig": {
@@ -79,8 +79,8 @@
         "Oracle"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\LinkTokenReceiver.sol": {
-      "lastModificationDate": 1637107089885,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\LinkTokenReceiver.sol": {
+      "lastModificationDate": 1637002074119,
       "contentHash": "8144704f75b572d4ce00c43c55594212",
       "sourceName": "@chainlink/contracts/src/v0.6/LinkTokenReceiver.sol",
       "solcConfig": {
@@ -114,8 +114,8 @@
         "LinkTokenReceiver"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\ChainlinkRequestInterface.sol": {
-      "lastModificationDate": 1637107089896,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\ChainlinkRequestInterface.sol": {
+      "lastModificationDate": 1637002074130,
       "contentHash": "93ce498fe6f3f0a6da3e950a597594a9",
       "sourceName": "@chainlink/contracts/src/v0.6/interfaces/ChainlinkRequestInterface.sol",
       "solcConfig": {
@@ -149,8 +149,8 @@
         "ChainlinkRequestInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\OracleInterface.sol": {
-      "lastModificationDate": 1637107089904,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\OracleInterface.sol": {
+      "lastModificationDate": 1637002074133,
       "contentHash": "7f382cc9f89734ee697adb231c31f2cd",
       "sourceName": "@chainlink/contracts/src/v0.6/interfaces/OracleInterface.sol",
       "solcConfig": {
@@ -184,8 +184,8 @@
         "OracleInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\LinkTokenInterface.sol": {
-      "lastModificationDate": 1637107089903,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\LinkTokenInterface.sol": {
+      "lastModificationDate": 1637002074132,
       "contentHash": "585f7756debf88330cd38f57d5b6ff07",
       "sourceName": "@chainlink/contracts/src/v0.6/interfaces/LinkTokenInterface.sol",
       "solcConfig": {
@@ -219,8 +219,8 @@
         "LinkTokenInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\WithdrawalInterface.sol": {
-      "lastModificationDate": 1637107089906,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\WithdrawalInterface.sol": {
+      "lastModificationDate": 1637002074134,
       "contentHash": "4434453d1f4fd1dbb8b8f625adedc350",
       "sourceName": "@chainlink/contracts/src/v0.6/interfaces/WithdrawalInterface.sol",
       "solcConfig": {
@@ -254,8 +254,8 @@
         "WithdrawalInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\vendor\\Ownable.sol": {
-      "lastModificationDate": 1637107089944,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\vendor\\Ownable.sol": {
+      "lastModificationDate": 1637002074148,
       "contentHash": "403f3ed487f333c6d6a1b4467acef2ef",
       "sourceName": "@chainlink/contracts/src/v0.6/vendor/Ownable.sol",
       "solcConfig": {
@@ -289,8 +289,8 @@
         "Ownable"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\vendor\\SafeMathChainlink.sol": {
-      "lastModificationDate": 1637107089945,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\vendor\\SafeMathChainlink.sol": {
+      "lastModificationDate": 1637002074148,
       "contentHash": "87335774850bfe8ce33d32536e403476",
       "sourceName": "@chainlink/contracts/src/v0.6/vendor/SafeMathChainlink.sol",
       "solcConfig": {
@@ -324,8 +324,8 @@
         "SafeMathChainlink"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\contracts\\External_Adapter_Request_Examples.sol": {
-      "lastModificationDate": 1637277764630,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\contracts\\External_Adapter_Request_Examples.sol": {
+      "lastModificationDate": 1637191407969,
       "contentHash": "523028841cb9ff41774282ff6db6881c",
       "sourceName": "contracts/External_Adapter_Request_Examples.sol",
       "solcConfig": {
@@ -361,8 +361,8 @@
         "External_Adapter_Request_Examples"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\ChainlinkClient.sol": {
-      "lastModificationDate": 1637107089973,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\ChainlinkClient.sol": {
+      "lastModificationDate": 1637002074178,
       "contentHash": "e621be566a028dd5d6b6a6d014f51b9b",
       "sourceName": "@chainlink/contracts/src/v0.8/ChainlinkClient.sol",
       "solcConfig": {
@@ -403,8 +403,8 @@
         "ChainlinkClient"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\Chainlink.sol": {
-      "lastModificationDate": 1637107089973,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\Chainlink.sol": {
+      "lastModificationDate": 1637002074177,
       "contentHash": "3fd82f181c1dd22e3fc800aadea7bcc2",
       "sourceName": "@chainlink/contracts/src/v0.8/Chainlink.sol",
       "solcConfig": {
@@ -441,8 +441,8 @@
         "Chainlink"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\ENSInterface.sol": {
-      "lastModificationDate": 1637107089995,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\ENSInterface.sol": {
+      "lastModificationDate": 1637002074197,
       "contentHash": "efae9c4f3af68e9acc4915a55d0b39ed",
       "sourceName": "@chainlink/contracts/src/v0.8/interfaces/ENSInterface.sol",
       "solcConfig": {
@@ -476,8 +476,8 @@
         "ENSInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\LinkTokenInterface.sol": {
-      "lastModificationDate": 1637107089997,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\LinkTokenInterface.sol": {
+      "lastModificationDate": 1637002074199,
       "contentHash": "7d88a2b5e32a18943bdf7fdfe7127d38",
       "sourceName": "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol",
       "solcConfig": {
@@ -511,8 +511,8 @@
         "LinkTokenInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\OperatorInterface.sol": {
-      "lastModificationDate": 1637107089997,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\OperatorInterface.sol": {
+      "lastModificationDate": 1637002074199,
       "contentHash": "b176e545dda6b5a7ba2ef44fae8d3921",
       "sourceName": "@chainlink/contracts/src/v0.8/interfaces/OperatorInterface.sol",
       "solcConfig": {
@@ -549,8 +549,8 @@
         "OperatorInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\PointerInterface.sol": {
-      "lastModificationDate": 1637107089998,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\PointerInterface.sol": {
+      "lastModificationDate": 1637002074201,
       "contentHash": "5f778e700e6fca37efca0397901b0f38",
       "sourceName": "@chainlink/contracts/src/v0.8/interfaces/PointerInterface.sol",
       "solcConfig": {
@@ -584,8 +584,8 @@
         "PointerInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\vendor\\ENSResolver.sol": {
-      "lastModificationDate": 1637107090006,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\vendor\\ENSResolver.sol": {
+      "lastModificationDate": 1637002074209,
       "contentHash": "f22da8b5ee5ae767d779f5b745a04207",
       "sourceName": "@chainlink/contracts/src/v0.8/vendor/ENSResolver.sol",
       "solcConfig": {
@@ -619,8 +619,8 @@
         "ENSResolver"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\vendor\\CBORChainlink.sol": {
-      "lastModificationDate": 1637107090005,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\vendor\\CBORChainlink.sol": {
+      "lastModificationDate": 1637002074208,
       "contentHash": "ede6f4b03871223611dcf9c3bc06859b",
       "sourceName": "@chainlink/contracts/src/v0.8/vendor/CBORChainlink.sol",
       "solcConfig": {
@@ -656,8 +656,8 @@
         "CBORChainlink"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\vendor\\BufferChainlink.sol": {
-      "lastModificationDate": 1637107090005,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\vendor\\BufferChainlink.sol": {
+      "lastModificationDate": 1637002074208,
       "contentHash": "a6b34344195f11618844c1aeef0259a2",
       "sourceName": "@chainlink/contracts/src/v0.8/vendor/BufferChainlink.sol",
       "solcConfig": {
@@ -691,8 +691,8 @@
         "BufferChainlink"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\OracleInterface.sol": {
-      "lastModificationDate": 1637107089997,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\OracleInterface.sol": {
+      "lastModificationDate": 1637002074200,
       "contentHash": "6829ac0e20a07fe62ea668545579b528",
       "sourceName": "@chainlink/contracts/src/v0.8/interfaces/OracleInterface.sol",
       "solcConfig": {
@@ -726,8 +726,8 @@
         "OracleInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\ChainlinkRequestInterface.sol": {
-      "lastModificationDate": 1637107089995,
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\ChainlinkRequestInterface.sol": {
+      "lastModificationDate": 1637002074197,
       "contentHash": "48d9cad25c8d478051ea664d80441e81",
       "sourceName": "@chainlink/contracts/src/v0.8/interfaces/ChainlinkRequestInterface.sol",
       "solcConfig": {
@@ -761,9 +761,9 @@
         "ChainlinkRequestInterface"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\contracts\\GeneratedCodeTest.sol": {
-      "lastModificationDate": 1637277764635,
-      "contentHash": "52ac96730d5c4ac572cb7c1dbf0cc148",
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\contracts\\GeneratedCodeTest.sol": {
+      "lastModificationDate": 1637367033530,
+      "contentHash": "3b9d3da6ee7382189535394346f2ba4e",
       "sourceName": "contracts/GeneratedCodeTest.sol",
       "solcConfig": {
         "version": "0.8.7",
@@ -797,6 +797,37 @@
       "artifacts": [
         "GeneratedCodeTest"
       ]
+    },
+    "C:\\Users\\morgan\\Documents\\JSeval-Chainlink-Adapter\\external-adapter\\smart_contracts\\contracts\\FridayTest.sol": {
+      "lastModificationDate": 1637366143532,
+      "contentHash": "d41d8cd98f00b204e9800998ecf8427e",
+      "sourceName": "contracts/FridayTest.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [],
+      "artifacts": []
     }
   }
 }

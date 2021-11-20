@@ -3,21 +3,25 @@ pragma solidity ^0.8.4;
 import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 
 contract GeneratedCodeTest is ChainlinkClient {
-    bool public result = true;
-    event adapterReply(bool reply);
+    bytes32 public result;
+    event adapterReply(bytes32 reply);
+
+    constructor() {
+        setChainlinkToken(address(0x326C977E6efc84E512bB9C30f76E30c160eD06FB));
+    }
 
     using Chainlink for Chainlink.Request;
     function request() public returns (bytes32 requestId) {
     Chainlink.Request memory ea_request = buildChainlinkRequest(
         '1302aee4e8604b36830c801e613d8082', address(this), this.fulfill.selector);
-    ea_request.add('p',
-        '{"t":"bool","m":"get","u":"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1","j":"return (response.data[0].text.indexOf(\"floki\") > -1);","r":"1234"}'
-    );
-    return sendChainlinkRequestTo(
-        address(0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0),
-        ea_request, 1000000000000000000);
+        ea_request.add('p',
+            '{"t":"bytes32","m":"get","u":"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1","j":"return response.data[0].text.slice(0,32);","r":"1234"}'
+        );
+        return sendChainlinkRequestTo(
+            address(0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0),
+            ea_request, 1000000000000000000);
     }
-    function fulfill(bytes32 _requestId, bool _reply)
+    function fulfill(bytes32 _requestId, bytes32 _reply)
     public recordChainlinkFulfillment(_requestId) {
         // add code here that uses the _reply from the external adapter
         result = _reply;
