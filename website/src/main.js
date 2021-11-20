@@ -19877,7 +19877,10 @@ document.getElementById('uploadHeadersBtn').addEventListener('click', function()
     }),
   })
   .then(reply => reply.json())
-  .then(reply => document.getElementById('result').value = reply.message)
+  .then(reply => {
+    console.log(reply);
+    document.getElementById('result').value = reply.message;
+  })
   .catch(err => alert(err));
 });
 

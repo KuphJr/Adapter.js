@@ -1,139 +1,154 @@
-import { Web3Storage } from 'web3.storage';
-document.getElementById('method').addEventListener('change', function() {
-    console.log('You selected: ', this.value);
-    if (this.value === "none") {
-        document.getElementById("urlDiv").style.display = "none";
-        document.getElementById("headersDiv").style.display = "none";
-        document.getElementById('url').value = "";
-        document.getElementById('headers').value = "";
-    } else {
-        document.getElementById("urlDiv").style.display = "block";
-        document.getElementById("headersDiv").style.display = "block";
-    }
-    if (this.value === "post" || this.value === "put" || this.value === "delete" || this.value === "trace" ||
-        this.value === "patch" || this.value === "head" || this.value === "options") {
-      document.getElementById("post-data").style.display = "block";
-    } else {
-      document.getElementById("post-data").style.display = "none";
-      document.getElementById('data').value = "";
-    }
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-document.getElementById('codeSource').addEventListener('change', function() {
-    console.log('You selected: ', this.value);
-    if (this.value === "ipfs") {
-        document.getElementById("ipfsHashDiv").style.visibility = "visible";
-        document.getElementById("codeDiv").style.display = "none";
-        document.getElementById("uploadDiv").style.display = "block";
-        document.getElementById('javascript').value = "";
-    } else {
-        document.getElementById("ipfsHashDiv").style.visibility = "hidden";
-        document.getElementById("uploadDiv").style.display = "none";
-        document.getElementById("codeDiv").style.display = "block";
-        document.getElementById('ipfsHash').value = "";
-        document.getElementById('ipfsToken').value = "";
-    }
-});
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Adapter.js</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-document.getElementById('upload').addEventListener('click', ipfsUpload);
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-function ipfsUpload(e) {
-    e.preventDefault();
-    if (document.getElementById('ipfsToken').value === "") {
-        alert("Please enter a valid Web3.Storage API token");
-        return;
-    }
-    const client = new Web3Storage({ token: document.getElementById('ipfsToken').value });
-    const fileInput = document.getElementById('fileUpload').value;
-    console.log("fileInput: ", fileInput);
-    const fileInputq = document.querySelector('input[type="file"]');
-    console.log("fileInputq: ", fileInputq);
-    // Pack files into a CAR and send to web3.storage
-    console.log("got to upload");
-    client.put(fileInputq.files, {
-        name: 'adapterjsUploadTime' + Date.now + '.js',
-        maxRetries: 3
-    }).then(cidHash => {
-        document.getElementById('result').value = "Successfully uploaded file to IPFS";
-        document.getElementById('ipfsHash').value = cidHash;
-    }).catch(err => {
-        document.getElementById('result').value = "Error uploading file to IPFS: " + err;
-    });
-};
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
 
-document.getElementById('send').addEventListener('click', sendRequest);
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/Adapterjs.png">
 
-function sendRequest() {
-    try {
-        let data = { returnType: document.getElementById("returnType").value };
-        if (document.getElementById('method').value === "none") {
-            data.method = "";
-            data.url = "";
-        } else {
-            if (document.getElementById('url').value === "") {
-                alert("Please enter a valid URL");
-                return;
-            }
-            data.method = document.getElementById('method').value;
-            data.url = document.getElementById('url').value;
-        }
-        if (document.getElementById('data').value !== "") {
-            data.data = JSON.stringify(eval(document.getElementById('data').value));
-        } else {
-            data.data = "";
-        }
-        if (document.getElementById('headers').value !== "") {
-            data.headers = JSON.stringify(eval(document.getElementById('headers').value));
-        } else {
-            data.headers = "";
-        }
-        if (document.getElementById('codeSource').value === 'ipfs') {
-            if (document.getElementById('ipfsHash').value === "") {
-                alert("Please enter a valid IPFS content ID");
-                return;
-            }
-            data.javascript = "";
-            data.ipfs = document.getElementById('ipfsHash').value;
-        } else {
-            if (document.getElementById('javascript').value === "") {
-                alert("Please enter valid JavaScript code");
-                return;
-            }
-            data.ipfs = "";
-            data.javascript = document.getElementById('javascript').value;
-        }
-        console.log("data: ", JSON.stringify(data));
-        //console.log("json string: ", dataString);
-        console.log("fetchObject: ", {
-            method: 'post',
-            headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "data": data }),
-        });
-        //https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice
-        //http://localhost:8080/
-        fetch('https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice', {
-            method: 'post',
-            headers: { 'Accept': 'application/json',"Content-Type": "application/json" },
-            body: JSON.stringify({ "id": 999, "data": data }),
-        })
-        .then(reply => reply.json())
-        .then( response => {
-            try {
-                document.getElementById('result').value = response.data.result;
-            } catch (e) {
-                try {
-                    document.getElementById('result').value = response.error.name + ":" + response.error.message;
-                } catch (e2) {
-                    throw e2;
-                }
-            }
-        })
-        .catch(e => {
-            document.getElementById('result').value = e;
-            console.log("error reported", e);
-        });
-    } catch (e) {
-      document.getElementById('result').value = e;
-      console.log("Caught: ", e)
-    }
-};
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="row">
+    <div class="container">
+      <div class="column" style="padding-right: 5%; padding-left: 5%; color: #323330">
+        <br>
+        <a href="./index.html"><img src="images/Adapterjs.png" style="height:48px; padding-right: 16px; float: left"></a>
+        <h3 style="font-size: 38px; float: left"><a class="reset-a" href="./index.html"><b>Adapter.js</b></a></h3>
+        <div style="float: right">
+          <a href="./simulator.html"><button class="button-primary">Try it out</button></a>
+          <a style="margin-left: 12px;" class="button" href="./documentation.html" >Documentation</a>
+          <a style="margin-left: 12px;" class="button" href="https://discord.gg/jpGx9tMRWa">Contact</a>
+        </div>
+        <br>
+        <div style="clear:both;">
+          <div style="float:left;">
+            <iframe src="https://ghbtns.com/github-btn.html?user=KuphJr&repo=TextParserExternalAdapter&type=star&count=true&size=large"
+            frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=KuphJr&repo=TextParserExternalAdapter&type=fork&count=true&size=large" 
+            frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
+          </div>
+        <div style="float:right">
+          <iframe src="https://ghbtns.com/github-btn.html?user=KuphJr&type=follow&count=true&size=large" 
+          frameborder="0" scrolling="0" width="230" height="30" title="GitHub"></iframe>
+        </div>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+    <br>
+    </div>
+  </div>
+  <br>
+  <div class="container" style="background-color: #119ef4; border-radius: 48px;">
+    <div style="padding-right: 5%; padding-left: 5%;">
+      <div class="row">
+        <div class="column">
+          <br>
+          <h4 style="text-align:center"><b>A Chainlink external adapter for securely executing custom JavaScript</b></h4>
+          <br>
+          <center><img src="images/Adapterjs.png" width=40%></center>
+          <br>
+          <br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Fetch data from APIs or websites</b></h5>
+          <p>
+            Fetch data from APIs or HTML text from websites via HTTP requests.  
+            Apply custom headers and send any data represented as a JSON object.
+          </p>
+        </div>
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Process fetched data with JavaScript</b></h5>
+          <p>
+            Send custom code which is executed via <a href="https://cloud.google.com/functions">Google Cloud Functions</a>
+            and have the result is sent back to the smart contract as <i>bytes32</i>, <i>int256</i>, <i>uint256</i>, or <i>bool</i>.
+          </p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Use custom headers</b></h5>
+          <p>
+            Private headers can be uploaded to the external adapter and referenced in an on-chain call.
+            This allows access to authenticated APIs without exposing private keys.
+          </p>
+        </div>
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Simulate external adapter calls</b></h5>
+          <p>
+            Use the simulator to make test calls to the external adapter and verify the custom JavaScript code is working correctly
+            before deploying to a smart contract.
+          </p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Upload JavaScript files to IPFS</b></h5>
+          <p>
+            Instead of sending a large string containing custom code, the external adapter can also fetch
+            and execute JavaScript files that have been uploaded to <a href="https://ipfs.io/">IPFS</a>.
+          </p>
+        </div>
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Automatically generate Solidity code</b></h5>
+          <p>
+            The simulator generates Solidity code which can be pasted into a smart contract.
+            Also, the web app can be used to easily upload code files via <a href="https://web3.storage/">Web3.Storage</a>.
+          </p>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="one-half column" style="padding-left: 5%; padding-right: 5%;">
+          <h5><b>Available on Polygon Mumbai</b></h5>
+          <p>
+            The adapter is available for the Polygon Mumbai testnet through a Chainlink node hosted on <a href="https://cloud.google.com/">Google Cloud Platform</a> 
+            and connected via a <a href="https://moralis.io/">Moralis</a> RPC node.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <br>
+        <br>
+        <center><a href="https://market.link/"><img class="marketlinkBtn" src="images/market-link.png"></a></center>
+        <br>
+        <br>
+        <center><h5>Have any questions or suggested improvements?<br><a href="https://discord.gg/jpGx9tMRWa">Contact the creator via Discord!</a></h5></center>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
