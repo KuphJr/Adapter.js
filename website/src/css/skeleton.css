@@ -309,6 +309,14 @@ li {
 
 /* Code
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+.code {
+  color: #202124;
+  padding: .2rem .5rem;
+  margin: 0 .2rem;
+  font-size: 90%;
+  background: #F1F1F1;
+  border: 1px solid #E1E1E1;
+  border-radius: 4px; }
 code {
   color: #202124;
   padding: .2rem .5rem;

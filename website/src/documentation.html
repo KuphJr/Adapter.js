@@ -64,7 +64,7 @@
       <div class="row">
         <div class="column">
           <br>
-          <h4 style="text-align: center;">How to Use Adapter.js</h4>
+          <h4 style="text-align: center;">How to Use</h4>
           <div style="color: black; background-color: lightgrey; padding-right: 12%; padding-left: 12%; padding-top: 5%; padding-bottom: 5%; border-radius: 32px;">
             <ol><li>
             Select the desired HTTP method to get data from an API or website.  To execute custom JavaScript without fetching any data, select “No HTTP request”.
@@ -155,7 +155,7 @@
           <br>
           <br>
           <br>
-            <h4 style="text-align: center;">Structure of the Adapter.js Parameters String</h4>
+            <h4 style="text-align: center;">Structure of the Parameters JSON Object String</h4>
             <div style="color: black; background-color: lightgrey; padding-right: 12%; padding-left: 12%; padding-top: 5%; padding-bottom: 5%; border-radius: 32px;">
               <p>
                 The parameters string "p" in the Chainlink request contains all the neccessary information to make a call to the external adapter. It is structed as a JSON object string.
@@ -163,6 +163,98 @@
                 The following documentation describes what each variable in the request means and how it is structured.  This information can be used to modify a request to Adapter.js on-chain by
                 modifying the parameters string before it is added to the Chainlink request.
               </p>
+              Example of the parameters string being added to the Chainlink request: <br><br><div class="code">chainlinkRequest.add('p',<br>"{\"t\":\"int256\",<br>\"m\":\"post\",<br>\"u\":\"https://jsonplaceholder.typicode.com/posts\",<br>\"d\":{\"name\":\"YOUR_NAME_HERE\",\"id_number\":1234},<br>\"h\":{\"token\":\"1234\"},<br>\"j\":\"return response.data.id_number;\"<br>}");</div>
+              <br>
+              <br>
+              <h5 style="text-align: center;">Parameters in Parameters JSON Object String</h5>
+              <b>t</b>: Return Type
+              <ul>
+                <ul>
+                  <li>
+                    Specifies the Solidity type that will be returned on-chain.  The options are <i>int256, uint256, bool or bytes32</i>.
+                  </li>
+                  <li>
+                    This value is must be defined the parameters JSON object string.
+                  </li>
+                </ul>
+              </ul>
+              <b>m</b>: HTTP Request Method
+              <ul>
+                <ul>
+                  <li>
+                    Specifies the HTTP method to use in the HTTP request which can be either <i>get, post, put, delete, patch, head, options or trace</i>.
+                  </li>
+                  <li>
+                    Do not include this value to make a request without performing an HTTP request.
+                  </li>
+                </ul>
+              </ul>
+              <b>u</b>: URL
+              <ul>
+                <ul>
+                  <li>
+                    Specifies the URL for the HTTP request.
+                  </li>
+                  <li>
+                    This value must be included if the HTTP request method, m, is specified.
+                  </li>
+                </ul>
+              </ul>
+              <b>d</b>: HTTP Request Data
+              <ul>
+                <ul>
+                  <li>
+                    Specifies the data JSON object to be used in the HTTP request.
+                  </li>
+                  <li>
+                    Do not include this value to make a request without performing an HTTP request.
+                  </li>
+                </ul>
+              </ul>
+              <b>h</b>: HTTP Request Headers
+              <ul>
+                <ul>
+                  <li>
+                    Specifies the HTTP method to use in the HTTP request which can be either <i>get, post, put, delete, patch, head, options or trace</i>.
+                  </li>
+                  <li>
+                    Do not include this value to make a request without performing an HTTP request.
+                  </li>
+                </ul>
+              </ul>
+              <b>r</b>: HTTP Headers Reference ID
+              <ul>
+                <ul>
+                  <li>
+                    Specifies the data JSON object to be used in the HTTP request.
+                  </li>
+                  <li>
+                    Do not include this value to make a request without performing an HTTP request.
+                  </li>
+                </ul>
+              </ul>
+              <b>j</b>: JavaScript
+              <ul>
+                <ul>
+                  <li>
+                    Specifies the data JSON object to be used in the HTTP request.
+                  </li>
+                  <li>
+                    Do not include this value to make a request without performing an HTTP request.
+                  </li>
+                </ul>
+              </ul>
+              <b>i</b>: IPFS Content ID
+              <ul>
+                <ul>
+                  <li>
+                    Specifies the data JSON object to be used in the HTTP request.
+                  </li>
+                  <li>
+                    Do not include this value to make a request without performing an HTTP request.
+                  </li>
+                </ul>
+              </ul>
             </div>
             <br>
             <br>
@@ -177,7 +269,7 @@
                 </li>
                 <br>
                 <li>
-                  Verify that the request is valid by using the simulator.  The simulator sends requests directly to the external adapter, so if it works in the simulator, it should work on-chain,
+                  Verify that the request is valid by using the simulator.  The simulator sends requests directly to the external adapter so if it works in the simulator, it should work on-chain,
                provided the request is structured the same way.
                 </li>
                 <br>
