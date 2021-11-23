@@ -37,18 +37,18 @@ async function main() {
 
   // the arguments to an adapter call function are:
   // address of oracle contract, job ID, LINK fee, external adapter parameters
-  // await smartContract.int256AdapterCall(
-  //   ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
-  //   "9d8c783d0b9645958697b880fd823137", ethers.BigNumber.from("10").pow(18),
-  //   '{"t":"int256","j":"return -8;"}');
-  // await smartContract.uint256AdapterCall(
-  //   ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
-  //   "fe689d575d904580b454415399713c01", ethers.BigNumber.from("10").pow(18),
-  //   '{"t":"uint256","j":"return 8;"}');
-  // await smartContract.boolAdapterCall(
-  //   ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
-  //   "ae5142ab2b6744b7990e4ceb6589b52b", ethers.BigNumber.from("10").pow(18),
-  //   '{"t":"bool","j":"return true;"}');
+  await smartContract.int256AdapterCall(
+    ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
+    "9d8c783d0b9645958697b880fd823137", ethers.BigNumber.from("10").pow(18),
+    '{"t":"int256","j":"return -8;"}');
+  await smartContract.uint256AdapterCall(
+    ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
+    "fe689d575d904580b454415399713c01", ethers.BigNumber.from("10").pow(18),
+    '{"t":"uint256","j":"return 8;"}');
+  await smartContract.boolAdapterCall(
+    ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
+    "ae5142ab2b6744b7990e4ceb6589b52b", ethers.BigNumber.from("10").pow(18),
+    '{"t":"bool","j":"return true;"}');
   await smartContract.bytes32AdapterCall(
     ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
     "1302aee4e8604b36830c801e613d8082", ethers.BigNumber.from("10").pow(18),
