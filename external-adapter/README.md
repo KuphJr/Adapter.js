@@ -8,7 +8,7 @@
 
 ### How to Run the External Adapter Locally
 
-The external adapter can be ran locally for testing by using ```npm install`` to install all dependencies and ~~~yarn start~~~ to start the adapter.  Test requests can then be sent to https://localhost:8080 using cURL or a similar HTTP request tool.  An example of a cURL request is
+The external adapter can be ran locally for testing by using ```npm install``` to install all dependencies and ~~~yarn start~~~ to start the adapter.  Test requests can then be sent to https://localhost:8080 using cURL or a similar HTTP request tool.  An example of a cURL request is
 ```curl -X POST -H "content-type:application/json" "http://localhost:8080/" --data "{ \"id\" 0, \"data\": { \"p\": \"{\"t\":\"bytes32\",\"m\":\"get\",\"u\":\"https://www.google.com/\",\"j\":\"return response.data.slice(0,31);\"}\" } }"```
 
 ### Solution
