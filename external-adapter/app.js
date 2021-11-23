@@ -18,6 +18,7 @@ app.options('*', (req, res) => {
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
+  console.log(req);
   console.log('POST Data: ', req.body)
   createRequest(req.body, (status, result) => {
     console.log('Result: ', result)
