@@ -142,6 +142,12 @@
             </li>
             <br>
             <li>
+              An example of a file which can be uploaded to IPFS and used in a request can be found on
+              <a href="https://github.com/KuphJr/Adapter.js/tree/master/external-adapter/external_adapter_IPFS_upload_test_JS_files">GitHub</a>.
+              This particular example is intended to be used with the results from an HTTP get request made to <a href="https://cointelegraph.com/tags/altcoin">https://cointelegraph.com/tags/altcoin</a>.
+            </li>
+            <br>
+            <li>
             If the content ID is provided, the external adapter will download a single JavaScript file from IPFS and execute the code within the file.  The code must be in the same format as previously described and must end by returning a single value.
             </li>
             </ul></li>
@@ -167,7 +173,7 @@
                 The following documentation describes what each variable in the request means and how it is structured.  This information can be used to modify a request to Adapter.js on-chain by
                 modifying the parameters string before it is added to the Chainlink request.
               </p>
-              Example of the parameters string being added to the Chainlink request: <br><br><div class="code">chainlinkRequest.add('p',<br>"{\"t\":\"int256\",<br>\"m\":\"post\",<br>\"u\":\"https://jsonplaceholder.typicode.com/posts\",<br>\"d\":{\"name\":\"YOUR_NAME_HERE\",\"id_number\":1234},<br>\"h\":{\"token\":\"1234\"},<br>\"j\":\"return response.data.id_number;\"<br>}");</div>
+              Below is an example of the parameters JSON object string being added to the Chainlink request. <br><br><div class="code">chainlinkRequest.add('p',<br>"{\"t\":\"int256\",<br>\"m\":\"post\",<br>\"u\":\"https://jsonplaceholder.typicode.com/posts\",<br>\"d\":{\"data\":\"YOUR_DATA_HERE\",\"id_number\":1234},<br>\"h\":{\"token\":\"1234\"},<br>\"j\":\"return response.data.id_number;\"<br>}");</div>
               <br>
               <br>
               <h5 style="text-align: center;">Parameters in Parameters JSON Object String</h5>
