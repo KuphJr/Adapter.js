@@ -1,6 +1,6 @@
 # [Adapter.js](https://adapterjs.link/)
 
-## How to use the Test Smart Contracts
+## Code Uploaded to Google Cloud Functions
 
 This folder contains the code that is currently deployed and running on Google Cloud Functions.  It has some slight changes from the external adapter code found in ../index.js which allow it to run properly on GCF.
 
