@@ -762,8 +762,8 @@
       ]
     },
     "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\external-adapter\\smart_contracts\\contracts\\GeneratedCodeTest.sol": {
-      "lastModificationDate": 1637378482523,
-      "contentHash": "88a9c7b59cafd85dcff0770ef92ecc3f",
+      "lastModificationDate": 1637436589265,
+      "contentHash": "8b4c067e78398c9ed49ff0559b0ebeea",
       "sourceName": "contracts/GeneratedCodeTest.sol",
       "solcConfig": {
         "version": "0.8.7",

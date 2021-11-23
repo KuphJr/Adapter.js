@@ -1,0 +1,9 @@
+gcloud compute ssh --zone "us-west4-b" "kuphjr@chainlink-node-mumbai"  --project "delta-fact-331401" -- -L 6688:localhost:6688
+
+gcloud compute ssh --zone "us-west4-b" "kuphjr@chainlink-node-mumbai"  --project "delta-fact-331401" -- -L 6688:localhost:6688
+
+screen docker run -p 6688:6688 -v ~/.chainlink-mumbai:/chainlink -it --env-file=.env smartcontract/chainlink:0.10.15 local n
+
+ctrl a then ctrl d to disconnect
+
+screen -r to reconnect

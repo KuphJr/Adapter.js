@@ -19805,7 +19805,8 @@ function generateCode() {
       jobId = "fe689d575d904580b454415399713c01";
       break;
     case 'bool':
-      jobId = "ae5142ab2b6744b7990e4ceb6589b52b";
+      jobId = "84a2d337e80c4f61bab7aff465666adc";
+      break;
     case 'bytes32':
       jobId = "1302aee4e8604b36830c801e613d8082";
       break;

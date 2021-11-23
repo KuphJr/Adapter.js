@@ -1,0 +1,3 @@
+oracle deployed to: 0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0
+
+Successfully created bridge adapterjs with incoming access token: LFaqaKI5Anfls0o/2X1OCXq8xz63IHKt

@@ -6,15 +6,16 @@ contract GeneratedCodeTest is ChainlinkClient {
     bytes32 public result;
     event adapterReply(bytes32 reply);
 
-    constructor() {
+    constructor () {
         setChainlinkToken(address(0x326C977E6efc84E512bB9C30f76E30c160eD06FB));
     }
+    // Then copy and paste the code below into the contract body.
     using Chainlink for Chainlink.Request;
     function request() public returns (bytes32 requestId) {
     Chainlink.Request memory ea_request = buildChainlinkRequest(
         '1302aee4e8604b36830c801e613d8082', address(this), this.fulfill.selector);
     ea_request.add('p',
-        "{\"t\":\"bytes32\",\"m\":\"get\",\"u\":\"https://cointelegraph.com/tags/altcoin\",\"i\":\"bafybeih6xvcuocf673k4w6stkfgcopdhjit3wlp6fndz4x5ej3koflztt4\"}"
+        "{\"t\":\"bytes32\",\"m\":\"get\",\"u\":\"https://cointelegraph.com/tags/altcoin\",\"i\":\"bafybeiarxkkzzf4cpmvbn2jw7pychxgcei3ymdzly3xiittyfshxz2t3va\"}"
     );
     return sendChainlinkRequestTo(
         address(0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0),
