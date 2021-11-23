@@ -31,11 +31,11 @@ Use the tool at [adapterjs.link/simulator.html](https://adapterjs.link/simulator
 Adapter.js is currently hosted on an independent Chainlink node for the Mumbai Polygon testnet.  However, any Chainlink node operator can host the external adapter themselves for any Chainlink-supported blockchain.  As more node operators host Adapter.js, this list will be updated.
 
 ### **Blockchain:** Mumbai
-**Oracle Address:** 0x000000
-- **Job ID for returning uint256:** 0x000
-- **Job ID for job returning int256:** 0x000
-- **Job ID for job returning bool:** 0x000
-- **Job ID for job returning bytes32:** 0x000
+**Oracle Address:** 0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0
+- **Job ID for returning uint256:** 9d8c783d0b9645958697b880fd823137
+- **Job ID for job returning int256:** fe689d575d904580b454415399713c01
+- **Job ID for job returning bool:** 84a2d337e80c4f61bab7aff465666adc
+- **Job ID for job returning bytes32:** 1302aee4e8604b36830c801e613d8082
 
 ## Contact
 
