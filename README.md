@@ -6,6 +6,8 @@
 
 ## Overview
 
+[Watch the project overview on YouTube](https://youtu.be/V_P_IAfr22I)
+
 ### Problem
 
 Chainlink external adapters are extremely powerful, but have some limitations.
