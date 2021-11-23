@@ -1,7 +1,0 @@
-https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1
-
-{ Authorization: "Bearer AAAAAAAAAAAAAAAAAAAAAKK6VAEAAAAAnivn5pxrzDhKgZ4btHSfbDj30%2Bg%3DU56DpNqdIvotihP7qI6h1ratWDsXvsX5cdO6vcIrPXbPYEI2Sy" }
-
-return /bitcoin/i.test(response.data[0].text);
-
-7jnhNEf81hT9bg
