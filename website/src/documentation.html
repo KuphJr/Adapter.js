@@ -60,19 +60,137 @@
   </div>
   <br>
   <div class="container" style="background-color: #119ef4; border-radius: 48px;">
-    <div style="padding-right: 5%; padding-left: 5%;">
+    <div style="padding-right: 10%; padding-left: 10%;">
       <div class="row">
         <div class="column">
           <br>
+          <h4 style="text-align: center;">How to Use Adapter.js</h4>
+          <div style="color: black; background-color: lightgrey; padding-right: 12%; padding-left: 12%; padding-top: 5%; padding-bottom: 5%; border-radius: 32px;">
+            <ol><li>
+            Select the desired HTTP method to get data from an API or website.  To execute custom JavaScript without fetching any data, select “No HTTP request”.
+            </li>
+            <br>
+            <li>
+            Enter the URL for the API or website.  The entire URL, with all applicable endpoints, must be included.
+            </li>
+            <br>
+            <li>
+            If necessary, add headers to the HTTP request.  These headers must be entered in JSON format as in the example shown below.
+            <ul><li>
+            <code>{ Authorization: "Bearer YOUR_TOKEN_HERE" }</code>
+            </li>
+            <br>
+            <li>
+            Any JavaScript code entered into the headers box will be evaluated client-side before the headers are used in a request.  For example, to convert any data to base 64, use the function btoa(“YOUR_TOKEN_HERE”) which will be evaluated before the request is sent as shown in the example below.
+            </li>
+            <br>
+            <li>
+              <code>{ Authorization: "Bearer " + btoa("YOUR_TOKEN_HERE") }</code>
+            </li>
+          </ul>  
+        </li>
+            <br>
+            <li>
+            Select if headers should be included directly in an on-chain Chainlink request, or if they should be stored on the external adapter and be referenced when an on-chain request is made.  If headers are included directly in an on-chain request, they will be publicly visible.
+            <ul><li>
+            In order to upload headers, the address of the contract which is authorized to make requests utilizing the uploaded headers must be known.  In addition, a unique reference ID string must be provided which is used to get the correct headers for a particular request.  Only requests made from a matching contract address can use uploaded headers.  This reference ID is included in the on-chain request so that the correct headers are used.  Multiple different sets of headers can be used by a single contract, provided all the reference ID strings are unique.
+            </li>
+            <br>
+            <li>
+            If the contract address is not yet known, a reference ID can be provided and the “Address” box can be left blank in order to generate Solidity code to make the request on-chain.  Then, after the contract is deployed and the address is known, it can be entered in the “Address” box and the headers can be successfully uploaded.  An example of this is shown in the Twitter example in the Adapter.js overview video.
+            </li>
+            <br>
+            <li>
+            All headers are transmitted to the external adapter via SSL encryption.  This keeps headers private when sending test requests or uploading headers to the external adapter.
+            </li></ul>
+            </li>
+            <br>
+            <li>
+              Data can also be included with HTTP requests such as POST.  Data should be structured as a JSON object similar to the headers as shown below.
+              <ul>
+                <li>
+                  <code>{ name: "YOUR_NAME", id: 12345 }</code>
+                </li>
+              </ul>
+            </li>
+            <br>
+            <li>
+            Select the correct return type.  The return type must match the return type of the executed JavaScript code.  If bytes32 is selected, the return type of the JavaScript code must be a string with less than 32 characters.
+            </li>
+            <br>
+            <li>
+            Select the source of the JavaScript code.  Code can either be provided directly in a Chainlink request, or it can be uploaded to IPFS and the content ID can be sent in the request.
+            <ul><li>
+            Provided JavaScript code is automatically wrapped in a function before it is executed by the external adapter and the returned value is the result that will be returned on-chain.
+            </li>
+            <br>
+            <li>
+            The maximum response time for the external adapter is limited to 30 seconds.  This means the total time for the HTTP request to resolve and the JavaScript code to execute must be under 30 seconds before the request is terminated.  In addition, the maximum memory utilization is limited to 256 megabytes per Adapter.js instance.
+            </li>
+            <br>
+            <li>
+            For security, no Node.js modules can be used.  Only vanilla Node.js code can be executed without any imports.  All code is executed in a secure sandbox.
+            </li>
+            <br>
+            <li>
+              Code can be uploaded to IPFS from the simulator using Web3.Storage.  To upload a JavaScript file, a Web3.Storage token must be provided.  Currently, getting a Web3.Storage token is free.
+              Get one at <a href="https://web3.storage/">web3.storage</a>.
+            </li>
+            <br>
+            <li>
+            If the content ID is provided, the external adapter will download a single JavaScript file from IPFS and execute the code within the file.  The code must be in the same format as previously described and must end by returning a single value.
+            </li>
+            </ul></li>
+            <br>
+            <li>
+            Send a test request by clicking the “SEND REQUEST” button.  The send request button will return the desired result or an error.  Errors can reference either an HTTP request failure, or an error for the JavaScript code that was provided.
+            </li>
+            <br>
+            <li>
+            Generate code by selecting the desired blockchain network and clicking the “GENERATE CODE” button.  Generated code can be pasted into a smart contract by following the comment instructions provided when the code is generated. All the provided code is generic except for the line where the parameters string is added to the Chainlink request. For a description for how the parameters string is structured, see the next section.
+            </li>
+            </ol>
+          </div>
           <br>
-          <h4 style="text-align:center"><b>Documentation coming soon!</b></h4>
-          <br>
-          <br>
-          <center><img class="img" src="images/Adapterjs.png" height=400 width=400></center>
           <br>
           <br>
           <br>
-          <br>
+            <h4 style="text-align: center;">Structure of the Adapter.js Parameters String</h4>
+            <div style="color: black; background-color: lightgrey; padding-right: 12%; padding-left: 12%; padding-top: 5%; padding-bottom: 5%; border-radius: 32px;">
+              <p>
+                The parameters string "p" in the Chainlink request contains all the neccessary information to make a call to the external adapter. It is structed as a JSON object string.
+                In order to make calls to Adapter.js gas efficent, all variables contained in the parameters string use only a single character to make the parameters string as short as possible.
+                The following documentation describes what each variable in the request means and how it is structured.  This information can be used to modify a request to Adapter.js on-chain by
+                modifying the parameters string before it is added to the Chainlink request.
+              </p>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h4 style="text-align: center;">Troubleshooting</h4>
+            <div style="color: black; background-color: lightgrey; padding-right: 12%; padding-left: 12%; padding-top: 5%; padding-bottom: 5%; border-radius: 32px;">
+            <p>If you are having difficulty making an on-chain request with Adapter.js, please follow the troubleshooting steps below. </p>
+              <ul>
+                <li>
+                  Confirm that the contract is funded with LINK.
+                </li>
+                <br>
+                <li>
+                  Verify that the request is valid by using the simulator.  The simulator sends requests directly to the external adapter, so if it works in the simulator, it should work on-chain,
+               provided the request is structured the same way.
+                </li>
+                <br>
+                <li>
+                  Use the code generator to check how the request parameters string should be structured.
+                </li>
+                <br>
+                <li>
+                  Ensure any required headers have been successfully uploaded to the external adapter and that the correct reference ID is being used.
+                </li>
+              </ul>  
+               <p>If you have read the documentation and followed the troubleshooting steps but are still encountering difficulties, please reach out via Discord.</p>            
+            </div>
         </div>
       </div>
     <div class="row">

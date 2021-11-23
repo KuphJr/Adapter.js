@@ -3,7 +3,8 @@
 /external-adapter/.env
 /node_modules
 /external-adapter/test/smartContracts/node_modules/
-/external-adapter/smart_contracts/node_modules
+/smart_contracts/node_modules
+/smart_contracts/.env
 /website/.vscode
 /google-cloud-storage/node_modules
 /google-cloud-storage/key.json
