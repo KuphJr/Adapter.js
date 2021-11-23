@@ -120,7 +120,11 @@
             <br>
             <li>
             Select the source of the JavaScript code.  Code can either be provided directly in a Chainlink request, or it can be uploaded to IPFS and the content ID can be sent in the request.
-            <ul><li>
+            <ul>
+              <li>
+                To access the results of the HTTP request that was performed, use the variable <code>response</code>.  For example <code>response.data</code> contains the string or object returned by the HTTP request.
+              </li>
+              <li>
             Provided JavaScript code is automatically wrapped in a function before it is executed by the external adapter and the returned value is the result that will be returned on-chain.
             </li>
             <br>
