@@ -5,6 +5,6 @@ platforms:
   - GCP Functions
 data_sources:
   - name: Adapter.js
-  - url: https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice
+    url: https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice
 parameters:
   - p
