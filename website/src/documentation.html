@@ -71,11 +71,11 @@
             </li>
             <br>
             <li>
-            Enter the URL for the API or website.  The entire URL, with all applicable endpoints, must be included.
+            Enter the URL for the API or website.  The entire URL, with all applicable endpoints, must be used.
             </li>
             <br>
             <li>
-            If necessary, add headers to the HTTP request.  These headers must be entered in JSON format as in the example shown below.
+            If necessary, add headers to the HTTP request.  These headers must be entered in JSON format, with curly brackets, as in the example shown below.
             <ul><li>
             <code>{ Authorization: "Bearer YOUR_TOKEN_HERE" }</code>
             </li>
@@ -91,13 +91,15 @@
         </li>
             <br>
             <li>
-            Select if headers should be included directly in an on-chain Chainlink request, or if they should be stored on the external adapter and be referenced when an on-chain request is made.  If headers are included directly in an on-chain request, they will be publicly visible.
+            Select if headers should be included directly in an on-chain Chainlink request, or if they should be stored on the external adapter and be used when an on-chain request is made.  If headers are included directly in an on-chain request, they will be publicly visible.
             <ul><li>
-            In order to upload headers, the address of the contract which is authorized to make requests utilizing the uploaded headers must be known.  In addition, a unique reference ID string must be provided which is used to get the correct headers for a particular request.  Only requests made from a matching contract address can use uploaded headers.  This reference ID is included in the on-chain request so that the correct headers are used.  Multiple different sets of headers can be used by a single contract, provided all the reference ID strings are unique.
+            In order to upload headers, the address of the contract which is authorized to make requests utilizing the uploaded headers must be known.  In addition, a unique reference ID string must be provided which is used to get the correct headers for a particular request.  Only requests made from a matching contract address can use the uploaded headers.  This reference ID is included in the on-chain request so that the correct headers are used.  Multiple different sets of headers can be used by a single contract, provided all the reference ID strings are unique.
             </li>
             <br>
             <li>
-            If the contract address is not yet known, a reference ID can be provided and the “Address” box can be left blank in order to generate Solidity code to make the request on-chain.  Then, after the contract is deployed and the address is known, it can be entered in the “Address” box and the headers can be successfully uploaded.  An example of this is shown in the Twitter example in the Adapter.js overview video.
+            If the contract address is not yet known, a reference ID can be provided and the “Address” box can be left blank in order to generate the Solidity code to make the request on-chain.
+            Then, after the contract is deployed and the address is known, it can be entered in the “Address” box and the headers can be successfully uploaded.
+            An example of this is shown in the Twitter example in the <a href="https://youtu.be/V_P_IAfr22I?t=105">overview video</a>.
             </li>
             <br>
             <li>
@@ -106,7 +108,7 @@
             </li>
             <br>
             <li>
-              Data can also be included with HTTP requests such as POST.  Data should be structured as a JSON object similar to the headers as shown below.
+              Data can also be included with HTTP requests such as POST or PUT.  Data should be structured as a JSON object similar to the headers as shown below.
               <ul>
                 <li>
                   <code>{ name: "YOUR_NAME", id: 12345 }</code>
@@ -115,17 +117,19 @@
             </li>
             <br>
             <li>
-            Select the correct return type.  The return type must match the return type of the executed JavaScript code.  If bytes32 is selected, the return type of the JavaScript code must be a string with less than 32 characters.
+            Select the correct return type.  The return type must match the return type of the executed JavaScript code.
+            If bytes32 is selected, the return type of the JavaScript code must be a string with less than 32 ASCII characters.
             </li>
             <br>
             <li>
             Select the source of the JavaScript code.  Code can either be provided directly in a Chainlink request, or it can be uploaded to IPFS and the content ID can be sent in the request.
             <ul>
               <li>
-                To access the results of the HTTP request that was performed, use the variable <code>response</code>.  For example <code>response.data</code> contains the string or object returned by the HTTP request.
+                To access the results of the HTTP request that was performed, use the <code>response</code> variable.  For example, <code>response.data</code> contains the string or object returned by the HTTP request.
               </li>
+              <br>
               <li>
-            Provided JavaScript code is automatically wrapped in a function before it is executed by the external adapter and the returned value is the result that will be returned on-chain.
+            Provided JavaScript code is automatically wrapped in a function before it is executed by the external adapter and the returned value will be posted on-chain.
             </li>
             <br>
             <li>
@@ -138,7 +142,11 @@
             <br>
             <li>
               Code can be uploaded to IPFS from the simulator using Web3.Storage.  To upload a JavaScript file, a Web3.Storage token must be provided.  Currently, getting a Web3.Storage token is free.
-              Get one at <a href="https://web3.storage/">web3.storage</a>.
+              Get one at <a href="https://web3.storage/">Web3.Storage</a>.
+            </li>
+            <br>
+            <li>
+            If the content ID is provided, the external adapter will download a single JavaScript file from IPFS and execute the code within the file.  The code must be in the same format as previously described and must end by returning a single value.
             </li>
             <br>
             <li>
@@ -146,19 +154,24 @@
               <a href="https://github.com/KuphJr/Adapter.js/tree/master/external-adapter/external_adapter_IPFS_upload_test_JS_files">GitHub</a>.
               This particular example is intended to be used with the results from an HTTP get request made to <a href="https://cointelegraph.com/tags/altcoin">https://cointelegraph.com/tags/altcoin</a>.
             </li>
-            <br>
-            <li>
-            If the content ID is provided, the external adapter will download a single JavaScript file from IPFS and execute the code within the file.  The code must be in the same format as previously described and must end by returning a single value.
-            </li>
             </ul></li>
             <br>
             <li>
-            Send a test request by clicking the “SEND REQUEST” button.  The send request button will return the desired result or an error.  Errors can reference either an HTTP request failure, or an error for the JavaScript code that was provided.
+            Send a test request by clicking the “SEND REQUEST” button.  The request will return the desired result or an error.  Errors can reference either an HTTP request failure, or an error with the JavaScript code that was provided.
             </li>
             <br>
             <li>
-            Generate code by selecting the desired blockchain network and clicking the “GENERATE CODE” button.  Generated code can be pasted into a smart contract by following the comment instructions provided when the code is generated. All the provided code is generic except for the line where the parameters string is added to the Chainlink request. For a description for how the parameters string is structured, see the next section.
-            </li>
+            Solidity code to make a request on chain can be generated by selecting the desired blockchain network and clicking the “GENERATE CODE” button.
+            <ul>
+              <li>
+                Generated code can be pasted into a smart contract by following the comment instructions provided when the code is generated.
+              </li>
+              <br>
+              <li>
+                All the provided code is generic, except for the addresses and job IDs used as well as the parameters string which is added to the Chainlink request. For a description for how the parameters string is structured, see the next section.
+              </li>
+            </ul>
+             </li>
             </ol>
           </div>
           <br>
@@ -168,12 +181,12 @@
             <h4 style="text-align: center;">Structure of the Parameters JSON Object String</h4>
             <div style="color: black; background-color: lightgrey; padding-right: 12%; padding-left: 12%; padding-top: 5%; padding-bottom: 5%; border-radius: 32px;">
               <p>
-                The parameters string "p" in the Chainlink request contains all the neccessary information to make a call to the external adapter. It is structed as a JSON object string.
-                In order to make calls to Adapter.js gas efficent, all variables contained in the parameters string use only a single character to make the parameters string as short as possible.
+                The parameters string "p" in the Chainlink request contains all the neccessary information to make a call to the external adapter. It is structed as a JSON object string.<br><br>
+                In order to make calls to Adapter.js more gas efficent, all variables contained in the parameters string use only a single character which shortens the parameters string.<br><br>
                 The following documentation describes what each variable in the request means and how it is structured.  This information can be used to modify a request to Adapter.js on-chain by
                 modifying the parameters string before it is added to the Chainlink request.
               </p>
-              Below is an example of the parameters JSON object string being added to the Chainlink request. <br><br><div class="code">chainlinkRequest.add('p',<br>"{\"t\":\"int256\",<br>\"m\":\"post\",<br>\"u\":\"https://jsonplaceholder.typicode.com/posts\",<br>\"d\":{\"data\":\"YOUR_DATA_HERE\",\"id_number\":1234},<br>\"h\":{\"token\":\"1234\"},<br>\"j\":\"return response.data.id_number;\"<br>}");</div>
+              Below is an example of the parameters JSON object string being added to the Chainlink request. <br><br><div class="code">chainlinkRequest.add('p',<br>"{\"t\":\"uint256\",<br>\"m\":\"post\",<br>\"u\":\"https://jsonplaceholder.typicode.com/posts\",<br>\"d\":{\"username\":\"MYUSERNAME\",\"id_num\":123},<br>\"h\":{\"Authorization\":\"Bearer ABCD1234\"},<br>\"j\":\"return response.data.id_num;\"<br>}");</div>
               <br>
               <br>
               <h5 style="text-align: center;">Parameters in Parameters JSON Object String</h5>
@@ -184,7 +197,7 @@
                     Specifies the Solidity type that will be returned on-chain.  The options are <i>int256, uint256, bool or bytes32</i>.
                   </li>
                   <li>
-                    This value is must be defined the parameters JSON object string.
+                    This value must be included.
                   </li>
                 </ul>
               </ul>
@@ -192,7 +205,7 @@
               <ul>
                 <ul>
                   <li>
-                    Specifies the HTTP method to use in the HTTP request which can be either <i>get, post, put, delete, patch, head, options or trace</i>.
+                    Specifies the HTTP method to use in the HTTP request which can be either <i>get, post, put, delete, patch, head, options, </i>or<i> trace</i>.
                   </li>
                   <li>
                     Do not include this value to make a request without performing an HTTP request.
@@ -206,18 +219,7 @@
                     Specifies the URL for the HTTP request.
                   </li>
                   <li>
-                    This value must be included if the HTTP request method, m, is specified.
-                  </li>
-                </ul>
-              </ul>
-              <b>d</b>: HTTP Request Data
-              <ul>
-                <ul>
-                  <li>
-                    Specifies the data JSON object to be used in the HTTP request.
-                  </li>
-                  <li>
-                    Do not include this value to make a request without performing an HTTP request.
+                    This value must be included if the HTTP request method, <i>m</i>, is specified.
                   </li>
                 </ul>
               </ul>
@@ -225,10 +227,13 @@
               <ul>
                 <ul>
                   <li>
-                    Specifies the HTTP method to use in the HTTP request which can be either <i>get, post, put, delete, patch, head, options or trace</i>.
+                    Directly specifies the headers JSON object to be used in the HTTP request, which are included in an on-chain request.
                   </li>
                   <li>
-                    Do not include this value to make a request without performing an HTTP request.
+                    Since this value is included directly in a request, this value is publicly visible on the blockchain.
+                  </li>
+                  <li>
+                    To use headers in the HTTP request, either this value or headers reference ID, <i>r</i>, should be included, but not both.
                   </li>
                 </ul>
               </ul>
@@ -236,7 +241,31 @@
               <ul>
                 <ul>
                   <li>
-                    Specifies the data JSON object to be used in the HTTP request.
+                    Specifies the reference ID for headers that have been uploaded to the external adapter.
+                  </li>
+                  <li>
+                    The reference ID must match the reference ID that was entered when the headers were uploaded.
+                  </li>
+                  <li>
+                    If a contract has multiple different sets of uploaded headers, the reference ID for each set of headers must be unique.
+                  </li>
+                  <li>
+                    Only requests made by a contract address that was entered when the headers were uploaded can use
+                    the referenced headers in the HTTP request.
+                  </li>
+                  <li>
+                    To use headers in the HTTP request, either this value or the directly provided headers value, <i>h</i>, should be included, but not both.
+                  </li>
+                </ul>
+              </ul>
+              <b>d</b>: HTTP Request Data
+              <ul>
+                <ul>
+                  <li>
+                    Specifies the JSON object to be used in the body of the HTTP request.
+                  </li>
+                  <li>
+                    This value can be included for the HTTP methods <i>post, put, delete and patch</i> which have request bodies.
                   </li>
                   <li>
                     Do not include this value to make a request without performing an HTTP request.
@@ -247,10 +276,26 @@
               <ul>
                 <ul>
                   <li>
-                    Specifies the data JSON object to be used in the HTTP request.
+                    A string which contains the JavaScript to be executed, where the returned value is returned by the Chainlink request.
                   </li>
                   <li>
-                    Do not include this value to make a request without performing an HTTP request.
+                    The provided code is wrapped in a function before it is executed by the external adapter.
+                  </li>
+                  <li>
+                    Code can only contain vanilla Node.js code, without any imports.
+                  </li>
+                  <li>
+                    The maximum execution time for both the HTTP request and the provided JavaScript must be under 30 seconds.
+                  </li>
+                  <li>
+                    The maximum memory usage for an entire Adapter.js instance is 256 megabytes.
+                  </li>
+                  <li>
+                    The result of the HTTP request can be accessed by using the variable <code>response</code> in the provided JavaScript code.
+                    To access the data returned by the HTTP request, use <code>response.data</code>.
+                  </li>
+                  <li>
+                    Ether JavaScript should be included or the IPFS content ID, but not both.
                   </li>
                 </ul>
               </ul>
@@ -258,10 +303,19 @@
               <ul>
                 <ul>
                   <li>
-                    Specifies the data JSON object to be used in the HTTP request.
+                    Specifies the IPFS content ID of the file which contains the JavaScript which should be executed in the request.
                   </li>
                   <li>
-                    Do not include this value to make a request without performing an HTTP request.
+                    The the code in the uploaded file is executed the same way and has the same constraints as if the code were sent as a string, as described above.
+                  </li>
+                  <li>
+                    The file uploaded to IPFS must be a single JavaScript file.
+                  </li>
+                  <li>
+                    JavaScript files can easily be uploaded to IPFS using <a href="https://web3.storage/">Web3.Storage</a> via the Adapter.js simulator.
+                  </li>
+                  <li>
+                    Either the IPFS content ID or JavaScript value, <i>j</i>, should be included, but not both.
                   </li>
                 </ul>
               </ul>
@@ -279,7 +333,7 @@
                 </li>
                 <br>
                 <li>
-                  Verify that the request is valid by using the simulator.  The simulator sends requests directly to the external adapter so if it works in the simulator, it should work on-chain,
+                  Verify that the request is valid by using the simulator.  The simulator sends requests directly to the external adapter so if it works in the simulator it should work on-chain,
                provided the request is structured the same way.
                 </li>
                 <br>
