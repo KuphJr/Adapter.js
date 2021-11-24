@@ -1,0 +1,11 @@
+
+name: "Adapter.js"
+description: An external adapter that performs an HTTP request and executes custom JavaScript code which can use the results of the HTTP request. The adapter also supports the use of custom headers which can be included in a on-chain request, or uploaded to the external adapter so they can be kept private.
+node_identifier: adapterjs
+platforms:
+  - GCP Functions
+data_sources:
+  - name: Adapter.js
+  - url: https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice
+parameters:
+  - p
