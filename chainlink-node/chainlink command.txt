@@ -1,1 +1,0 @@
-gcloud compute ssh --zone "us-west4-b" "kuphjr@chainlink-node-mumbai"  --project "delta-fact-331401" -- -L 6688:localhost:6688
