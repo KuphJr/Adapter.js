@@ -11,12 +11,12 @@ CHAINLINK REQUEST EVENT EMITTED
 CHAINLINK REQUEST EVENT EMITTED
 CHAINLINK REQUEST EVENT EMITTED
 CHAINLINK ORACLE RETURNED INT256: -8
-CHAINLINK ORCALE RETURNED BOOL: true
-CHAINLINK ORCALE RETURNED UINT256: 8
-CHAINLINK ORCALE RETURNED BYTES32: <the first 31 characters from Elon Musk's most recent tweet>
+CHAINLINK ORCALE RETURNED UINT256: 100
+CHAINLINK ORCALE RETURNED BOOL: <bool value indicating if Elon's latest tweet mentions Bitcoin>
+CHAINLINK ORCALE RETURNED BYTES32: <most mentioned top 50 altcoin mentioned on cointelegraph.com's altcoin page with the # of times it was mentioned>
 ```
 
-Please note, the last line may no longer work if the Twitter API key that is used the fetch the tweet has been invalidated since this README was posted.
+Please note, the second to last line may no longer work if the Twitter API key that is used the fetch the tweet has been invalidated since this README was posted.
 
 ## Contact
 
