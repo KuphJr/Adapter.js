@@ -34,6 +34,7 @@ async function main() {
     if (event.topics.includes('0xdbb7bea395204da325e836f2375f392081152b224349387309f865df9c19ce2c')) {
       let bytes32_result = await smartContract.bytes32_result();
       console.log("CHAINLINK ORCALE RETURNED BYTES32:", ethers.utils.parseBytes32String(bytes32_result));
+      process.exit(0);
     }
   }));
   listener;
