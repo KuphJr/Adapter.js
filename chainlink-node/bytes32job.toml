@@ -10,7 +10,7 @@ observationSource = """
                   topics="$(jobRun.logTopics)"]
 
     decode_cbor  [type=cborparse data="$(decode_log.data)"]
-    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": { \\"p\\": $(decode_cbor.p), \\"k\\": \\"DyvZ6Ngbm6BM24SD\\" }}"]
+    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": { \\"p\\": $(decode_cbor.p), \\"k\\": \\"PRIVATEKEY\\" }}"]
     parse        [type=jsonparse path="result" data="$(fetch)"]
     encode_data  [type=ethabiencode abi="(bytes32 value)" data="{ \\"value\\": $(parse) }"]
     encode_tx    [type=ethabiencode
