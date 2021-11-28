@@ -34,8 +34,8 @@ Adapter.js is currently hosted on an independent Chainlink node for the Mumbai P
 
 ### **Blockchain:** Mumbai
 **Oracle Address:** 0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0
-- **Job ID for returning uint256:** 9d8c783d0b9645958697b880fd823137
-- **Job ID for job returning int256:** fe689d575d904580b454415399713c01
+- **Job ID for returning uint256:** fe689d575d904580b454415399713c01
+- **Job ID for job returning int256:** 9d8c783d0b9645958697b880fd823137
 - **Job ID for job returning bool:** 84a2d337e80c4f61bab7aff465666adc
 - **Job ID for job returning bytes32:** 1302aee4e8604b36830c801e613d8082
 
