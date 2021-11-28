@@ -7,7 +7,10 @@ async function main() {
   const smartContractFactory = await hre.ethers.getContractFactory("External_Adapter_Request_Examples");
   // @TODO: replace the address below with the current address of the deployed smart contract
   // Make sure it is funded with LINK
-  const smartContract = await smartContractFactory.attach("0xA566c616782f491c518866f1A759F37Ec6ce0049");
+  //const smartContract = await smartContractFactory.attach("0xA566c616782f491c518866f1A759F37Ec6ce0049");
+  
+  
+  const smartContract = await smartContractFactory.attach("0x510BD441B4DA84D94e9c6F810a2285c769156D1F");
 
   // set up a listener to print events emitted by the smart contract
   let filter = { address: smartContract.address };
@@ -37,22 +40,30 @@ async function main() {
 
   // the arguments to an adapter call function are:
   // address of oracle contract, job ID, LINK fee, external adapter parameters
+
+  // returns -1 * 8
   await smartContract.int256AdapterCall(
     ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
     "9d8c783d0b9645958697b880fd823137", ethers.BigNumber.from("10").pow(18),
-    '{"t":"int256","j":"return -8;"}');
+    '{"t":"int256","j":"return -1 * 8;"}');
+  // multiplies the results of a dummy API by 100
   await smartContract.uint256AdapterCall(
     ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
     "fe689d575d904580b454415399713c01", ethers.BigNumber.from("10").pow(18),
-    '{"t":"uint256","j":"return 8;"}');
+    "{\"t\":\"uint256\",\"m\":\"get\",\"u\":\"https://jsonplaceholder.typicode.com/posts/1\",\"j\":\"let responseData = response.data;\\nlet id = responseData.id;\\nlet mult = id * 100;\\nreturn mult;\"}"
+    );
+  // indicates if Elon's latest tweet mentions Bitcoin
   await smartContract.boolAdapterCall(
     ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
     "ae5142ab2b6744b7990e4ceb6589b52b", ethers.BigNumber.from("10").pow(18),
-    '{"t":"bool","j":"return true;"}');
+    "{\"t\":\"bool\",\"m\":\"get\",\"u\":\"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1\",\"r\":\"123\",\"j\":\"return /bitcoin/i.test(response.data[0].text);\"}"
+    );
+  // uses a JavaScript file uploaded to IPFS to get the number of times the
+  // most mentioned top 50 altcoin was mentioned in the headlines of an altcoin webpage
   await smartContract.bytes32AdapterCall(
     ethers.utils.getAddress("0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"),
     "1302aee4e8604b36830c801e613d8082", ethers.BigNumber.from("10").pow(18),
-    "{\"t\":\"bytes32\",\"m\":\"get\",\"u\":\"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=elonmusk&count=1\",\"r\":\"123\",\"j\":\"return response.data[0].text.slice(0,31);\"}"
+    "{\"t\":\"bytes32\",\"m\":\"get\",\"u\":\"https://cointelegraph.com/tags/altcoin\",\"i\":\"bafybeicpwgykpsvdr3hgxqctnoz5tovjwxrolrnduczlqhyx3hmpxvfopy\"}"
   )
 }
 
