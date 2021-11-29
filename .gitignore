@@ -8,3 +8,4 @@
 /website/.vscode
 /google-cloud-storage/node_modules
 /google-cloud-storage/key.json
+/external-adapter/smart_contracts/node_modules
