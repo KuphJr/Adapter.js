@@ -5,11 +5,8 @@ async function main() {
 
   // connect to a deployed instance of the smart contract
   const smartContractFactory = await hre.ethers.getContractFactory("External_Adapter_Request_Examples");
-  // @TODO: replace the address below with the current address of the deployed smart contract
-  // Make sure it is funded with LINK
-  //const smartContract = await smartContractFactory.attach("0xA566c616782f491c518866f1A759F37Ec6ce0049");
-  
-  
+
+  // Make sure it is funded with LINK  
   const smartContract = await smartContractFactory.attach("0x510BD441B4DA84D94e9c6F810a2285c769156D1F");
 
   // set up a listener to print events emitted by the smart contract
