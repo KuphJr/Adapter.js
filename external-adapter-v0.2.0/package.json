@@ -1,0 +1,35 @@
+{
+  "name": "JSeval-Chainlink-Adapter",
+  "version": "0.1.0",
+  "author": "",
+  "description": "",
+  "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/.bin/_mocha --timeout 0",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter": "^0.2.6",
+    "axios": "^0.24.0",
+    "busboy": "^0.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "node-fetch": "^3.0.0",
+    "request": "^2.88.2",
+    "vm2": "^3.9.5",
+    "web3.storage": "^3.3.3",
+    "yarn": "^1.22.17"
+  },
+  "devDependencies": {
+    "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "eslint": "^7.0.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "express": "^4.17.1",
+    "mocha": "^7.1.2"
+  }
+}

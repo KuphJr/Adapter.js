@@ -1,4 +1,5 @@
 /external-adapter/node_modules
+/external-adapter-v0.2.0/node_modules
 /website/node_modules
 /external-adapter/.env
 /node_modules

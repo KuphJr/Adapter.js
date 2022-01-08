@@ -1,266 +1,138 @@
-const { Validator, Requester } = require('@chainlink/external-adapter');
-const { VM, VMScript } = require('vm2');
-const { Web3Storage } = require('web3.storage');
-const fs = require('fs');
-const {Storage} = require('@google-cloud/storage');
-require('dotenv').config();
+const fs = require('fs')
+const process = require('process')
+const { AdapterError } = require('./Error')
+const { Validator } = require('./Validator')
+const { IpfsFetcher } = require('./IpfsFetcher')
+const { VarFetcher } = require('./VarFetcher')
+const { Sandbox } = require('./Sandbox')
+require('dotenv').config()
+
+/*
+//below is the definition of the 'input' variable for the 'createRequest' function
+interface input = {
+  id: number;
+  type: string; // type is either int256/int, uint256/uint, bytes32, bool, address, string or bytes
+  // either js or cid must be specified, but not both
+  js?: string;
+  cid?: string;
+  vars?: string; // variables to be passed to the VM environment
+  ref?: string; // unique reference to cached variables stored in the exteral adapter's database
+}
+*/
 
 const createRequest = (input, callback) => {
-  console.log("INPUT", JSON.stringify(input));
-  // validate the Chainlink request data
-  const validator = new Validator(input);
-  let params = JSON.parse(input.data.p);
-  const jobRunID = validator.validated.id;
-  
-  // use provided JavaScript string or fetch JavaScript from IPFS
-  const ipfsPromise = new Promise((resolve, reject) => {
-      if (typeof params.j === 'undefined') {
-        if (typeof params.i !== 'undefined') {
-          const client = new Web3Storage(
-            { token: process.env.WEB3STORAGETOKEN }
-          );
-          // get file from IPFS using Web3.Storage
-          client.get(params.i)
-          .then(res => (res.files())) // Web3File[]
-          .then(files => {
-            if (files.length === 0) {
-              throw "Could not find IPFS file."
-            }
-            // if multiple files are sent, only use the first one
-            files[0].text().then(fileString => {
-              // save content from fetched Web3 file to the javascript field
-              params.j = fileString;
-              resolve();
-            });
-          })
-          .catch(err => {
-            console.log("IPFS error: ", err.message);
-            callback(500, Requester.errored(jobRunID, err));
-            reject();
-          });
-        } else {
-          console.log("Input data error: No 'javascript' string or 'ipfs' content ID string provided.");
-          callback(500, Requester.errored(jobRunID, Error(
-            "No 'javascript' string or 'ipfs' content ID string provided.")));
-          reject();
-        }
-      } else {
-        if (typeof params.i !== 'undefined') {
-          console.log("Both a 'javascript' string and an 'ipfs' content ID string were provided.");
-          callback(500, Requester.errored(jobRunID, Error(
-            "Both a 'javascript' string and an 'ipfs' content ID string were provided.")));
-          reject();
-        }
-        resolve();
-      }
-    }
-  );
-
-  // check if cached headers should be used in the HTTP request
-  function getHeaders () {
-    if (typeof params.r !== 'undefined') {
-      if (typeof params.h !== 'undefined') {
-        constheadersError = new Error("Cannot use both a cached header and a direct header");
-        console.log("Cannot use both a cached header and a direct header");
-        callback(500, Requester.errored(jobRunID, authError));
-        return;
-      }
-      if (input.k === process.env.CHAINLINK_NODE_KEY) {
-        console.log("key matches key from CL node");
-        // download the file containing cached keys from Google Cloud Storage
-        const storage = new Storage({keyFilename: 'key.json'});
-        const destFileName = "/tmp/cachedHeaders.json";
-        const bucketName = "cached_headers";
-        async function getCachedHeader() {
-          const options = {
-            destination: destFileName,
-          };
-        
-          // download the file
-          await storage.bucket(bucketName).file('cachedHeaders.json').download(options);
-          console.log(`gs://${bucketName}/cachedHeaders.json downloaded to ${destFileName}.`);
-          let cachedHeaders = JSON.parse(fs.readFileSync('/tmp/cachedHeaders.json').toString());
-          let foundHeaders = false;
-          console.log("input.meta.oracleRequest.requester: ", input.meta.oracleRequest.requester);
-          console.log("params.r", params.r);
-          // check for matching headers
-          for (const header of cachedHeaders) {
-            console.log("header.authContractAddr:", header.authContractAddr);
-            console.log("header.authKey:", header.authKey);
-            if (header.authContractAddr === input.meta.oracleRequest.requester
-                && header.authKey === params.r) {
-                  params.h = header.headers;
-                  foundHeaders = true;
-                  break;
-            }
-          }
-          if (foundHeaders) {
-            console.log("retrieved headers", params.h);
-          } else {
-            throw "Could not find cached headers";
-          }
-        }
-        getCachedHeader()
-        .then(() => {
-          // send the http request using the cached headers
-          sendRequest();
-        })
-        .catch((err) => {
-          console.log(err.message);
-          callback(500, Requester.errored(jobRunID, err));
-          return;
-        });
-      } else {
-        const authError = new Error("The Chainlink node access key is incorrect");
-        console.log("The Chainlink node access key is incorrect");
-        callback(500, Requester.errored(jobRunID, authError));
-        return;
-      }
-    } else {
-      // if no cached headers are referenced, trigger the http request
-      sendRequest();
+  console.log('INPUT', JSON.stringify(input))
+  clearTmpDirectory()
+  const validator = new Validator(input)
+  let validatedInput
+  try {
+    validatedInput = validator.validateInput()
+  } catch (error) {
+    callback(500,
+      AdapterError({
+        jobRunID: input.id || 1,
+        message: `Input Validation Error: ${error.message}`
+      }).toJSONResponse())
+    return
+  }
+  let javascriptString
+  if (validatedInput.js) {
+    javascriptString = validatedInput.js
+  } else {
+  try {
+    javascriptString = IpfsFetcher
+      .fetchJavaScriptString(validatedInput.cid)
+      .then(result => result)
+  } catch (error) {
+    callback(500,
+      AdapterError({
+        jobRunID: validatedInput.id,
+        message: `IPFS Error: ${error.message}`
+      }).toJSONResponse()
+    )
+    return
+  }
+  const vars = {}
+  if (validatedInput.ref) {
+    const cachedVars = VarFetcher(validatedInput.contractAddress, validatedInput.ref)
+      .then(result => result)
+      .catch(error => {
+        clearTmpDirectory()
+        callback(500,
+          AdapterError({
+            jobRunID: validatedInput.id,
+            message: `Storage Fetch Error: ${error.message}`
+          }).toJSONResponse()
+        )
+        process.exit(1)
+      })
+    for (const key in cachedVars) {
+      vars[key] = cachedVars[key]
     }
   }
-
-  // create the config object for axios
-  // to perform the http request
-  function sendRequest () {
-    let config;
-    if (typeof params.m !== 'undefined') {
-      if (typeof params.u != 'undefined') {
-        config = {
-          method: params.m,
-          url: params.u
-        };
-      } else {
-        console.log("An HTTP request method was given but no URL was provided.");
-        callback(500, Requester.errored(jobRunID, Error(
-          "An HTTP request method was given but no URL was provided.")));
-        return;
-      }
-      try {
-        if (typeof params.h !== 'undefined') {
-          config["headers"] = params.h;
-        }
-        if (typeof params.d !== 'undefined') {
-          config["data"] = params.d;
-        }
-      } catch (requestBuildError) {
-        console.log("Request build error! Data provided: ", JSON.stringify(params), requestBuildError.message);
-        callback(500, Requester.errored(jobRunID, requestBuildError));
-        return;
-      }
-      console.log("REQUEST MADE WITH HEADERS:", config.headers);
-      Requester.request(config).then(response => {
-        const _response = { 
-          status: response.status,
-          statusText: response.statusText,
-          headers: response.headers,
-          data: response.data
-        };
-        // send the response to the axios http request
-        // to the function which evaluates the provided javascript code
-        evaluateJavaScript(jobRunID, params.j, 
-          params.t, callback, _response);
-      }).catch(error => {
-        console.log("Request error: ", error.message);
-        callback(500, Requester.errored(jobRunID, error));
-      });
-    } else {
-      // if no http request is made, just evaluate the javascript
-      evaluateJavaScript(jobRunID, params.j, 
-        params.t, callback);
+  if (validatedInput.vars) {
+    for (const key in validatedInput.vars) {
+      vars[key] = validatedInput.vars[key]
     }
   }
-
-
-  ipfsPromise.then(getHeaders)
-  .catch(() => { return; });
+  const output = Sandbox.evaluate(javascriptString, vars)
+    .then(result => result)
+    .catch(error => {
+      clearTmpDirectory()
+      callback(500,
+        AdapterError({
+          jobRunID: validatedInput.id,
+          message: `JavaScript Evaluation Error: ${error.message}`
+        }).toJSONResponse()
+      )
+      process.exit(1)
+    })
+  let validatedOutput
+  try {
+    validatedOutput = validator.validatedOutput(output)
+  } catch (error) {
+    callback(500,
+      AdapterError({
+        jobRunID: validatedInput.id,
+        message: `Output Validation Error: ${error.message}`
+      }).toJSONResponse())
+    return
+  }
+  callback(200, {
+    jobRunId: validatedInput.id,
+    result: validatedOutput,
+    statusCode: 200
+  })
+  clearTmpDirectory()
 }
 
-// this function evaluates the provided javascript using the VM2 sandbox
-function evaluateJavaScript(jobRunID, javascript, returnType, callback, 
-  response = { data: "", status: 200 }) {
-  response.jobRunID = jobRunID;
-  delete response.headers;
-  console.log("HTTP REQUEST RESPONSE: ", response);
-  const vm = new VM({
-      timeout: 1000,
-      sandbox: { response: response }
-  });
-  try {
-    let script;
-    try {
-      // create the script to be executed by the VM
-      script = new VMScript("(() => {" + javascript + "})();").compile();
-    } catch (compileError) {
-      // save and send back a relevent error message to the user
-      throw ("Error compiling provided JavaScript: " + compileError + "\n" +
-        compileError.stack.split("\n")[1]
-        .slice(8, compileError.stack.split("\n")[1].length-5) +
-        "\n" + compileError.stack.split("\n")[2].slice(8));
-    }
-    try {
-      // securely evaluate the javascript
-      let result = vm.run(script);
-      if (typeof response.data === 'string') {
-        // if the fetched data was not a JSON object,
-        // convert it to an object so the response can be
-        // processed by the Chainlink node
-        // (ie: if typeof response.data === 'string')
-        let responseData = response.data;
-        response.data = { data: responseData };
-      }
-      // add the result to the response object
-      response.data.result = result;
-    } catch (runScriptError) {
-      throw ("Error evaluating provided JavaScript: " + runScriptError);
-    }
-    if (typeof response.data.result === 'undefined') {
-      throw ("Error evaluating provided JavaScript: No value was returned");
-    }
-    // validate resulting data
-    switch (returnType) {
-      case 'int256':
-        if (typeof response.data.result !== 'number') {
-          throw "The returned value must be a number for the specified return type of int256. Returned: " + response.data.result;
-        } if (response.data.result % 1 != 0) {
-          throw "The returned value must be a whole number for the specified return type of int256. Returned: " + response.data.result;
-        }
-        break;
-      case 'uint256':
-        if (typeof response.data.result !== 'number') {
-          throw "The returned value must be a number for the specified return type of uint256. Returned: " + response.data.result;
-        }
-        if (response.data.result < 0) {
-          throw "The returned value must be positive for the specified return type of uint256. Returned: " + response.data.result;
-        }
-        if (response.data.result % 1 != 0) {
-          throw "The returned value must be a whole number for the specified return type of uint256. Returned: " + response.data.result;
-        }
-        break;
-      case 'bool':
-        if (typeof response.data.result !== 'boolean') {
-          throw "The returned value must be a boolean for the specified return type of bool. Returned: " + response.data.result;
-        }
-        break;
-      case 'bytes32':
-        if (typeof response.data.result !== 'string') {
-          throw "The returned value must be a string for the specified return type of bytes32. Returned: " + response.data.result;
-        }
-        if (response.data.result.length > 32) {
-          throw "The returned string is larger than 32 bytes but the specified return type is bytes32. Returned: " + response.data.result;
-        }
-        break;
-      default:
-        throw ("Invalid return type specified: " + returnType);
-    }
-    callback(response.status, Requester.success(jobRunID, response));
-  } catch (evalError) {
-    console.log(evalError);
-    callback(500, Requester.errored(jobRunID, evalError));
-  }
-};
+const clearTmpDirectory = () => {
+  const files = fs.readdirSync('/tmp')
+  files.forEach(file => {
+    fs.unlinkSync(file)
+  })
+}
 
 // Export for testing with express
-module.exports.createRequest = createRequest;
+module.exports.createRequest = createRequest
+
+// Export for GCP Functions deployment
+// exports.gcpservice = (req, res) => {
+//   // set JSON content type and CORS headers for the response
+//   res.header('Content-Type', 'application/json')
+//   res.header('Access-Control-Allow-Origin', '*')
+//   res.header('Access-Control-Allow-Headers', 'Content-Type')
+
+//   // respond to CORS preflight requests
+//   if (req.method === 'OPTIONS') {
+//   // Send response to OPTIONS requests
+//     res.set('Access-Control-Allow-Methods', 'GET')
+//     res.set('Access-Control-Allow-Headers', 'Content-Type')
+//     res.set('Access-Control-Max-Age', '3600')
+//     res.status(204).send('')
+//   } else {
+//     createRequest(req.body, (statusCode, data) => {
+//       res.status(statusCode).send(data)
+//     })
+//   }
+// }
