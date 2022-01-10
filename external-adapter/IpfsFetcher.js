@@ -1,6 +1,6 @@
-const { Web3Storage } = require('web3.storeage')
+const { Web3Storage } = require('web3.storage')
 
-export default class IpfsFetcher {
+class IpfsFetcher {
   static async fetchJavaScriptString (cid) {
     const client = new Web3Storage({ token: process.env.WEB3STORAGETOKEN })
     const archive = await client.get(cid)
@@ -11,3 +11,5 @@ export default class IpfsFetcher {
     return await files[0].text()
   }
 }
+
+module.exports.IpfsFetcher = IpfsFetcher

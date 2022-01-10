@@ -1,5 +1,5 @@
 {
-  "name": "JSeval-Chainlink-Adapter",
+  "name": "adapter.js",
   "version": "0.1.0",
   "author": "",
   "description": "",
@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@chainlink/external-adapter": "^0.2.6",
+    "@google-cloud/storage": "^5.16.0",
     "axios": "^0.24.0",
     "busboy": "^0.3.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "express": "^4.17.2",
     "node-fetch": "^3.0.0",
     "request": "^2.88.2",
     "vm2": "^3.9.5",
@@ -29,7 +31,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "express": "^4.17.1",
     "mocha": "^7.1.2"
   }
 }

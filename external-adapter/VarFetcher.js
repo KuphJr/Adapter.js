@@ -1,7 +1,7 @@
 const fs = require('fs')
 const { Storage } = require('@google-cloud/storage')
 
-export default class VarFetcher {
+class VarFetcher {
   static async fetchCachedVariables (contractAddress, ref) {
     const filename = contractAddress + ref + '.json'
     if (filename.length > 256) {
@@ -14,3 +14,5 @@ export default class VarFetcher {
     return JSON.parse(fs.readFileSync('/tmp/vars.json'))
   }
 }
+
+module.exports.VarFetcher = VarFetcher

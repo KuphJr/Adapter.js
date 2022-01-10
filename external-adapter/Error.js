@@ -1,4 +1,4 @@
-export default class AdapterError extends Error {
+class AdapterError extends Error {
   constructor ({
     jobRunID = '1',
     status = 'errored',
@@ -26,3 +26,5 @@ export default class AdapterError extends Error {
     }
   }
 }
+
+module.exports.AdapterError = AdapterError
