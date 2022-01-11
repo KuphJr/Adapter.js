@@ -1,3 +1,6 @@
+// This file is for testing the external adapter locally.
+// It will not be used in the final deployment to a FaaS platform
+
 const createRequest = require('./index').createRequest
 
 const express = require('express')
@@ -34,7 +37,7 @@ app.post('/', async (req, res) => {
   // console.log('POST Data: ', req.body)
   try {
     await createRequest(req.body, (status, result) => {
-      console.log('Result: ', result)
+      console.log('RESULT: ', result)
       res.status(status).json(result)
     })
   } catch (error) {

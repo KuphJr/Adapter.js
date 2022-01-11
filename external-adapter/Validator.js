@@ -6,8 +6,6 @@ class Validator {
   }
 
   validateInput () {
-    console.log('VALIDATING INPUT')
-    console.log(this.input)
     if (typeof this.input.type !== 'string') {
       throw Error("The parameter 'type' must be provided as a string.")
     }
@@ -58,7 +56,7 @@ class Validator {
       if (this.input.nodeKey !== process.env.nodeKey) {
         throw Error('The node key is invalid.')
       }
-      if (this.input.contractAddress !== 'string') {
+      if (typeof this.input.contractAddress !== 'string') {
         throw Error("Invalid value for parameter 'contractAddress', which must be a string.")
       }
     }

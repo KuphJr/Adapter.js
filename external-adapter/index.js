@@ -1,4 +1,6 @@
 const fs = require('fs')
+const os = require('os')
+const path = require('path')
 const { AdapterError } = require('./Error')
 const { Validator } = require('./Validator')
 const { IpfsFetcher } = require('./IpfsFetcher')
@@ -8,7 +10,9 @@ require('dotenv').config()
 
 const createRequest = async (input, callback) => {
   console.log('INPUT', JSON.stringify(input))
-  clearDirectory()
+  const tempFilename = path.join(os.tmpdir(), 'temp')
+  fs.rmdirSync(path.join(tempFilename), { recursive: true })
+  fs.mkdirSync(tempFilename)
   const validator = new Validator(input)
   let validatedInput
   try {
@@ -42,10 +46,10 @@ const createRequest = async (input, callback) => {
   if (validatedInput.ref) {
     let cachedVars
     try {
-      cachedVars = await VarFetcher.fetchVars(
+      cachedVars = await VarFetcher.fetchCachedVariables(
         validatedInput.contractAddress, validatedInput.ref)
     } catch (error) {
-      clearDirectory()
+      fs.rmdirSync(path.join(tempFilename), { recursive: true })
       callback(500,
         new AdapterError({
           jobRunID: validatedInput.id,
@@ -66,7 +70,7 @@ const createRequest = async (input, callback) => {
   try {
     output = await Sandbox.evaluate(javascriptString, vars)
   } catch (error) {
-    clearDirectory()
+    fs.rmdirSync(path.join(tempFilename), { recursive: true })
     callback(500,
       new AdapterError({
         jobRunID: validatedInput.id,
@@ -78,6 +82,7 @@ const createRequest = async (input, callback) => {
   try {
     validatedOutput = validator.validateOutput(output)
   } catch (error) {
+    fs.rmdirSync(path.join(tempFilename), { recursive: true })
     callback(500,
       new AdapterError({
         jobRunID: validatedInput.id,
@@ -85,26 +90,12 @@ const createRequest = async (input, callback) => {
       }).toJSONResponse())
     return
   }
-  console.log('VALIDATED OUTPUT')
-  console.log(validatedOutput)
   callback(200, {
     jobRunId: validatedInput.id,
     result: validatedOutput,
     statusCode: 200
   })
-  clearDirectory()
-}
-
-const clearDirectory = () => {
-  const dirents = fs.readdirSync('./tmp')
-  dirents.forEach(dirent => {
-    console.log('DIRENT', dirent)
-    if (fs.lstatSync('./tmp/' + dirent).isDirectory()) {
-      fs.rmdirSync('./tmp/' + dirent, { recursive: true })
-    } else {
-      fs.rmSync('./tmp/' + dirent)
-    }
-  })
+  fs.rmdirSync(path.join(tempFilename), { recursive: true })
 }
 
 // Export for testing with express
