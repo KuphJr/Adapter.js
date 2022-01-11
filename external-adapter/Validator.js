@@ -49,11 +49,11 @@ class Validator {
     if (typeof this.input.vars !== 'undefined' && typeof this.input.vars !== 'string') {
       throw Error("Invalid value for parameter 'vars' which must be a string")
     }
-    if (typeof this.input.ref !== 'undefined' && typeof this.input.ref !== 'string') {
-      throw Error("Invalid value for parameter 'ref' which must be a string")
-    }
-    if (typeof this.input.ref === 'string') {
-      if (this.input.nodeKey !== process.env.nodeKey) {
+    if (typeof this.input.ref !== 'undefined') {
+      if (typeof this.input.ref !== 'string') {
+        throw Error("Invalid value for parameter 'ref' which must be a string")
+      }
+      if (typeof this.input.nodeKey === 'undefined' || this.input.nodeKey !== process.env.NODEKEY) {
         throw Error('The node key is invalid.')
       }
       if (typeof this.input.contractAddress !== 'string') {
