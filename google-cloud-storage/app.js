@@ -4,7 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 var cors = require('cors')
 const app = express()
-const port = process.env.EA_PORT || 8080
+const port = process.env.EA_PORT || 8081
 
 app.use(cors())
 
