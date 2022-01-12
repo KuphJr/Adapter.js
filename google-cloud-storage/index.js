@@ -20,9 +20,7 @@ const saveVars = async (input, callback) => {
   }
   const storage = new VarStorage();
   try {
-    await storage.uploadVars(validatedInput.vars,
-      validatedInput.contractAddress,
-      validatedInput.referenceId)
+    await storage.uploadData(validatedInput)
   } catch (error) {
     callback(500,
       {
@@ -33,7 +31,7 @@ const saveVars = async (input, callback) => {
           message: 'Google Cloud Storage Upload Error: ' + error.message
         }
       })
-      return
+    return
   }
   callback(200, {
     status: 'Success',

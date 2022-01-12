@@ -1,18 +1,12 @@
-const fs = require('fs')
-const os = require('os')
-const path = require('path')
 const { AdapterError } = require('./Error')
 const { Validator } = require('./Validator')
 const { IpfsFetcher } = require('./IpfsFetcher')
-const { VarFetcher } = require('./VarFetcher')
+const { CachedDataFetcher } = require('./CachedDataFetcher')
 const { Sandbox } = require('./Sandbox')
 require('dotenv').config()
 
 const createRequest = async (input, callback) => {
   console.log('INPUT', JSON.stringify(input))
-  const tempFilename = path.join(os.tmpdir(), 'temp')
-  fs.rmdirSync(path.join(tempFilename), { recursive: true })
-  fs.mkdirSync(tempFilename)
   const validator = new Validator(input)
   let validatedInput
   try {
@@ -25,10 +19,33 @@ const createRequest = async (input, callback) => {
       }).toJSONResponse())
     return
   }
+  // 'vars' contains the variables that will be passed to the sandbox
+  const vars = {}
+  // 'javascriptString' is the code which will be executed by the sandbox
   let javascriptString
-  if (validatedInput.js) {
-    javascriptString = validatedInput.js
-  } else {
+  // check if any cached data should be fetched from the adapter's database
+  if (validatedInput.ref) {
+    let cachedData
+    try {
+      cachedData = await CachedDataFetcher.fetchCachedData(
+        validatedInput.contractAddress, validatedInput.ref)
+    } catch (error) {
+      callback(500,
+        new AdapterError({
+          jobRunID: validatedInput.id,
+          message: `Storage Fetch Error: ${error.message}`
+        }).toJSONResponse())
+      return
+    }
+    if (cachedData.js) {
+      javascriptString = cachedData.js
+    }
+    for (const key in cachedData.vars) {
+      vars[key] = cachedData.vars[key]
+    }
+  }
+  // check if the JavaScript should be fetched from IPFS
+  if (validatedInput.cid) {
     try {
       javascriptString = await IpfsFetcher
         .fetchJavaScriptString(validatedInput.cid)
@@ -42,35 +59,22 @@ const createRequest = async (input, callback) => {
       return
     }
   }
-  const vars = {}
-  if (validatedInput.ref) {
-    let cachedVars
-    try {
-      cachedVars = await VarFetcher.fetchCachedVariables(
-        validatedInput.contractAddress, validatedInput.ref)
-    } catch (error) {
-      fs.rmdirSync(path.join(tempFilename), { recursive: true })
-      callback(500,
-        new AdapterError({
-          jobRunID: validatedInput.id,
-          message: `Storage Fetch Error: ${error.message}`
-        }).toJSONResponse())
-      return
-    }
-    for (const key in cachedVars) {
-      vars[key] = cachedVars[key]
-    }
+  // check if the JavaScript was provided directly in the request
+  if (validatedInput.js) {
+    javascriptString = validatedInput.js
   }
+  // check if any vars were provided directly in the request
   if (validatedInput.vars) {
     for (const key in validatedInput.vars) {
       vars[key] = validatedInput.vars[key]
     }
   }
+  // 'output' contains the value returned from the user-provided code
   let output
+  // execute the user-provided code in the sandbox
   try {
     output = await Sandbox.evaluate(javascriptString, vars)
   } catch (error) {
-    fs.rmdirSync(path.join(tempFilename), { recursive: true })
     callback(500,
       new AdapterError({
         jobRunID: validatedInput.id,
@@ -79,10 +83,10 @@ const createRequest = async (input, callback) => {
     return
   }
   let validatedOutput
+  // validate the return type from the user-provided code
   try {
     validatedOutput = validator.validateOutput(output)
   } catch (error) {
-    fs.rmdirSync(path.join(tempFilename), { recursive: true })
     callback(500,
       new AdapterError({
         jobRunID: validatedInput.id,
@@ -90,12 +94,12 @@ const createRequest = async (input, callback) => {
       }).toJSONResponse())
     return
   }
+  // return the result from the external adapter
   callback(200, {
     jobRunId: validatedInput.id,
     result: validatedOutput,
     statusCode: 200
   })
-  fs.rmdirSync(path.join(tempFilename), { recursive: true })
 }
 
 // Export for testing with express
@@ -110,7 +114,6 @@ exports.gcpservice = async (req, res) => {
 
   // respond to CORS preflight requests
   if (req.method === 'OPTIONS') {
-  // Send response to OPTIONS requests
     res.set('Access-Control-Allow-Methods', 'GET')
     res.set('Access-Control-Allow-Headers', 'Content-Type')
     res.set('Access-Control-Max-Age', '3600')

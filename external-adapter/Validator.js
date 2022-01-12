@@ -33,31 +33,29 @@ class Validator {
     if (typeof this.input.id === 'undefined') {
       this.input.id = 1
     } else if (typeof this.input.id !== 'number' || this.input.id < 0 || this.input.id % 1 !== 0) {
-      throw Error("Invalid value for parameter 'id' which must be a positive whole number.")
+      throw Error("Invalid value for the parameter 'id' which must be a positive whole number.")
     }
-    if (typeof this.input.js === 'undefined') {
-      if (typeof this.input.cid === 'undefined') {
-        throw Error("Either the parameter 'js' or 'cid' must be provided.")
-      }
+    if (typeof this.input.js !== 'undefined' && typeof this.input.js !== 'string') {
+      throw Error("Invalid value for the parameter 'js' which must be a string.")
     }
-    if (typeof this.input.cid === 'undefined' && typeof this.input.js === 'undefined') {
-      throw Error("Either the parameter 'js' or 'cid' must be provided.")
+    if (typeof this.input.cid !== 'undefined' && typeof this.input.cid !== 'string') {
+      throw Error("Invalid value for the parameter 'cid' which must be a string.")
     }
     if (typeof this.input.cid !== 'undefined' && typeof this.input.js !== 'undefined') {
       throw Error("Both of the parameter 'js' or 'cid' cannot be provided simultaneously.")
     }
     if (typeof this.input.vars !== 'undefined' && typeof this.input.vars !== 'string') {
-      throw Error("Invalid value for parameter 'vars' which must be a string")
+      throw Error("Invalid value for the parameter 'vars' which must be a string")
     }
     if (typeof this.input.ref !== 'undefined') {
       if (typeof this.input.ref !== 'string') {
-        throw Error("Invalid value for parameter 'ref' which must be a string")
+        throw Error("Invalid value for the parameter 'ref' which must be a string")
       }
       if (typeof this.input.nodeKey === 'undefined' || this.input.nodeKey !== process.env.NODEKEY) {
         throw Error('The node key is invalid.')
       }
       if (typeof this.input.contractAddress !== 'string') {
-        throw Error("Invalid value for parameter 'contractAddress', which must be a string.")
+        throw Error("Invalid value for the parameter 'contractAddress' which must be a string.")
       }
     }
     return this.input
