@@ -1,0 +1,1 @@
+return (response.data[0].text.match("floki") > -1);
