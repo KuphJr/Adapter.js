@@ -1,7 +1,7 @@
 // This file is for testing the external adapter locally.
 // It will not be used in the final deployment to a FaaS platform
 
-const createRequest = require('./index').createRequest
+const { createRequest } = require('./index')
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -13,8 +13,8 @@ app.use(cors())
 
 app.options('*', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type') // Add other headers here
-  res.setHeader('Access-Control-Allow-Methods', 'POST') // Add other methods here
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Access-Control-Allow-Methods', 'POST')
   res.send()
 })
 
@@ -24,17 +24,6 @@ app.post('/', async (req, res) => {
   for (const key in req.query) {
     req.body[key] = req.query[key]
   }
-  // console.log('PARAM')
-  // console.log(req.param)
-  // console.log('PARAMS')
-  // console.log(req.params)
-  // console.log('PATH')
-  // console.log(req.path)
-  // console.log('ROUTE')
-  // console.log(req.route)
-  // console.log('QUERY')
-  // console.log(req.query)
-  // console.log('POST Data: ', req.body)
   try {
     await createRequest(req.body, (status, result) => {
       console.log('RESULT: ', result)

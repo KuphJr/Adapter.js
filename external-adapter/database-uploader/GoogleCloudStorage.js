@@ -1,7 +1,6 @@
 const { Storage } = require('@google-cloud/storage');
-const fs = require('fs');
 
-class VarStorage {
+class DataStorage {
     constructor(bucketName = 'cached-data') {
         this.storage = new Storage({ keyFilename: 'key.json' })
         this.bucket = this.storage.bucket(bucketName)
@@ -20,4 +19,4 @@ class VarStorage {
     }
 }
 
-module.exports.VarStorage = VarStorage
+module.exports.DataStorage = DataStorage

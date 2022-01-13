@@ -1,4 +1,4 @@
-const { saveVars } = require('./index')
+const { createRequest } = require('./index')
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -17,12 +17,19 @@ app.options('*', (req, res) => {
 
 app.use(bodyParser.json())
 
-app.post('/', (req, res) => {
-  console.log('POST Data: ', req.body)
-  saveVars(req.body, (status, result) => {
-    console.log('Result: ', result)
-    res.status(status).json(result)
-  })
+app.post('/', async (req, res) => {
+  for (const key in req.query) {
+    req.body[key] = req.query[key]
+  }
+  try {
+    console.log('POST Data: ', req.body)
+    await createRequest(req.body, (status, result) => {
+      console.log('Result: ', result)
+      res.status(status).json(result)
+    })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}!`))

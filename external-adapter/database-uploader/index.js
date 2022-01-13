@@ -1,7 +1,7 @@
-const { VarStorage } = require('./GoogleCloudStorage')
+const { DataStorage } = require('./GoogleCloudStorage')
 const { Validator } = require('./Validator')
 
-const saveVars = async (input, callback) => {
+const createRequest = async (input, callback) => {
   console.log("INPUT", JSON.stringify(input));
   let validatedInput
   try {
@@ -18,7 +18,7 @@ const saveVars = async (input, callback) => {
       })
     return
   }
-  const storage = new VarStorage();
+  const storage = new DataStorage();
   try {
     await storage.uploadData(validatedInput)
   } catch (error) {
@@ -40,7 +40,7 @@ const saveVars = async (input, callback) => {
 }
 
 // Export for testing with express
-module.exports.saveVars = saveVars;
+module.exports.createRequest = createRequest
 
 // Export for GCP Functions deployment
 exports.gcpservice = async (req, res) => {
@@ -51,7 +51,6 @@ exports.gcpservice = async (req, res) => {
 
   // respond to CORS preflight requests
   if (req.method === 'OPTIONS') {
-  // Send response to OPTIONS requests
     res.set('Access-Control-Allow-Methods', 'GET')
     res.set('Access-Control-Allow-Headers', 'Content-Type')
     res.set('Access-Control-Max-Age', '3600')
@@ -61,7 +60,7 @@ exports.gcpservice = async (req, res) => {
       req.body[key] = req.query[key]
     }
     try {
-      await saveVars(req.body, (statusCode, data) => {
+      await createRequest(req.body, (statusCode, data) => {
         res.status(statusCode).send(data)
       })
     } catch (error) {
