@@ -1,0 +1,18 @@
+{
+  "name": "adapter.js",
+  "version": "0.1.0",
+  "author": "",
+  "description": "",
+  "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/.bin/_mocha --timeout 0",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "vm2": "^3.9.5"
+  },
+  "devDependencies": {
+    "yarn": "^1.22.17"
+  }
+}

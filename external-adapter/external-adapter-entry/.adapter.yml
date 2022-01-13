@@ -1,0 +1,10 @@
+name: "Adapter.js"
+description: An external adapter that executes user-provided JavaScript code.
+node_identifier: adapterjs
+platforms:
+  - GCP Functions
+data_sources:
+  - name: Adapter.js
+    url: https://us-central1-textparserexternaladapter.cloudfunctions.net/gcpservice
+parameters:
+  - p
