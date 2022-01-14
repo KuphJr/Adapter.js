@@ -1,8 +1,8 @@
 {
-  "name": "adapter.js",
-  "version": "0.1.0",
-  "author": "",
-  "description": "",
+  "name": "external-adapter-entry",
+  "version": "0.2.0",
+  "author": "KuphJr",
+  "description": "An external adapter for securely executing user-provided JavaScript and returning the results on-chain.",
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/.bin/_mocha --timeout 0",

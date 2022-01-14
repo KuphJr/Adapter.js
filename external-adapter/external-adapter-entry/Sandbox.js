@@ -1,9 +1,11 @@
 const axios = require('axios')
+// @TODO: Change the variable below to match the URL of the 'faas-sandbox' deployment
+const faasSandboxUrl = 'http://localhost:8079/'
 
 class Sandbox {
   static async evaluate (javascriptString, vars) {
     try {
-      const { data } = await axios.post('http://localhost:8079/', {
+      const { data } = await axios.post(faasSandboxUrl, {
         js: javascriptString,
         vars: vars
       })

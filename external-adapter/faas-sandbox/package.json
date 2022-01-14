@@ -1,11 +1,10 @@
 {
-  "name": "adapter.js",
-  "version": "0.1.0",
-  "author": "",
-  "description": "",
+  "name": "faas-sandbox",
+  "version": "0.2.0",
+  "author": "KuphJr",
+  "description": "A sandbox for executing JavaScript code meant to be deployed to a FaaS platform.",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/_mocha --timeout 0",
     "start": "node app.js"
   },
   "dependencies": {
