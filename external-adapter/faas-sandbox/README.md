@@ -22,7 +22,7 @@ Response
   "result": 4,
   "statusCode": 200
 }
-
+```
 If an error occurs when compiling or executing the provided JavaScript, the response will contain an `error` object with the error name, message and details containing the stack trace of the error.  An example error is shown below.
 ```
 {
