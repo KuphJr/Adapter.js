@@ -6,19 +6,21 @@ This folder contains the API which enables JavaScript code and variables to be s
 
 To interact with this API, send a POST request with data in the following format.   
 
-```{
-  "contractAddress": "0x_AUTHORIZED_CONTRACT_ADDRESS_HERE",
-  "ref": "UNIQUE_REFERENCE_ID_STRING_HERE",
+```
+{
+  "contractAddress": "0xAUTHORIZED_CONTRACT_ADDRESS_HERE",
+  "ref": "UniqueReferenceStringHere",
   "vars": {
-    "myNumber": 100,
+    "myNum": 100,
     "myString": "https://jsonplaceholder.typicode.com/posts/1",
     "myArray": [ 0, 1, 2, ]
     "myObject": {
       "key": 1
     }
-  "js": "const axios = require('axios'); const response = await axios.get(myString); const id = response.data.id; return id * myNumber;"
+  "js": "const axios = require('axios'); const res = await axios.get(myString); const id = res.data.id; return id * myNum;"
   }
-}```
+}
+```
 
 Please note that the `ref` parameter must be a unique string and once it is used the data stored using this reference ID cannot be overwritten.  The reference ID can only contain alphanumerical characters and must be less than or equal to 32 characters in length.
 

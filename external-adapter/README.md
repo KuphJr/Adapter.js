@@ -6,7 +6,7 @@ Adapter.js is composed of 3 different components which all must be deployed to a
 
 ### External Adapter Entry
 
-The first component, `external-adapter-entry`, is the entry point into the external adapter.  This is the component to which the Chainlink bridge will point.  It is responsible for validating input data, fetching cached JavaScript code from IPFS and fetching private variables and JavaScripte code from the external adapter's database.  It then sends a request to the `faas-sandbox` component which handles the execution of the user-provided code.
+The first component, `external-adapter-entry`, is the entry point into the external adapter.  This is the API where the Chainlink bridge will point.  It is responsible for validating input data, fetching cached JavaScript code from IPFS and fetching private variables and JavaScripte code from the external adapter's database.  It then sends a request to the `faas-sandbox` component which handles the execution of the user-provided code.
 
 ### FaaS Sandbox
 
