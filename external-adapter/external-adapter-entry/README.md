@@ -4,7 +4,8 @@
 
 This is the entry point into Adapter.js and is the endpoint to which the Chainlink external adapter bridge should point.  See examples of valid Adapter.js requests below.
 
-```{
+```
+{
   "type": "uint",
   "js": "const axios = require('axios'); const response = axios.get(url); return response.data.id",
   "vars": {
@@ -13,7 +14,8 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
 }
 ```
 
-```{
+```
+{
   "type": "int256",
   "nodeKey": "PRIVATE_UNIQUE_CHAINLINK_NODE_KEY_HERE",
   "contractAddress": "0x_CONTRACT_ADDRESS_HERE",
@@ -23,7 +25,8 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
 }
 ```
 
-```{
+```
+{
   "type": "bytes32",
   "nodeKey": "PRIVATE_UNIQUE_CHAINLINK_NODE_KEY_HERE",
   "contractAddress": "0x_CONTRACT_ADDRESS_HERE",
