@@ -9,7 +9,7 @@ const createRequest = async (input, callback) => {
   } catch (error) {
     callback(500,
       {
-        status: 'Errored',
+        status: 'errored',
         statusCode: 500,
         error: {
           name: 'Validation Error',
@@ -24,7 +24,7 @@ const createRequest = async (input, callback) => {
   } catch (error) {
     callback(500,
       {
-        status: 'Errored',
+        status: 'errored',
         statusCode: 500,
         error: {
           name: 'Google Cloud Storage Upload Error',

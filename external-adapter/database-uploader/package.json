@@ -1,14 +1,13 @@
 {
-  "name": "database-uploader",
-  "version": "1.0.0",
+  "name": "adapterjs-database-uploader",
+  "author": "KuphJr",
+  "version": "0.2.0",
   "description": "",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/_mocha --timeout 0",
     "start": "node app.js"
   },
-  "author": "KuphJr",
   "dependencies": {
     "@google-cloud/storage": "^5.16.0"
   },
