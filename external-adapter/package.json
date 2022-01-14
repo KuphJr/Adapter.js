@@ -1,0 +1,11 @@
+{
+  "name": "adapterjs",
+  "version": "0.2.0",
+  "description": "An external adapter for securely executing user-provided JavaScript and returning the results on-chain.",
+  "scripts": {
+    "setup": "(cd faas-sandbox && npm install) & (cd ../database-uploader && npm install) & (cd ../external-adapter-entry && npm install)",
+    "start": "(cd database-uploader && npm start) | (cd faas-sandbox && npm start) | (cd external-adapter-entry && npm start)"
+  },
+  "author": "KuphJr",
+  "license": "MIT"
+}
