@@ -8,4 +8,7 @@
 /smart_contracts/node_modules
 /smart_contracts/.env
 /website/node_modules
+/external-adapter/node_modules
+/external-adapter/test/smartContracts/node_modules
+/node_modules
 /website/.vscode

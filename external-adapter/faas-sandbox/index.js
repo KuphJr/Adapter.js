@@ -1,6 +1,6 @@
 const { Validator } = require('./Validator')
 const { Sandbox } = require('./Sandbox')
-require('dotenv').config()
+const { JavaScriptError } = require('./Error')
 
 const createRequest = async (input, callback) => {
   console.log('INPUT', JSON.stringify(input))
@@ -24,14 +24,12 @@ const createRequest = async (input, callback) => {
   try {
     output = await Sandbox.evaluate(validatedInput.js, validatedInput.vars)
   } catch (error) {
-    callback(500, {
-      status: 500,
-      statusCode: 'errored',
-      error: {
-        name: 'SandboxError: ',
-        message: `${error.message}`
-      }
+    const javascriptError = new JavaScriptError({
+      name: error.name,
+      message: error.message,
+      details: error.stack
     })
+    callback(500, javascriptError.toJSONResponse())
     return
   }
   let validatedOutput

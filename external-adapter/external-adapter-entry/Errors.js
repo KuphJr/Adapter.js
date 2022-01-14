@@ -17,14 +17,30 @@ class AdapterError extends Error {
   }
 
   toJSONResponse () {
-    const errorBasic = { name: this.name, message: this.message }
     return {
       jobRunID: this.jobRunID,
       status: this.status,
       statusCode: this.statusCode,
-      error: errorBasic
+      error: { name: this.name, message: this.message }
+    }
+  }
+}
+
+class JavaScriptError extends AdapterError {
+  constructor (details, adapterErrorObject) {
+    super(adapterErrorObject)
+
+    this.details = details
+  }
+  toJSONResponse () {
+    return {
+      jobRunID: this.jobRunID,
+      status: this.status,
+      statusCode: this.statusCode,
+      error: { name: this.name, message: this.message, details: this.details }
     }
   }
 }
 
 module.exports.AdapterError = AdapterError
+module.exports.JavaScriptError = JavaScriptError

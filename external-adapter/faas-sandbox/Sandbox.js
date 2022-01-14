@@ -15,18 +15,10 @@ class Sandbox {
       }
     })
     let functionScript
-    try {
-      functionScript = new VMScript('module.exports = async function () {' + javascriptString + '}').compile()
-    } catch (compileError) {
-      throw Error('Error compiling provided JavaScript: ' + compileError)
-    }
+    functionScript = new VMScript('module.exports = async function () {\n' + javascriptString + '\n}').compile()
     let result
-    try {
-      const functionInSandbox = await vm.run(functionScript)
-      result = await functionInSandbox()
-    } catch (runScriptError) {
-      throw Error('Error evaluating provided JavaScript: ' + runScriptError)
-    }
+    const functionInSandbox = await vm.run(functionScript)
+    result = await functionInSandbox()
     this.clearTmpDirectory()
     return result
   }

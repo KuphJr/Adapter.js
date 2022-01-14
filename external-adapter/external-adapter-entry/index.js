@@ -1,4 +1,4 @@
-const { AdapterError } = require('./Error')
+const { AdapterError, JavaScriptError } = require('./Errors')
 const { Validator } = require('./Validator')
 const { IpfsFetcher } = require('./IpfsFetcher')
 const { CachedDataFetcher } = require('./CachedDataFetcher')
@@ -75,11 +75,19 @@ const createRequest = async (input, callback) => {
   try {
     output = await Sandbox.evaluate(javascriptString, vars)
   } catch (error) {
-    callback(500,
-      new AdapterError({
+    let adapterError
+    if (error.details) {
+      adapterError = new JavaScriptError(error.details, {
         jobRunID: validatedInput.id,
-        message: `JavaScript Evaluation Error: ${error.message}`
-      }).toJSONResponse())
+        message: `JavaScript Error: ${error.name}: ${error.message}`
+      })
+    } else {
+      adapterError = new AdapterError({
+        jobRunID: validatedInput.id,
+        message: `Sandbox Error: ${error.message}`
+      })
+    }
+    callback(500, adapterError.toJSONResponse())
     return
   }
   let validatedOutput

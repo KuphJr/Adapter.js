@@ -2,13 +2,19 @@ const axios = require('axios')
 
 class Sandbox {
   static async evaluate (javascriptString, vars) {
-    const { data } = await axios.post('http://localhost:8079/', {
-      js: javascriptString,
-      vars: vars
-    })
-    console.log('!!!!!!!!!!')
-    console.log(data)
-    return data.result
+    try {
+      const { data } = await axios.post('http://localhost:8079/', {
+        js: javascriptString,
+        vars: vars
+      })
+      return data.result
+    } catch (error) {
+      if (error.response.data.error) {
+        throw error.response.data.error
+      } else {
+        throw error
+      }
+    }
   }
 }
 

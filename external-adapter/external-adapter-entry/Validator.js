@@ -44,8 +44,15 @@ class Validator {
     if (typeof this.input.cid !== 'undefined' && typeof this.input.js !== 'undefined') {
       throw Error("Both of the parameter 'js' or 'cid' cannot be provided simultaneously.")
     }
-    if (typeof this.input.vars !== 'undefined' && typeof this.input.vars !== 'string') {
-      throw Error("Invalid value for the parameter 'vars' which must be a string")
+    if (typeof this.input.vars === 'string') {
+      try {
+        this.input.vars = JSON.parse(this.input.vars)
+      } catch (error) {
+        throw Error("The parameter 'vars' was not a valid JSON object string.")
+      }
+    }
+    if (typeof this.input.vars !== 'undefined' && typeof this.input.vars !== 'object') {
+      throw Error("Invalid value for the parameter 'vars' which must be a JavaScript object or a string.")
     }
     if (typeof this.input.ref !== 'undefined') {
       if (typeof this.input.ref !== 'string') {

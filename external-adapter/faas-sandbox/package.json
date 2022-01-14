@@ -13,6 +13,11 @@
     "vm2": "^3.9.5"
   },
   "devDependencies": {
+    "body-parser": "^1.19.1",
+    "busboy": "^0.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
     "yarn": "^1.22.17"
   }
 }
