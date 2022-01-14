@@ -6,7 +6,7 @@ This API creates a sandbox for executing JavaScript code on a function-as-a-serv
 
 An example POST request to `faas-sandbox` is shown below.
 
-POST Data
+**POST Data**
 ```
 {
   "js": "const axios = require('axios'), const res = await axios.get(url); return res.data.id * myNum;",
@@ -16,7 +16,7 @@ POST Data
   }
 }
 ```
-Response
+**Response**
 ```
 {
   "result": 4,
