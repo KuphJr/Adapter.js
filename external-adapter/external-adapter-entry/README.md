@@ -10,7 +10,8 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
   "vars": {
     "url": "https://jsonplaceholder.typicode.com/posts/1"
   }
-}```
+}
+```
 
 ```{
   "type": "int256",
@@ -19,7 +20,8 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
   "ref": "REFERENCE_ID_HERE",
   "js": "const axios = require('axios'); const response = axios.get(privateURLvariable); return response.data.id"
   "
-}```
+}
+```
 
 ```{
   "type": "bytes32",
@@ -28,7 +30,8 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
   "ref": "REFERENCE_ID_HERE",
   "cid": "bafybeiazsjwhvu26p56hibhee72wyyg25jvqsgzrzvjskordb4ku4jrlq4"
   "
-}```
+}
+```
 
 ### Request Parameters
 
