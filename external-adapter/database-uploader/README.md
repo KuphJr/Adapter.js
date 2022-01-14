@@ -7,7 +7,7 @@ This folder contains the API which enables JavaScript code and variables to be s
 To interact with this API, send a POST request with data in the following format.   
 
 ```{
-  "contractAddress": "0x_AUTHORIZED_CONTRACT_ADDRESS_HERE",
+  "contractAddress": "0xAUTHORIZED_CONTRACT_ADDRESS_HERE",
   "ref": "UNIQUE_REFERENCE_ID_STRING_HERE",
   "vars": {
     "myNum": 100,
