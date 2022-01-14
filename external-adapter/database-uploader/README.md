@@ -8,7 +8,7 @@ To interact with this API, send a POST request with data in the following format
 
 ```{
   "contractAddress": "0xAUTHORIZED_CONTRACT_ADDRESS_HERE",
-  "ref": "UNIQUE_REFERENCE_ID_STRING_HERE",
+  "ref": "UniqueReferenceStringHere",
   "vars": {
     "myNum": 100,
     "myString": "https://jsonplaceholder.typicode.com/posts/1",
