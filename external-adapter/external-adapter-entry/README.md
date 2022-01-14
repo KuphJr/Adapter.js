@@ -6,7 +6,7 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
 
 ```{
   "type": "uint",
-  "js": "const axios = require('axios'); const response = axios.get(url); return response.data.id",
+  "js": "const axios = require('axios'); const response = await axios.get(url); return response.data.id",
   "vars": {
     "url": "https://jsonplaceholder.typicode.com/posts/1"
   }
@@ -17,7 +17,7 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
   "nodeKey": "PRIVATE_UNIQUE_CHAINLINK_NODE_KEY_HERE",
   "contractAddress": "0x_CONTRACT_ADDRESS_HERE",
   "ref": "REFERENCE_ID_HERE",
-  "js": "const axios = require('axios'); const response = axios.get(privateURLvariable); return response.data.id"
+  "js": "const axios = require('axios'); const response = await axios.get(privateURLvariable); return response.data.id"
   "
 }```
 
