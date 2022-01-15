@@ -13,15 +13,21 @@ class CachedDataFetcher {
       }
     }
     if (filename.length > 74) {
-      throw Error('File name is too long')
+      throw new Error('File name is too long')
     }
     const storage = new Storage({ keyFilename: 'key.json' })
     const bucketname = 'cached-data'
     try {
-      await storage.bucket(bucketname).file(filename).download({ destination: tempFilename })
+      try {
+        await storage.bucket(bucketname).file(filename).download({ destination: tempFilename })
+      } catch (error) {
+        throw new Error(`Cached data was not able to be retrieved for contract ${contractAddress} using reference ID ${ref}.`)
+      }
       return JSON.parse(fs.readFileSync(tempFilename))
     } finally {
-      fs.unlinkSync(tempFilename)
+      try {
+        fs.unlinkSync(tempFilename)
+      } catch {}
     }
   }
 }

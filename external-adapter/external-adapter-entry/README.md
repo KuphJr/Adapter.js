@@ -50,6 +50,9 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
 * **vars** *(Optional)*
     - This is an object containg variables which can be used in the JavaScript code that is executed.  It can either be a JSON object or a JSON object string which will automatically be converted into a JSON object.  Variables provided directly in a request take precedence over cached variables stored in the external adapter's database.
 
+* **id** *(Optional)*
+    - This is the Chainlink job ID.  If it is not provided, it is set to 1 by default.
+
 * **nodeKey** *(Required in order to access cached variables or JavaScript stored in the external adapter's database)*
     - This is a unique private variable used to verify that a request has been initiated by an authorized Chainlink node.  It is needed to verify that the specified contract address is the one that initiated the request and is authorized to used any cached variables or JavaScript.
 
