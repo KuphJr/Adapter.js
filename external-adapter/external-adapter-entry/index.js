@@ -133,6 +133,8 @@ exports.gcpservice = async (req, res) => {
     }
     try {
       await createRequest(req.body, (statusCode, data) => {
+        console.log('RESULT')
+        console.log(data)
         res.status(statusCode).send(data)
       })
     } catch (error) {
