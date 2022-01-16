@@ -31,9 +31,9 @@ class Validator {
         "'bool', 'uint', 'uint256', 'int', 'int256', 'bytes32', 'string' or 'bytes'.")
     }
     if (typeof this.input.id === 'undefined') {
-      this.input.id = 1
-    } else if (typeof this.input.id !== 'number' || this.input.id < 0 || this.input.id % 1 !== 0) {
-      throw Error("Invalid value for the parameter 'id' which must be a positive whole number.")
+      this.input.id = '1'
+    } else if (typeof this.input.id !== 'string') {
+      throw Error("Invalid value for the parameter 'id' which must be a string.")
     }
     if (typeof this.input.js !== 'undefined' && typeof this.input.js !== 'string') {
       throw Error("Invalid value for the parameter 'js' which must be a string.")

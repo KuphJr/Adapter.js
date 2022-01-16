@@ -12,6 +12,9 @@ module.exports = {
         version: "0.7.0"
       },
       {
+        version: "0.8.0"
+      },
+      {
         version: "0.8.9"
       }
     ]
@@ -19,10 +22,10 @@ module.exports = {
   defaultNetwork: "mumbai",
   networks: {
     mumbai: {
-        url: "https://dry-young-sun.matic-testnet.quiknode.pro/f0d9ee2313cc5813ca36460677985e066497f634/",
-
-        // Defined in .env file in the root directory, should contain private key for Metamask test wallet with mumbai testnet LINK and MATIC
-        accounts: [process.env.WALLETKEY],
+      url: "https://dry-young-sun.matic-testnet.quiknode.pro/f0d9ee2313cc5813ca36460677985e066497f634/",
+      //url: "https://speedy-nodes-nyc.moralis.io/c13b64136506585cb50319e7/polygon/mumbai",
+      // Defined in .env file in the root directory, should contain private key for Metamask test wallet with mumbai testnet LINK and MATIC
+      accounts: [process.env.WALLETKEY]
     }
   }
 };

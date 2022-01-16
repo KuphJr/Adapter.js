@@ -12,9 +12,9 @@ observationSource = """
     decode_cbor  [type=cborparse data="$(decode_log.data)"]
     fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": $(decode_cbor), \\"nodeKey\\": "YOUR_NODE_KEY_HERE"}"]
     parse        [type=jsonparse path="result" data="$(fetch)"]
-    encode_data  [type=ethabiencode abi="(bytes32 value)" data="{ \\"value\\": $(parse) }"]
+    encode_data  [type="ethabiencode" abi="(bytes32 requestId, bytes value)" data="{\\"requestId\\": $(decode_log.requestId), \\"value\\": $(parse)}"]
     encode_tx    [type=ethabiencode
-                  abi="fulfillOracleRequest(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes32 data)"
+                  abi="fulfillOracleRequest(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes calldata data)"
                   data="{\\"requestId\\": $(decode_log.requestId), \\"payment\\": $(decode_log.payment), \\"callbackAddress\\": $(decode_log.callbackAddr), \\"callbackFunctionId\\": $(decode_log.callbackFunctionId), \\"expiration\\": $(decode_log.cancelExpiration), \\"data\\": $(encode_data)}" ]
     submit_tx    [type=ethtx to="0xYOUR_OPERATOR_CONTRACT_ADDRESS_HERE" data="$(encode_tx)"]
 

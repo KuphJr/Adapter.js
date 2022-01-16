@@ -544,6 +544,767 @@
       "artifacts": [
         "OracleInterface"
       ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\contracts\\AdapterjsTest.sol": {
+      "lastModificationDate": 1642289752735,
+      "contentHash": "8bd55b53ef81c867e8ae52f526cd78bd",
+      "sourceName": "contracts/AdapterjsTest.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@chainlink/contracts/src/v0.8/ChainlinkClient.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "AdapterjsTest"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\ChainlinkClient.sol": {
+      "lastModificationDate": 1642273843440,
+      "contentHash": "6af479cbde42f1a7225c9cebc6e32239",
+      "sourceName": "@chainlink/contracts/src/v0.8/ChainlinkClient.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Chainlink.sol",
+        "./interfaces/ENSInterface.sol",
+        "./interfaces/LinkTokenInterface.sol",
+        "./interfaces/ChainlinkRequestInterface.sol",
+        "./interfaces/OperatorInterface.sol",
+        "./interfaces/PointerInterface.sol",
+        "./vendor/ENSResolver.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ChainlinkClient"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\Chainlink.sol": {
+      "lastModificationDate": 1642273843440,
+      "contentHash": "9dc050539cdf1579d5650d41d0df9ec2",
+      "sourceName": "@chainlink/contracts/src/v0.8/Chainlink.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./vendor/CBORChainlink.sol",
+        "./vendor/BufferChainlink.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Chainlink"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\ENSInterface.sol": {
+      "lastModificationDate": 1642273843658,
+      "contentHash": "06b6aefcae95de6d1597ad8e1d73a08b",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/ENSInterface.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ENSInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\LinkTokenInterface.sol": {
+      "lastModificationDate": 1642273843661,
+      "contentHash": "da5a0c3bd86c896f6a407f909c57edf3",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "LinkTokenInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\ChainlinkRequestInterface.sol": {
+      "lastModificationDate": 1642273843658,
+      "contentHash": "14407a6ead15cff8a0e0a7f8037c68f5",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/ChainlinkRequestInterface.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ChainlinkRequestInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\OperatorInterface.sol": {
+      "lastModificationDate": 1642273843661,
+      "contentHash": "e1822c36361fc3a26b5a68df3ddab15d",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/OperatorInterface.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./OracleInterface.sol",
+        "./ChainlinkRequestInterface.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "OperatorInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\PointerInterface.sol": {
+      "lastModificationDate": 1642273843663,
+      "contentHash": "27da4b2007d200dd5afff31dbf31ac99",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/PointerInterface.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "PointerInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\vendor\\ENSResolver.sol": {
+      "lastModificationDate": 1642273843706,
+      "contentHash": "24a98b0606654e662097eed9ffa91a11",
+      "sourceName": "@chainlink/contracts/src/v0.8/vendor/ENSResolver.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ENSResolver"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\vendor\\CBORChainlink.sol": {
+      "lastModificationDate": 1642273843702,
+      "contentHash": "99b3ee2c29bc0d1a5cba583d9e8d835e",
+      "sourceName": "@chainlink/contracts/src/v0.8/vendor/CBORChainlink.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./BufferChainlink.sol"
+      ],
+      "versionPragmas": [
+        ">=0.4.19"
+      ],
+      "artifacts": [
+        "CBORChainlink"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\vendor\\BufferChainlink.sol": {
+      "lastModificationDate": 1642273843701,
+      "contentHash": "52ac6f99fb0635751ae4ed11139878fd",
+      "sourceName": "@chainlink/contracts/src/v0.8/vendor/BufferChainlink.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "BufferChainlink"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.8\\interfaces\\OracleInterface.sol": {
+      "lastModificationDate": 1642273843662,
+      "contentHash": "6283e42024961596926c2b5015eef8e0",
+      "sourceName": "@chainlink/contracts/src/v0.8/interfaces/OracleInterface.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "OracleInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\contracts\\Oracle.sol": {
+      "lastModificationDate": 1642290724965,
+      "contentHash": "1f401d3094d7b06e4a4b3c596be15377",
+      "sourceName": "contracts/Oracle.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@chainlink/contracts/src/v0.6/Oracle.sol"
+      ],
+      "versionPragmas": [
+        "0.6.6"
+      ],
+      "artifacts": []
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\Oracle.sol": {
+      "lastModificationDate": 1642273843308,
+      "contentHash": "1e59d4ceeab4c49059d917f4da8c7461",
+      "sourceName": "@chainlink/contracts/src/v0.6/Oracle.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./LinkTokenReceiver.sol",
+        "./interfaces/ChainlinkRequestInterface.sol",
+        "./interfaces/OracleInterface.sol",
+        "./interfaces/LinkTokenInterface.sol",
+        "./interfaces/WithdrawalInterface.sol",
+        "./vendor/Ownable.sol",
+        "./vendor/SafeMathChainlink.sol"
+      ],
+      "versionPragmas": [
+        "0.6.6"
+      ],
+      "artifacts": [
+        "Oracle"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\LinkTokenReceiver.sol": {
+      "lastModificationDate": 1642290564594,
+      "contentHash": "b16f6ced4c696bf10c861f18c3151fb5",
+      "sourceName": "@chainlink/contracts/src/v0.6/LinkTokenReceiver.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "LinkTokenReceiver"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\ChainlinkRequestInterface.sol": {
+      "lastModificationDate": 1642273843528,
+      "contentHash": "60c362a87469b7c5bdc116bf5f5ffa8a",
+      "sourceName": "@chainlink/contracts/src/v0.6/interfaces/ChainlinkRequestInterface.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "ChainlinkRequestInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\OracleInterface.sol": {
+      "lastModificationDate": 1642273843532,
+      "contentHash": "3e71abe7008e83f24a48bdd50e685e1f",
+      "sourceName": "@chainlink/contracts/src/v0.6/interfaces/OracleInterface.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "OracleInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\LinkTokenInterface.sol": {
+      "lastModificationDate": 1642273843532,
+      "contentHash": "bb291d0e43a81edd96f781b2760d9553",
+      "sourceName": "@chainlink/contracts/src/v0.6/interfaces/LinkTokenInterface.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "LinkTokenInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\interfaces\\WithdrawalInterface.sol": {
+      "lastModificationDate": 1642273843533,
+      "contentHash": "a27b037643fb44a1439291d82a9d0f1c",
+      "sourceName": "@chainlink/contracts/src/v0.6/interfaces/WithdrawalInterface.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "WithdrawalInterface"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\vendor\\Ownable.sol": {
+      "lastModificationDate": 1642273843560,
+      "contentHash": "34d1661fc49716fc165ef6f0efcd784e",
+      "sourceName": "@chainlink/contracts/src/v0.6/vendor/Ownable.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "Ownable"
+      ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\node_modules\\@chainlink\\contracts\\src\\v0.6\\vendor\\SafeMathChainlink.sol": {
+      "lastModificationDate": 1642273843560,
+      "contentHash": "5caf46296cfce2e0b96cb3028b626ee5",
+      "sourceName": "@chainlink/contracts/src/v0.6/vendor/SafeMathChainlink.sol",
+      "solcConfig": {
+        "version": "0.6.6",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.6.0"
+      ],
+      "artifacts": [
+        "SafeMathChainlink"
+      ]
     }
   }
 }
