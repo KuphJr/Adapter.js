@@ -6,6 +6,7 @@ class Validator {
   }
 
   validateInput () {
+    const validatedInput = {}
     if (typeof this.input.type !== 'string') {
       throw Error("The parameter 'type' must be provided as a string.")
     }
@@ -30,42 +31,55 @@ class Validator {
         throw Error("Invalid value for the parameter 'type' which must be either " +
         "'bool', 'uint', 'uint256', 'int', 'int256', 'bytes32', 'string' or 'bytes'.")
     }
+    validatedInput.type = this.input.type
     if (typeof this.input.id === 'undefined') {
       this.input.id = '1'
     } else if (typeof this.input.id !== 'string') {
       throw Error("Invalid value for the parameter 'id' which must be a string.")
     }
-    if (typeof this.input.js !== 'undefined' && typeof this.input.js !== 'string') {
+    validatedInput.id = this.input.id
+    if (typeof this.input.data.js !== 'undefined' && typeof this.input.data.js !== 'string') {
       throw Error("Invalid value for the parameter 'js' which must be a string.")
     }
-    if (typeof this.input.cid !== 'undefined' && typeof this.input.cid !== 'string') {
+    if (typeof this.input.data.js === 'string') {
+      validatedInput = this.input.data
+    }
+    if (typeof this.input.data.cid !== 'undefined' && typeof this.input.data.cid !== 'string') {
       throw Error("Invalid value for the parameter 'cid' which must be a string.")
     }
-    if (typeof this.input.cid !== 'undefined' && typeof this.input.js !== 'undefined') {
+    if (typeof this.input.data.cid !== 'undefined' && typeof this.input.data.js !== 'undefined') {
       throw Error("Both of the parameter 'js' or 'cid' cannot be provided simultaneously.")
     }
-    if (typeof this.input.vars === 'string') {
+    if (typeof this.input.data.cid === 'string') {
+      validatedInput = this.input.data.cid
+    }
+    if (typeof this.input.data.vars === 'string') {
       try {
-        this.input.vars = JSON.parse(this.input.vars)
+        this.input.data.vars = JSON.parse(this.input.data.vars)
       } catch (error) {
         throw Error("The parameter 'vars' was not a valid JSON object string.")
       }
     }
-    if (typeof this.input.vars !== 'undefined' && typeof this.input.vars !== 'object') {
+    if (typeof this.input.data.vars !== 'undefined' && typeof this.input.data.vars !== 'object') {
       throw Error("Invalid value for the parameter 'vars' which must be a JavaScript object or a string.")
     }
-    if (typeof this.input.ref !== 'undefined') {
-      if (typeof this.input.ref !== 'string') {
+    if (this.input.data.vars) {
+      validatedInput = this.input.data.vars
+    }
+    if (typeof this.input.data.ref !== 'undefined') {
+      if (typeof this.input.data.ref !== 'string') {
         throw Error("Invalid value for the parameter 'ref' which must be a string")
       }
+      validatedInput = this.input.data.ref
       if (typeof this.input.nodeKey === 'undefined' || this.input.nodeKey !== process.env.NODEKEY) {
         throw Error('The node key is invalid.')
       }
-      if (typeof this.input.contractAddress !== 'string') {
+      if (typeof this.input.meta.oracleRequest.requester !== 'string') {
         throw Error("Invalid value for the parameter 'contractAddress' which must be a string.")
       }
+      validatedInput.contractAddress = this.input.meta.oracleRequest.requester
     }
-    return this.input
+    return validatedInput
   }
 
   validateOutput (output) {

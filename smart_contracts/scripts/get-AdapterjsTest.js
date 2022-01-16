@@ -3,8 +3,8 @@ const { ethers } = require("hardhat");
 
 async function main() {
   const smartContractFactory = await hre.ethers.getContractFactory("AdapterjsTest");
-  const smartContract = await smartContractFactory.attach("0xA6650d2775e96D6F6b3C8249a920286180192B28");
-  const result = await smartContract.js();
+  const smartContract = await smartContractFactory.attach("0x9aEeC82f0eb4Bc78B8c90588a0561b756D2e76b8");
+  const result = await smartContract.getInt();
   console.log('js result on-chain: ', result);
 }
 

@@ -8,7 +8,10 @@ async function main() {
 
   await oracle.deployed();
 
-  console.log("oracle deployed to:", oracle.address);
+  const txHash = oracle.deployTransaction.hash;
+  console.log(`Tx hash: ${txHash}\nWaiting for transaction to be mined...`);
+  const txReceipt = await ethers.provider.waitForTransaction(txHash);
+  console.log("Contract address:", txReceipt.contractAddress);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

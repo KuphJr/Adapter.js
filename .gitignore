@@ -6,7 +6,9 @@
 /external-adapter/database-uploader/.env
 /external-adapter/faas-sandbox/node_modules
 /smart_contracts/node_modules
+/smart_contracts/artifacts
 /smart_contracts/.env
+/smart_contracts/cache
 /website/node_modules
 /external-adapter/node_modules
 /external-adapter/test/smartContracts/node_modules

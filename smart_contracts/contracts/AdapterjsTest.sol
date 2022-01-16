@@ -20,12 +20,12 @@ contract AdapterjsTest is ChainlinkClient {
   bytes public bytes_result;
   string public js;
 
-  constructor(address linkContractAddress) {
-    setChainlinkToken(linkContractAddress);
+  constructor() {
+    setChainlinkToken(address(0x326C977E6efc84E512bB9C30f76E30c160eD06FB));
   }
 
   function getInt() public view returns (int256 num) {
-    return 5;
+    return 6;
   }
 
   function boolAdapterCall(address _oracle, string memory _jobId, uint _payment,
