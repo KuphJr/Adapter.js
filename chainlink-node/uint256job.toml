@@ -1,7 +1,7 @@
 type = "directrequest"
 schemaVersion = 1
-name = "uint256adapterjs"
-contractAddress = "0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0"
+name = "bytes32adapterjs"
+contractAddress = "0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"
 maxTaskDuration = "0s"
 observationSource = """
     decode_log   [type=ethabidecodelog
@@ -10,14 +10,13 @@ observationSource = """
                   topics="$(jobRun.logTopics)"]
 
     decode_cbor  [type=cborparse data="$(decode_log.data)"]
-    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": { \\"p\\": $(decode_cbor.p), \\"k\\": \\"PRIVATEKEY\\" }}"]
+    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": $(decode_cbor), \\"nodeKey\\": \\"YOUR_NODE_KEY_HERE\\"}"]
     parse        [type=jsonparse path="result" data="$(fetch)"]
-    encode_data  [type=ethabiencode abi="(uint256 value)" data="{ \\"value\\": $(parse) }"]
+    encode_data  [type=ethabiencode abi="(int256 value)" data="{ \\"value\\": $(parse) }"]
     encode_tx    [type=ethabiencode
                   abi="fulfillOracleRequest(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes32 data)"
                   data="{\\"requestId\\": $(decode_log.requestId), \\"payment\\": $(decode_log.payment), \\"callbackAddress\\": $(decode_log.callbackAddr), \\"callbackFunctionId\\": $(decode_log.callbackFunctionId), \\"expiration\\": $(decode_log.cancelExpiration), \\"data\\": $(encode_data)}" ]
-    submit_tx    [type=ethtx to="0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0" data="$(encode_tx)"]
+    submit_tx    [type=ethtx to="0xAC442d76EeC61518D2112eeB67620Cbf05D6f746" data="$(encode_tx)"]
 
     decode_log -> decode_cbor -> fetch -> parse -> encode_data -> encode_tx -> submit_tx
 """
-externalJobID = "fe689d57-5d90-4580-b454-415399713c01"
