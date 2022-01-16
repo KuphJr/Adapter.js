@@ -7,10 +7,10 @@ class Validator {
 
   validateInput () {
     const validatedInput = {}
-    if (typeof this.input.type !== 'string') {
+    if (typeof this.input.data.type !== 'string') {
       throw Error("The parameter 'type' must be provided as a string.")
     }
-    switch (this.input.type) {
+    switch (this.input.data.type) {
       case ('bool'):
         break
       case ('uint'):
@@ -42,7 +42,7 @@ class Validator {
       throw Error("Invalid value for the parameter 'js' which must be a string.")
     }
     if (typeof this.input.data.js === 'string') {
-      validatedInput = this.input.data
+      validatedInput.js = this.input.data.js
     }
     if (typeof this.input.data.cid !== 'undefined' && typeof this.input.data.cid !== 'string') {
       throw Error("Invalid value for the parameter 'cid' which must be a string.")
@@ -51,7 +51,7 @@ class Validator {
       throw Error("Both of the parameter 'js' or 'cid' cannot be provided simultaneously.")
     }
     if (typeof this.input.data.cid === 'string') {
-      validatedInput = this.input.data.cid
+      validatedInput.cid = this.input.data.cid
     }
     if (typeof this.input.data.vars === 'string') {
       try {
@@ -64,13 +64,13 @@ class Validator {
       throw Error("Invalid value for the parameter 'vars' which must be a JavaScript object or a string.")
     }
     if (this.input.data.vars) {
-      validatedInput = this.input.data.vars
+      validatedInput.vars = this.input.data.vars
     }
     if (typeof this.input.data.ref !== 'undefined') {
       if (typeof this.input.data.ref !== 'string') {
         throw Error("Invalid value for the parameter 'ref' which must be a string")
       }
-      validatedInput = this.input.data.ref
+      validatedInput.ref = this.input.data.ref
       if (typeof this.input.nodeKey === 'undefined' || this.input.nodeKey !== process.env.NODEKEY) {
         throw Error('The node key is invalid.')
       }
@@ -86,14 +86,13 @@ class Validator {
     if (typeof output === 'undefined') {
       throw Error('The provided JavaScript did not return a value or returned an undefined value.')
     }
-    switch (this.input.type) {
+    switch (this.input.data.type) {
       case ('bool'):
         if (typeof output !== 'boolean') {
           throw Error('The returned value must be a boolean. Returned: ' + output)
         }
         break
       case ('uint'):
-        break
       case ('uint256'):
         if (typeof output !== 'number') {
           throw Error('The returned value must be a number. Returned: ' + output)
@@ -102,7 +101,6 @@ class Validator {
         }
         break
       case ('int'):
-        break
       case ('int256'):
         if (typeof output !== 'number') {
           throw Error('The returned value must be a number. Returned: ' + output)
