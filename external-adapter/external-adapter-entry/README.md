@@ -60,7 +60,7 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
     - This is the Solidity type that should be returned on-chain.  The options are `bool`, `uint`/`uint256`, `int`/`int256`, `bytes32`, `string` or `bytes`.
 
 * **data.js** *(Optional)*
-- This the the JavaScript code which is executed and can be provided directly in a request as a string.  The returned value is what is returned on-chain.  This parameter cannot be provided if `cid` is already provided.
+  - This the the JavaScript code which is executed and can be provided directly in a request as a string.  The returned value is what is returned on-chain.  This parameter cannot be provided if `cid` is already provided.
 
 * **data.cid** *(Optional)*
     - This is the IPFS content ID for JavaScript code which has been uploaded to IPFS.  The external adapter will fetch and execute the uploaded .js file and provide it with any variables specified in the 'vars' object or any cached variables stored in the external adapter's database.  This parameter cannot be provided if `js` is already provided.

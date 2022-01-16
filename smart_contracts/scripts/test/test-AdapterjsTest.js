@@ -47,7 +47,7 @@ async function main() {
 
   const tx = await smartContract.bytes32AdapterCall(
     ethers.utils.getAddress("0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"), "32c633b7958f41c197a11621c2425ba5", ethers.BigNumber.from("10").pow(18),
-    'bytes32', 'return "true";', '', '', '');
+    'bytes32', 'return "hello world";', '', '', '');
 
   // const tx1 = await smartContract.intAdapterCall(
   //   ethers.utils.getAddress("0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"), "32c633b7958f41c197a11621c2425ba5", ethers.BigNumber.from("10").pow(18),

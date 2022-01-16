@@ -1,6 +1,6 @@
 type = "directrequest"
 schemaVersion = 1
-name = "bytes32adapterjs"
+name = "uintadapterjs"
 contractAddress = "0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"
 maxTaskDuration = "0s"
 observationSource = """
@@ -12,7 +12,7 @@ observationSource = """
     decode_cbor  [type=cborparse data="$(decode_log.data)"]
     fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": $(decode_cbor), \\"nodeKey\\": \\"YOUR_NODE_KEY_HERE\\"}"]
     parse        [type=jsonparse path="result" data="$(fetch)"]
-    encode_data  [type=ethabiencode abi="(int256 value)" data="{ \\"value\\": $(parse) }"]
+    encode_data  [type=ethabiencode abi="(uint256 value)" data="{ \\"value\\": $(parse) }"]
     encode_tx    [type=ethabiencode
                   abi="fulfillOracleRequest(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes32 data)"
                   data="{\\"requestId\\": $(decode_log.requestId), \\"payment\\": $(decode_log.payment), \\"callbackAddress\\": $(decode_log.callbackAddr), \\"callbackFunctionId\\": $(decode_log.callbackFunctionId), \\"expiration\\": $(decode_log.cancelExpiration), \\"data\\": $(encode_data)}" ]

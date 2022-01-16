@@ -1,6 +1,6 @@
 type = "directrequest"
 schemaVersion = 1
-name = "bytes32adapterjs"
+name = "stringadapterjs"
 contractAddress = "0xYOUR_OPERATOR_CONTRACT_ADDRESS_HERE"
 maxTaskDuration = "0s"
 observationSource = """

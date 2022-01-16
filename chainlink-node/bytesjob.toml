@@ -1,6 +1,6 @@
 type = "directrequest"
 schemaVersion = 1
-name = "bytes32adapterjs"
+name = "bytesadapterjs"
 contractAddress = "0xYOUR_OPERATOR_CONTRACT_ADDRESS_HERE"
 maxTaskDuration = "0s"
 observationSource = """
@@ -10,7 +10,7 @@ observationSource = """
                   topics="$(jobRun.logTopics)"]
 
     decode_cbor  [type=cborparse data="$(decode_log.data)"]
-    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": $(decode_cbor), \\"nodeKey\\": "YOUR_NODE_KEY_HERE"}"]
+    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": $(decode_cbor), \\"nodeKey\\": \\"YOUR_NODE_KEY_HERE\\"}"]
     parse        [type=jsonparse path="result" data="$(fetch)"]
     encode_data  [type="ethabiencode" abi="(bytes32 requestId, bytes value)" data="{\\"requestId\\": $(decode_log.requestId), \\"value\\": $(parse)}"]
     encode_tx    [type=ethabiencode

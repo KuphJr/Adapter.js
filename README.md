@@ -7,6 +7,7 @@
 ## Overview
 
 [Watch the project overview on YouTube](https://youtu.be/V_P_IAfr22I)
+**Pleas note, significant changes and updates have been made in v0.2.0 since this video was made.**
 
 ### Problem
 
@@ -18,26 +19,33 @@ Additionally, for data received from an external adapter to be truly decentraliz
 
 ### Solution
 
-Adapter.js seeks to solve the problems currently facing external adapters by becoming the universal external adapter.  Adapter.js can fetch data from any API or website, then securely process data using custom JavaScript provided by users.  In a Chainlink request to the external adapter, users can provide custom code as a string or reference a JavaScript file hosted on IPFS.
+Adapter.js seeks to solve the problems currently facing external adapters by becoming the universal external adapter.  Adapter.js can securely execute user-provided Node.js code.  This means it can fetch data from any API or website, even performing multiple HTTP requests simultaneously, and perform any off-chain computation.  In a Chainlink request, users can provide custom code as a string, use a JavaScript file hosted on IPFS or use private JavaScript code uploaded to the external adapter's database.
 
-In addition, Adapter.js can securely access web resources which require authentication by allowing users to upload headers containing private keys to the external adapter’s database.  These custom headers are only able to be used in data requests initiated by an approved smart contract address.
+In addition, Adapter.js can securely store private variables which can be referenced when the user-provided JavaScript code is executed.  Users can securely share private variables or propriety JavaScript code with the external adapter prior to making an on-chain request.  This allows users to maintain privacy for proprietary JavaScript code, API keys or other sensitive data as they are only shared with the external adapter and never exposed on-chain.  The code and variables are cached in the external adapter's database and are only able to be used in requests initiated by authorized smart contract addresses.  This is achieved by including a reference ID in the on-chain request which refers to the cached private data.  The Chainlink node then verifies the contract address that initiated the request and the external adapter fetches the referenced private data for the smart contract and executes the request.
 
-Adapter.js is open source and is being developed such that any Chainlink node operator can run their own independent instance of the external adapter.  To achieve decentralization, smart contract developers can then make requests to many nodes which host an instance of the adapter.  Consensus can be reached on-chain by comparing the resulting data provided by each node.
+Adapter.js is open source and is being developed such that any Chainlink node operator can run their own independent instance of the external adapter on any function-as-a-service (FaaS) platform.  To achieve decentralization, smart contract developers can then make requests to many nodes which host an instance of the adapter.  Consensus can be reached on-chain by comparing the resulting data provided by each node.
 
 ## How to Use
+
+**The simulator is not currently operational as it is being updated to accommodate v0.2.0.**
 
 Use the tool at [adapterjs.link/simulator.html](https://adapterjs.link/simulator.html) to simulate making a request to the external adapter.  Then, click *"Generate Code"* to automatically generate the required Solidity code to make the Chainlink request on-chain.  Swap out the Chainlink oracle address and job id to send the request to a different Chainlink node which hosts Adapter.js.  Check out [adapterjs.link/documentation.html](https://adapterjs.link/documentation.html) for more in-depth documentation about working with Adapter.js
 
 ## Current Status
 
-Adapter.js is currently hosted on an independent Chainlink node for the Mumbai Polygon testnet.  However, any Chainlink node operator can host the external adapter themselves for any Chainlink-supported blockchain.  As more node operators host Adapter.js, this list will be updated.
+Adapter.js v0.2.0 is currently hosted on an independent Chainlink node for the Mumbai Polygon testnet.  However, any Chainlink node operator can host the external adapter themselves for any Chainlink-supported blockchain.  As more node operators host Adapter.js, this list will be updated.
 
 ### **Blockchain:** Mumbai
-**Oracle Address:** 0xa8E22A742d39b13D54df6A912FCC7b8E71dFAFE0
-- **Job ID for returning uint256:** 9d8c783d0b9645958697b880fd823137
-- **Job ID for job returning int256:** fe689d575d904580b454415399713c01
-- **Job ID for job returning bool:** 84a2d337e80c4f61bab7aff465666adc
-- **Job ID for job returning bytes32:** 1302aee4e8604b36830c801e613d8082
+
+**Oracle Address:** 0xAC442d76EeC61518D2112eeB67620Cbf05D6f746
+- **Job ID for returning uint256:** 565a9e4dfc924a4e90259ee137395d29
+- **Job ID for job returning int256:** b8cf82ffef40-4bfea9714f4dcf5b3ab3
+- **Job ID for job returning bool:** fc6aa15e389e469cbf70dfa01b19b330
+- **Job ID for job returning bytes32:** 32c633b7958f41c197a11621c2425ba5
+
+**Operator Address:** Coming soon!
+- **Job ID for job returning string:** Coming soon!
+- **Job ID for job returning bytes:** Coming soon!
 
 ## Contact
 
