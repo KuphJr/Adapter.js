@@ -1,7 +1,7 @@
 type = "directrequest"
 schemaVersion = 1
-name = "booladapterjs"
-contractAddress = "0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"
+name = "bytes32adapterjs"
+contractAddress = "0xYOUR_OPERATOR_CONTRACT_ADDRESS_HERE"
 maxTaskDuration = "0s"
 observationSource = """
     decode_log   [type=ethabidecodelog
@@ -10,13 +10,13 @@ observationSource = """
                   topics="$(jobRun.logTopics)"]
 
     decode_cbor  [type=cborparse data="$(decode_log.data)"]
-    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": $(decode_cbor), \\"nodeKey\\": \\"YOUR_NODE_KEY_HERE\\"}"]
+    fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": $(decode_cbor), \\"nodeKey\\": "YOUR_NODE_KEY_HERE"}"]
     parse        [type=jsonparse path="result" data="$(fetch)"]
-    encode_data  [type=ethabiencode abi="(bool value)" data="{ \\"value\\": $(parse) }"]
+    encode_data  [type="ethabiencode" abi="(bytes32 requestId, string value)" data="{\\"requestId\\": $(decode_log.requestId), \\"value\\": $(parse)}"]
     encode_tx    [type=ethabiencode
-                  abi="fulfillOracleRequest(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes32 data)"
+                  abi="fulfillOracleRequest(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes calldata data)"
                   data="{\\"requestId\\": $(decode_log.requestId), \\"payment\\": $(decode_log.payment), \\"callbackAddress\\": $(decode_log.callbackAddr), \\"callbackFunctionId\\": $(decode_log.callbackFunctionId), \\"expiration\\": $(decode_log.cancelExpiration), \\"data\\": $(encode_data)}" ]
-    submit_tx    [type=ethtx to="0xAC442d76EeC61518D2112eeB67620Cbf05D6f746" data="$(encode_tx)"]
+    submit_tx    [type=ethtx to="0xYOUR_OPERATOR_CONTRACT_ADDRESS_HERE" data="$(encode_tx)"]
 
     decode_log -> decode_cbor -> fetch -> parse -> encode_data -> encode_tx -> submit_tx
 """

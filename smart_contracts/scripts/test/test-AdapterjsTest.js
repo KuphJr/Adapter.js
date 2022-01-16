@@ -4,10 +4,10 @@ const { ethers } = require("hardhat");
 async function main() {
 
   // connect to a deployed instance of the smart contract
-  const smartContractFactory = await hre.ethers.getContractFactory("AdapterjsTest");
+  const smartContractFactory = await hre.ethers.getContractFactory("AdapterjsTest2");
 
   // Make sure it is funded with LINK  
-  const smartContract = await smartContractFactory.attach("0xeffD4Ae3a76271BA1b0B758a214ED40EC1b4EC04");
+  const smartContract = await smartContractFactory.attach("0x11D5C07a18E41A20559814708d5b0EaD893bA9A2");
 
   // set up a listener to print events emitted by the smart contract
   // let filter = { address: smartContract.address };
@@ -45,9 +45,9 @@ async function main() {
   // }));
   // listener;5fdb197e-46a6-4b5b-9c8f-ac73b6cafaba
 
-  const tx = await smartContract.intAdapterCall(
+  const tx = await smartContract.bytes32AdapterCall(
     ethers.utils.getAddress("0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"), "32c633b7958f41c197a11621c2425ba5", ethers.BigNumber.from("10").pow(18),
-    'return 69;', '', '', '');
+    'bytes32', 'return "true";', '', '', '');
 
   // const tx1 = await smartContract.intAdapterCall(
   //   ethers.utils.getAddress("0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"), "32c633b7958f41c197a11621c2425ba5", ethers.BigNumber.from("10").pow(18),

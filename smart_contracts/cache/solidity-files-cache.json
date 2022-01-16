@@ -1305,6 +1305,43 @@
       "artifacts": [
         "OracleInterface"
       ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\contracts\\AdapterjsTest2.sol": {
+      "lastModificationDate": 1642300007038,
+      "contentHash": "37a83f3c14234d55f14fa35ae4a8e8b6",
+      "sourceName": "contracts/AdapterjsTest2.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@chainlink/contracts/src/v0.8/ChainlinkClient.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "AdapterjsTest2"
+      ]
     }
   }
 }
