@@ -8,7 +8,6 @@ observationSource = """
                   abi="OracleRequest(bytes32 indexed specId, address requester, bytes32 requestId, uint256 payment, address callbackAddr, bytes4 callbackFunctionId, uint256 cancelExpiration, uint256 dataVersion, bytes data)"
                   data="$(jobRun.logData)"
                   topics="$(jobRun.logTopics)"]
-
     decode_cbor  [type=cborparse data="$(decode_log.data)"]
     fetch        [type=bridge name="adapterjs" requestData="{\\"id\\": $(jobSpec.externalJobID), \\"data\\": $(decode_cbor), \\"nodeKey\\": \\"YOUR_NODE_KEY_HERE\\"}"]
     parse        [type=jsonparse path="result" data="$(fetch)"]
@@ -17,6 +16,6 @@ observationSource = """
                   abi="fulfillOracleRequest(bytes32 requestId, uint256 payment, address callbackAddress, bytes4 callbackFunctionId, uint256 expiration, bytes32 data)"
                   data="{\\"requestId\\": $(decode_log.requestId), \\"payment\\": $(decode_log.payment), \\"callbackAddress\\": $(decode_log.callbackAddr), \\"callbackFunctionId\\": $(decode_log.callbackFunctionId), \\"expiration\\": $(decode_log.cancelExpiration), \\"data\\": $(encode_data)}" ]
     submit_tx    [type=ethtx to="0xAC442d76EeC61518D2112eeB67620Cbf05D6f746" data="$(encode_tx)"]
-
     decode_log -> decode_cbor -> fetch -> parse -> encode_data -> encode_tx -> submit_tx
 """
+externalJobID = "b8cf82ff-ef40-4bfe-a971-4f4dcf5b3ab3"
