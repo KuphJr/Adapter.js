@@ -39,7 +39,7 @@ Adapter.js v0.2.0 is currently hosted on an independent Chainlink node for the M
 
 **Oracle Address:** 0xAC442d76EeC61518D2112eeB67620Cbf05D6f746
 - **Job ID for returning uint256:** 565a9e4dfc924a4e90259ee137395d29
-- **Job ID for job returning int256:** b8cf82ffef40-4bfea9714f4dcf5b3ab3
+- **Job ID for job returning int256:** b8cf82ffef404bfea9714f4dcf5b3ab3
 - **Job ID for job returning bool:** fc6aa15e389e469cbf70dfa01b19b330
 - **Job ID for job returning bytes32:** 32c633b7958f41c197a11621c2425ba5
 
