@@ -16,8 +16,8 @@ To interact with this API, send a POST request with data in the following format
     "myArray": [ 0, 1, 2 ],
     "myObject": {
       "key": 1
-  },
-  "js": "const axios = require('axios'); const res = await axios.get(myString); const id = res.data.id; return id * myNum;"
+    },
+    "js": "const axios = require('axios'); const res = await axios.get(myString); const id = res.data.id; return id * myNum;"
   }
 }
 ```
