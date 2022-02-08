@@ -13,7 +13,7 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
   "id":"32c633b7-958f-41c1-97a1-1621c2425ba5",
   "meta":{
     "oracleRequest":{
-      "requester":"0x11D5C07a18E41A20559814708d5b0EaD893bA9A2",
+      "requester":"0x11D5C07a18E41A20559814708d5b0EaD893bA9A2"
     }
   },
   "nodeKey":"MEFtTe3MxKtL5gyl7804KTHXUhfYz1wh"
@@ -27,13 +27,13 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
     "ref": "REFERENCE_ID_HERE",
     "js": "const axios = require('axios'); const response = await axios.get(privateURLvariable); return response.data.id"
   },
-  "id":"32c633b7-958f-41c1-97a1-1621c2425ba5",
-  "meta":{
-    "oracleRequest":{
-      "requester":"0x_CONTRACT_ADDRESS_HERE",
+  "id": "32c633b7-958f-41c1-97a1-1621c2425ba5",
+  "meta": {
+    "oracleRequest": {
+      "requester": "0x514910771af9ca656af840dff83e8264ecf986ca"
     }
   },
-  "nodeKey": "PRIVATE_UNIQUE_CHAINLINK_NODE_KEY_HERE",
+  "nodeKey": "PRIVATE_UNIQUE_CHAINLINK_NODE_KEY_HERE"
 }
 ```
 
@@ -47,10 +47,10 @@ This is the entry point into Adapter.js and is the endpoint to which the Chainli
   "id":"32c633b7-958f-41c1-97a1-1621c2425ba5",
   "meta":{
     "oracleRequest":{
-      "requester":"0x_CONTRACT_ADDRESS_HERE",
+      "requester":"0x_CONTRACT_ADDRESS_HERE"
     }
   },
-  "nodeKey": "PRIVATE_UNIQUE_CHAINLINK_NODE_KEY_HERE",
+  "nodeKey": "PRIVATE_UNIQUE_CHAINLINK_NODE_KEY_HERE"
 }
 ```
 
