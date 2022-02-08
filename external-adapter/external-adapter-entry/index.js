@@ -15,7 +15,7 @@ const createRequest = async (input, callback) => {
   } catch (error) {
     callback(500,
       new AdapterError({
-        jobRunID: input.id || 1,
+        jobRunID: input.id || '1',
         message: `Input Validation Error: ${error.message}`
       }).toJSONResponse())
     return
