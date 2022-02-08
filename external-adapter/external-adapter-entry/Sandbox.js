@@ -1,15 +1,13 @@
 const axios = require('axios')
-require('dotenv').config()
 const process = require('process')
 
 // @TODO: Change the variable below to match the URL of the 'faas-sandbox' deployment
-const faasSandboxUrl = process.env.FAASSANDBOXURL
+const sandboxUrl = process.env.SANDBOXURL
 
 class Sandbox {
   static async evaluate (javascriptString, vars) {
-    console.log(faasSandboxUrl)
     try {
-      const { data } = await axios.post(faasSandboxUrl, {
+      const { data } = await axios.post(sandboxUrl, {
         js: javascriptString,
         vars: vars
       })

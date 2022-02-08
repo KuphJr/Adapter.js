@@ -1,5 +1,6 @@
 // This file is for testing the external adapter locally.
 // It will not be used in the final deployment to a FaaS platform
+require('dotenv').config()
 
 const { createRequest } = require('./index')
 

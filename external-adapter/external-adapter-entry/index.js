@@ -3,8 +3,6 @@ const { Validator } = require('./Validator')
 const { IpfsFetcher } = require('./IpfsFetcher')
 const { CachedDataFetcher } = require('./CachedDataFetcher')
 const { Sandbox } = require('./Sandbox')
-// @TODO: Comment out the line below when deploying to Google Cloud Platform
-require('dotenv').config()
 const process = require('process')
 
 const createRequest = async (input, callback) => {
