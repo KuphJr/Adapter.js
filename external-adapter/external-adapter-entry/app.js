@@ -21,6 +21,9 @@ app.options('*', (req, res) => {
 app.use(bodyParser.json())
 
 app.post('/', async (req, res) => {
+  console.log("!!!!!!!!!!!!")
+  console.log(req.headers)
+  console.log("!!!!!!!!!!!!")
   for (const key in req.query) {
     req.body[key] = req.query[key]
   }

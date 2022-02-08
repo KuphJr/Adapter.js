@@ -71,9 +71,6 @@ class Validator {
         throw Error("Invalid value for the parameter 'ref' which must be a string")
       }
       validatedInput.ref = this.input.data.ref
-      if (typeof this.input.nodeKey === 'undefined' || this.input.nodeKey !== process.env.NODEKEY) {
-        throw Error('The node key is invalid.')
-      }
       if (typeof this.input.meta.oracleRequest.requester !== 'string') {
         throw Error("Invalid value for the parameter 'contractAddress' which must be a string.")
       }

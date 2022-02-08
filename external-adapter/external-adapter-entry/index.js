@@ -5,9 +5,18 @@ const { CachedDataFetcher } = require('./CachedDataFetcher')
 const { Sandbox } = require('./Sandbox')
 // @TODO: Comment out the line below when deploying to Google Cloud Platform
 require('dotenv').config()
+const process = require('process')
 
 const createRequest = async (input, callback) => {
   console.log('INPUT', JSON.stringify(input))
+  if (input.nodeKey != process.env.nodeKey) {
+    callback(500,
+      new AdapterError({
+        jobRunID: input.id || '1',
+        message: 'Incorrect nodeKey provided.'
+      }).toJSONResponse())
+    return
+  }
   const validator = new Validator(input)
   let validatedInput
   try {
@@ -120,7 +129,6 @@ exports.gcpservice = async (req, res) => {
   res.header('Content-Type', 'application/json')
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Content-Type')
-
   // respond to CORS preflight requests
   if (req.method === 'OPTIONS') {
     res.set('Access-Control-Allow-Methods', 'GET')

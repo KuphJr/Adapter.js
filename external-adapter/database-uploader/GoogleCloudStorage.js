@@ -1,7 +1,7 @@
 const { Storage } = require('@google-cloud/storage');
 
 class DataStorage {
-    constructor(bucketName = 'cached-data') {
+    constructor(bucketName = 'adapterjs-database') {
         this.storage = new Storage({ keyFilename: 'key.json' })
         this.bucket = this.storage.bucket(bucketName)
     }

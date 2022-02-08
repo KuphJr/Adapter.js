@@ -16,7 +16,7 @@ class CachedDataFetcher {
       throw new Error('File name is too long')
     }
     const storage = new Storage({ keyFilename: 'key.json' })
-    const bucketname = 'cached-data'
+    const bucketname = 'adapterjs-database'
     try {
       try {
         await storage.bucket(bucketname).file(filename).download({ destination: tempFilename })
