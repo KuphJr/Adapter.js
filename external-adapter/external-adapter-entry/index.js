@@ -7,7 +7,7 @@ const process = require('process')
 
 const createRequest = async (input, callback) => {
   console.log('INPUT', JSON.stringify(input))
-  if (input.nodeKey != process.env.nodeKey) {
+  if (input.nodeKey != process.env.NODEKEY) {
     callback(500,
       new AdapterError({
         jobRunID: input.id || '1',
