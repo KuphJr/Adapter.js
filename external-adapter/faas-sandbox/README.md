@@ -9,7 +9,7 @@ An example POST request to `faas-sandbox` is shown below.
 **POST Data**
 ```
 {
-  "js": "const axios = require('axios'), const res = await axios.get(url); return res.data.id * myNum;",
+  "js": "const axios = require('axios'); const res = await axios.get(url); return res.data.id * myNum;",
   "vars": {
     "url": "https://jsonplaceholder.typicode.com/posts/2",
     "myNum": 2
