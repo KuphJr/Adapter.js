@@ -4,7 +4,7 @@ const { ethers } = require("hardhat");
 async function main() {
 
   // connect to a deployed instance of the smart contract
-  const smartContractFactory = await hre.ethers.getContractFactory("AdapterjsTest2");
+  const smartContractFactory = await hre.ethers.getContractFactory("AdapterjsTest");
 
   // Make sure it is funded with LINK  
   const smartContract = await smartContractFactory.attach("0x11D5C07a18E41A20559814708d5b0EaD893bA9A2");
@@ -45,13 +45,18 @@ async function main() {
   // }));
   // listener;5fdb197e-46a6-4b5b-9c8f-ac73b6cafaba
 
-  const tx = await smartContract.bytes32AdapterCall(
-    ethers.utils.getAddress("0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"), "32c633b7958f41c197a11621c2425ba5", ethers.BigNumber.from("10").pow(18),
-    'bytes32', 'return "hello world";', '', '', '');
+  // const tx = await smartContract.bytes32AdapterCall(
+  //   ethers.utils.getAddress("0xB38EB6a44B92cB41708b02D5630B7E955C850049"), "227ca4eae6ac4654bc8b749ba034458b", ethers.BigNumber.from("10").pow(18),
+  //   'bytes32', 'return "hello world";', '', '', '');
 
-  // const tx1 = await smartContract.intAdapterCall(
-  //   ethers.utils.getAddress("0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"), "32c633b7958f41c197a11621c2425ba5", ethers.BigNumber.from("10").pow(18),
-  //   'return 72;', '', '', '');
+  const tx1 = await smartContract.intAdapterCall(
+    ethers.utils.getAddress("0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"), "32c633b7958f41c197a11621c2425ba5", ethers.BigNumber.from("10").pow(18),
+    'return 72;', '', '', '');
+
+  console.log(tx1)
+
+  // const test = await smartContract.getInt();
+  // console.log(test);
 
   // const tx2 = await smartContract.intAdapterCall(
   //   ethers.utils.getAddress("0xAC442d76EeC61518D2112eeB67620Cbf05D6f746"), "32c633b7958f41c197a11621c2425ba5", ethers.BigNumber.from("10").pow(18),

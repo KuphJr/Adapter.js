@@ -1342,6 +1342,43 @@
       "artifacts": [
         "AdapterjsTest2"
       ]
+    },
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\contracts\\BoolTest.sol": {
+      "lastModificationDate": 1644421970769,
+      "contentHash": "c263df4059de31e84ec4e4dd58583ac7",
+      "sourceName": "contracts/BoolTest.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@chainlink/contracts/src/v0.8/ChainlinkClient.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "BoolTest"
+      ]
     }
   }
 }

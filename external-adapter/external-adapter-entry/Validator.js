@@ -31,7 +31,7 @@ class Validator {
         throw Error("Invalid value for the parameter 'type' which must be either " +
         "'bool', 'uint', 'uint256', 'int', 'int256', 'bytes32', 'string' or 'bytes'.")
     }
-    validatedInput.type = this.input.data.type
+    validatedInput.type = this.input.type
     if (typeof this.input.id === 'undefined') {
       this.input.id = '1'
     } else if (typeof this.input.id !== 'string') {
