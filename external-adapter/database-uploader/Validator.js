@@ -1,22 +1,23 @@
 class Validator {
     static validateInput(input) {
-        if (typeof input.contractAddress === 'undefined') {
+        if (typeof input.data.authAddr === 'undefined') {
             throw new Error(`The authorized contract address was not provided.`)
         }
-        input.contractAddress = input.contractAddress.toLowerCase()
-        if (input.contractAddress.length !== 42 || input.contractAddress.slice(0,2) !== '0x') {
-            throw new Error(`The given contract address ${input.contractAddress} is not valid.`)
+        validatedInput.contractAddress = input.data.authAddr.toLowerCase()
+        if (validatedInput.contractAddress.length !== 42 || validatedInput.contractAddress.slice(0,2) !== '0x') {
+            throw new Error(`The given contract address ${validatedInput.contractAddress} is not valid.`)
         }
-        for (const char in input.contractAddress.slice(2)) {
+        for (const char in validatedInputnput.contractAddress.slice(2)) {
             if ((char < '0' || char > '9') && (char < 'a' || char > 'f' )) {
-                throw new Error(`The given contract address ${input.contractAddress} is not valid.`)
+                throw new Error(`The given contract address ${validatedInput.contractAddress} is not valid.`)
             }
         }
+        validatedInput.data.ref = input.ref
         if (typeof input.ref === 'undefined') {
             throw new Error(`The reference ID was not provided.`)
         }
-        if (input.ref.length > 32) {
-            throw new Error('The reference ID must be 32 characters or less')
+        if (input.ref.length > 32 || input.ref.length < 4) {
+            throw new Error('The reference ID must be between 4 and 32 characters.')
         }
         for (const char in input.ref) {
             if ((char < '0' || char > '9') && (char < 'a' || char > 'z' ) && (char < 'A' || char > 'Z')) {
@@ -29,10 +30,10 @@ class Validator {
         if (typeof input.vars !== 'object') {
             throw new Error('The cached variables must be provided as a JavaScript object.')
         }
-        if (JSON.stringify(input).length > 8000000) {
-            throw new Error('The data object must be less than 8 MB.')
+        if (JSON.stringify(input).length > 1000000) {
+            throw new Error('The data object must be less than 1 MB.')
         }
-        return input
+        return validatedInput
     }
 }
 

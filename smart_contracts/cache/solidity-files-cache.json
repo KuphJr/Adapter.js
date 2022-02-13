@@ -1344,8 +1344,8 @@
       ]
     },
     "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\contracts\\BoolTest.sol": {
-      "lastModificationDate": 1644421970769,
-      "contentHash": "c263df4059de31e84ec4e4dd58583ac7",
+      "lastModificationDate": 1644457571666,
+      "contentHash": "f0f868a8278d35a403b5cf63407137e1",
       "sourceName": "contracts/BoolTest.sol",
       "solcConfig": {
         "version": "0.8.9",

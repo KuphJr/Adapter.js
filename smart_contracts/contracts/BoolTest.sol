@@ -15,11 +15,11 @@ contract BoolTest is ChainlinkClient {
   }
 
   function boolAdapterCall(address _oracle, string memory _jobId, uint _payment,
-    string memory _type, string memory _js, string memory _vars, string memory _cid, string memory _ref)
+    string memory _js, string memory _vars, string memory _cid, string memory _ref)
     public returns (bytes32 requestId) {
       Chainlink.Request memory request;
+      // the desired return type changes the _jobId used
       request = buildChainlinkRequest(stringToBytes32(_jobId), address(this), this.fulfillBool.selector);
-      request.add("type", _type);
       if (bytes(_js).length != 0) {
         request.add("js", _js);
       }
@@ -36,11 +36,10 @@ contract BoolTest is ChainlinkClient {
   }
 
   function boolAdapterCall2(address _oracle, string memory _jobId, uint _payment,
-    string memory _type, string memory _js, string memory _vars, string memory _cid, string memory _ref)
+    string memory _js, string memory _vars, string memory _cid, string memory _ref)
     public returns (bytes32 requestId) {
       Chainlink.Request memory request;
       request = buildChainlinkRequest("227ca4eae6ac4654bc8b749ba034458b", address(this), this.fulfillBool.selector);
-      request.add("type", _type);
       if (bytes(_js).length != 0) {
         request.add("js", _js);
       }

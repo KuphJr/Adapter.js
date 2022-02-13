@@ -1,36 +1,46 @@
-const { DataStorage } = require('./GoogleCloudStorage')
+const CryptoJS = require('crypto-js');
+const { DataStorage } = require('./LocalStorage')
 const { Validator } = require('./Validator')
 
-const createRequest = async (input, callback) => {
+const createRequest = async (input, hashedNodeKey, callback) => {
   console.log("INPUT", JSON.stringify(input));
+  // check if the node key in the request is valid
+  if (!input.nodeKey || hashedNodeKey != CryptoJS.SHA256(input.nodeKey).toString()) {
+    callback(500, {
+      status: 'errored',
+      statusCode: 500,
+      error: {
+        name: 'Invalid nodeKey',
+        message: 'Invalid nodeKey provided'
+      }
+    })
+  }
   let validatedInput
   try {
     validatedInput = Validator.validateInput(input)
   } catch (error) {
-    callback(500,
-      {
-        status: 'errored',
-        statusCode: 500,
-        error: {
-          name: 'Validation Error',
-          message: 'Error validating Input: ' + error.message
-        }
-      })
+    callback(500, {
+      status: 'errored',
+      statusCode: 500,
+      error: {
+        name: 'Validation Error',
+        message: 'Error validating Input: ' + error.message
+      }
+    })
     return
   }
   const storage = new DataStorage();
   try {
-    await storage.uploadData(validatedInput)
+    await storage.storeData(validatedInput)
   } catch (error) {
-    callback(500,
-      {
-        status: 'errored',
-        statusCode: 500,
-        error: {
-          name: 'Google Cloud Storage Upload Error',
-          message: 'Google Cloud Storage Upload Error: ' + error.message
-        }
-      })
+    callback(500, {
+      status: 'errored',
+      statusCode: 500,
+      error: {
+        name: 'Storage Error',
+        message: 'Storage Error: ' + error.message
+      }
+    })
     return
   }
   callback(200, {
