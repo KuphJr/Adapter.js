@@ -2,7 +2,9 @@ const { DataStorage } = require('./GoogleCloudStorage')
 const { Validator } = require('./Validator')
 
 const createRequest = async (input, callback) => {
-  console.log("INPUT", JSON.stringify(input));
+  if (process.env.LOGGING) {
+    console.log("INPUT DATA", JSON.stringify(input))
+  }
   let validatedInput
   try {
     validatedInput = Validator.validateInput(input)
@@ -18,9 +20,12 @@ const createRequest = async (input, callback) => {
       })
     return
   }
+  // @TODO: check a deployed smart contract to see if the request
+  // paid the required LINK to store cached data in the external
+  // adapter's database
   const storage = new DataStorage();
   try {
-    await storage.uploadData(validatedInput)
+    await storage.storeData(validatedInput)
   } catch (error) {
     callback(500,
       {

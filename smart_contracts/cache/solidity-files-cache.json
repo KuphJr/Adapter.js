@@ -1343,10 +1343,10 @@
         "AdapterjsTest2"
       ]
     },
-    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\contracts\\BoolTest.sol": {
-      "lastModificationDate": 1644421970769,
-      "contentHash": "c263df4059de31e84ec4e4dd58583ac7",
-      "sourceName": "contracts/BoolTest.sol",
+    "C:\\Users\\kuphjr\\Documents\\CL-EA-NodeJS-Template\\smart_contracts\\contracts\\AdapterJsTest3.sol": {
+      "lastModificationDate": 1650678727042,
+      "contentHash": "420440f5623a00bb7c0c635e80340216",
+      "sourceName": "contracts/AdapterJsTest3.sol",
       "solcConfig": {
         "version": "0.8.9",
         "settings": {
@@ -1377,7 +1377,7 @@
         "^0.8.0"
       ],
       "artifacts": [
-        "BoolTest"
+        "AdapterJsTest3"
       ]
     }
   }

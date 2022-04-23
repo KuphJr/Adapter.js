@@ -1,4 +1,5 @@
 const { Storage } = require('@google-cloud/storage');
+const CryptoJS = require('crypto-js')
 
 class DataStorage {
     constructor(bucketName = 'adapterjs-database') {
@@ -6,7 +7,7 @@ class DataStorage {
         this.bucket = this.storage.bucket(bucketName)
     }
 
-    async uploadData(input) {
+    async storeData(input) {
         const filename = input.contractAddress + input.ref + '.json'
         const file = this.bucket.file(filename)
         const fileExists = await file.exists()
